@@ -1,4 +1,4 @@
-"""ohmydog URL Configuration
+"""proyectoWeb URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -13,15 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+
 from django.urls import path, include
-from ohmydogApp import views
+from .views import registro, cerrar_sesion, loguear
+from autenticacion import views
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
-    path('autenticacion/', include('autenticacion.urls')),
+    path('', registro.as_view(), name='registro'),
+    path('cerrar_sesion', cerrar_sesion, name='cerrar_sesion'),
+    path('login', loguear , name='login'),
 ]
-
-
-
