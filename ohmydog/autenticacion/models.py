@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import UserManager, AbstractBaseUser, PermissionsMixin
+#from perros.models import Perro
 
 # Create your models here.
 class CustomUserManager(UserManager):

@@ -20,7 +20,7 @@ class registro(View):
         if form.is_valid():
             usuario = form.save()
             login(request, usuario)
-            return redirect('home')
+            return redirect('agregar_perro')
         else:
             return render(request, "registro.html", {"form": form})
     
@@ -43,4 +43,5 @@ def loguear(request):
             else:
                 messages.error(request, "información incorrecta")
         form=EmailAuthenticationForm()
-        return render(request, "login.html", {"form": form})    
+        return render(request, "login.html", {"form": form}) 
+        
