@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
-from .forms import CustomUserCreationForm, EmailAuthenticationForm, CambiarEmailForm
 from .models import CustomUser
-from django.core.mail import send_mail
+from .forms import CustomUserCreationForm, EmailAuthenticationForm, CambiarEmailForm
 from django.contrib.auth.decorators import login_required
+from perros.models import Perro, LibretaSanitaria, Vacuna
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -86,3 +87,30 @@ def cambiarEmail(request):
             else:
                 messages.error(request, "Ese email ya se encuentra registrado")
     return render(request, 'cambiarEmail.html', {"form": formulario})
+
+
+@login_required
+def mi_perfil(request):
+    usuario = request.user
+    return render(request, "mi_perfil.html", {
+        'usuario': usuario
+    })
+    
+
+@login_required
+def mis_mascotas(request):
+    mascotas = Perro.objects.filter(dueño=request.user)
+    libretas_sanitarias = LibretaSanitaria.objects.filter(perro__in=mascotas)
+    vacunas = Vacuna.objects.filter(libreta_sanitaria__in=libretas_sanitarias)
+    return render(request, "mis_mascotas.html", {
+        'mascotas': mascotas,
+        'libretas_sanitarias': libretas_sanitarias,
+        'vacunas': vacunas
+    })
+    
+    
+
+    
+
+
+

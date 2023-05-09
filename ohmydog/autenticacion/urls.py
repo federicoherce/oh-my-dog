@@ -17,6 +17,7 @@ Including another URLconf
 from django.urls import path, include
 from .views import registro, cerrar_sesion, loguear, cambiarContra, cambiarEmail
 from autenticacion import views
+from .views import registro, cerrar_sesion, loguear, mi_perfil, mis_mascotas
 
 
 urlpatterns = [
@@ -25,4 +26,6 @@ urlpatterns = [
     path('login', loguear , name='login'),
     path('cambiarContra', cambiarContra, name ='cambiarContra'),
     path('cambiarEmail', cambiarEmail, name ='cambiarEmail'),
+    path('mi_perfil', mi_perfil, name='mi_perfil'),
+    path('mi_perfil/mis_mascotas', mis_mascotas, name='mis_mascotas'),
 ]
