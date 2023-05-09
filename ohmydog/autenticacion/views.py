@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from .forms import CustomUserCreationForm
 from .forms import EmailAuthenticationForm
+from django.contrib.auth.decorators import login_required
+from perros.models import Perro, LibretaSanitaria, Vacuna
 
 # Create your views here.
 
@@ -44,4 +46,21 @@ def loguear(request):
                 messages.error(request, "información incorrecta")
         form=EmailAuthenticationForm()
         return render(request, "login.html", {"form": form}) 
-        
+
+@login_required
+def mi_perfil(request):
+    usuario = request.user
+    return render(request, "mi_perfil.html", {
+        'usuario': usuario
+    })
+
+@login_required
+def mis_mascotas(request):
+    mascotas = Perro.objects.filter(dueño=request.user)
+    libretas_sanitarias = LibretaSanitaria.objects.filter(perro__in=mascotas)
+    vacunas = Vacuna.objects.filter(libreta_sanitaria__in=libretas_sanitarias)
+    return render(request, "mis_mascotas.html", {
+        'mascotas': mascotas,
+        'libretas_sanitarias': libretas_sanitarias,
+        'vacunas': vacunas
+    })

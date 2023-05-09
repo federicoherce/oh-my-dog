@@ -15,12 +15,13 @@ Including another URLconf
 """
 
 from django.urls import path, include
-from .views import registro, cerrar_sesion, loguear
-from autenticacion import views
+from .views import registro, cerrar_sesion, loguear, mi_perfil, mis_mascotas
 
 
 urlpatterns = [
     path('', registro.as_view(), name='registro'),
     path('cerrar_sesion', cerrar_sesion, name='cerrar_sesion'),
     path('login', loguear , name='login'),
+    path('mi_perfil', mi_perfil, name='mi_perfil'),
+    path('mi_perfil/mis_mascotas', mis_mascotas, name='mis_mascotas')
 ]

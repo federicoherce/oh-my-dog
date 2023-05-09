@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from datetime import date
+from django.utils import timezone
 from autenticacion.models import CustomUser
 
 # Create your models here.
@@ -16,5 +16,5 @@ class LibretaSanitaria(models.Model):
 
 class Vacuna(models.Model):
     tipo = models.CharField(max_length=50)
-    fecha = models.DateField(default=date.today())
+    fecha = models.DateField(default=timezone.now)
     libreta_sanitaria = models.ForeignKey(LibretaSanitaria, on_delete=models.CASCADE)
