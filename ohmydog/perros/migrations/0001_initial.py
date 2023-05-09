@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('nombre', models.CharField(max_length=50)),
                 ('raza', models.CharField(max_length=50)),
                 ('color', models.CharField(max_length=50)),
-                ('fecha_de_nacimiento', models.DateField(validators=[perros.models.Perro.validar_fecha_de_nacimiento])),
+                ('fecha_de_nacimiento', models.DateField(validators=[perros.models.Perro.fecha_de_nacimiento])),
                 ('dueño', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

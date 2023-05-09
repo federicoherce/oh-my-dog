@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.urls import path, include
-from .views import registro, cerrar_sesion, loguear
+from .views import registro, cerrar_sesion, loguear, cambiarContra, cambiarEmail
 from autenticacion import views
 
 
@@ -23,4 +23,6 @@ urlpatterns = [
     path('', registro.as_view(), name='registro'),
     path('cerrar_sesion', cerrar_sesion, name='cerrar_sesion'),
     path('login', loguear , name='login'),
+    path('cambiarContra', cambiarContra, name ='cambiarContra'),
+    path('cambiarEmail', cambiarEmail, name ='cambiarEmail'),
 ]
