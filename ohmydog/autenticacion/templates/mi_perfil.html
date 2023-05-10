@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+<body>
+    <h1>Mi Perfil:</h1>
+    <br>
+    <li><strong>Nombre:</strong> {{ usuario.nombre }}</li>
+    <li><strong>Apellido:</strong> {{ usuario.apellido }}</li>
+    <li><strong>Email:</strong> {{ usuario.email }}</li>
+    <li><strong>DNI:</strong> {{ usuario.dni }}</li>
+    <li><strong>Número de telefono:</strong> {{ usuario.telefono }}</li>
+    <br>
+    <a href="{% url 'mis_mascotas' %}">Mis Mascotas</a>
+</body>
+</html>
+
+{% endblock %}
