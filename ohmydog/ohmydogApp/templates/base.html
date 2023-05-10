@@ -33,7 +33,11 @@
                     <li class="nav-item"><a class="nav-link" href="#">Solicitar turno</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Adopcion</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Perros perdidos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'agregar_paseador_cuidador' %}">Paseadores y cuidadores</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'agregar_paseador_cuidador' %}">Paseadores y cuidadores</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Paseadores y cuidadores</a></li>
+                    {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
                 </ul>
             </div>
