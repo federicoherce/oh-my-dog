@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
     'ohmydogApp',
     'autenticacion',
-    'perros'
+    'perros',
+    'paseadores_cuidadores'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

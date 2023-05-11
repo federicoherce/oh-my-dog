@@ -21,7 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('autenticacion/', include('autenticacion.urls')),
-    path('perros/', include('perros.urls'))
+    path('perros/', include('perros.urls')),
+    path('paseadores_cuidadores/', include('paseadores_cuidadores.urls'))
 ]
 
 
