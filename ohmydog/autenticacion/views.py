@@ -32,7 +32,7 @@ class registro(View):
             msj = 'Gracias por registrarse en Oh My Dog, su contraseña es: ' + password
             send_mail('Registro Oh My Dog', msj, 'ohmydogg.vet@gmail.com', [email])
             login(request, usuario)    
-            return redirect('agregar_perro')
+            return redirect('agregar_perro', form.cleaned_data['dni'])
         else:
             return render(request, "registro.html", {"form": form})
     
