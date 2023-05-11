@@ -15,4 +15,15 @@ class EmailAuthenticationForm(AuthenticationForm):
         label=_("email"),
         widget=forms.TextInput(attrs={'autofocus': True}),
     )
+
+class FiltrosDeListadoDeClientes(forms.Form):
+    nombre = forms.CharField(required=False)
+    apellido = forms.CharField(required=False)
+    dni = forms.CharField(required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nombre'].widget.attrs.update({'placeholder': 'Nombre'})
+        self.fields['apellido'].widget.attrs.update({'placeholder': 'Apellido'})
+        self.fields['dni'].widget.attrs.update({'placeholder': 'DNI'})
     
