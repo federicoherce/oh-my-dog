@@ -15,7 +15,6 @@ class EmailAuthenticationForm(AuthenticationForm):
         label=_("email"),
         widget=forms.TextInput(attrs={'autofocus': True}),
     )
-<<<<<<< HEAD
 
 class FiltrosDeListadoDeClientes(forms.Form):
     nombre = forms.CharField(required=False)
@@ -27,12 +26,10 @@ class FiltrosDeListadoDeClientes(forms.Form):
         self.fields['nombre'].widget.attrs.update({'placeholder': 'Nombre'})
         self.fields['apellido'].widget.attrs.update({'placeholder': 'Apellido'})
         self.fields['dni'].widget.attrs.update({'placeholder': 'DNI'})
-=======
     
 class CambiarEmailForm(forms.Form):
     email = forms.EmailField()
     
 
 
->>>>>>> 30d2fb9a047288a112884cdb017e8448f5a7c894
     

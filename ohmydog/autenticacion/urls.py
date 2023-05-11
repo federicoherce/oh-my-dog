@@ -15,13 +15,9 @@ Including another URLconf
 """
 
 from django.urls import path, include
-<<<<<<< HEAD
-from .views import registro, cerrar_sesion, loguear, mi_perfil, mis_mascotas, ListaDeClientes, ver_perfil_cliente, ver_perros_cliente
-=======
-from .views import registro, cerrar_sesion, loguear, cambiarContra, cambiarEmail
+from .views import registro, cerrar_sesion, loguear, cambiarContra, cambiarEmail, mi_perfil, mis_mascotas, ListaDeClientes, ver_perfil_cliente, ver_perros_cliente
 from autenticacion import views
 from .views import registro, cerrar_sesion, loguear, mi_perfil, mis_mascotas
->>>>>>> 30d2fb9a047288a112884cdb017e8448f5a7c894
 
 
 urlpatterns = [
@@ -32,10 +28,7 @@ urlpatterns = [
     path('cambiarEmail', cambiarEmail, name ='cambiarEmail'),
     path('mi_perfil', mi_perfil, name='mi_perfil'),
     path('mi_perfil/mis_mascotas', mis_mascotas, name='mis_mascotas'),
-<<<<<<< HEAD
     path('listado_de_clientes', ListaDeClientes.as_view(), name='listado_de_clientes'),
     path('perfil/<str:dni>', ver_perfil_cliente, name='perfil_cliente'),
-    path('perfil/<str:dni>/perros', ver_perros_cliente, name="perros_cliente")
-=======
->>>>>>> 30d2fb9a047288a112884cdb017e8448f5a7c894
+    path('perfil/<str:dni>/perros', ver_perros_cliente, name="perros_cliente"),
 ]

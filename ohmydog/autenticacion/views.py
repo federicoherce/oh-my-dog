@@ -5,20 +5,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib import messages
-<<<<<<< HEAD
-from .forms import CustomUserCreationForm, EmailAuthenticationForm, FiltrosDeListadoDeClientes
+from .forms import CustomUserCreationForm, EmailAuthenticationForm, FiltrosDeListadoDeClientes, CambiarEmailForm
 from django.contrib.auth.decorators import login_required
 from perros.models import Perro, LibretaSanitaria, Vacuna
 from django.views.generic import ListView, DetailView
 from .models import CustomUser
-=======
 from django.contrib.auth.forms import PasswordChangeForm
-from .models import CustomUser
-from .forms import CustomUserCreationForm, EmailAuthenticationForm, CambiarEmailForm
-from django.contrib.auth.decorators import login_required
-from perros.models import Perro, LibretaSanitaria, Vacuna
 from django.core.mail import send_mail
->>>>>>> 30d2fb9a047288a112884cdb017e8448f5a7c894
 
 # Create your views here.
 
@@ -34,17 +27,12 @@ class registro(View):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             usuario = form.save()
-<<<<<<< HEAD
-            login(request, usuario)
-            return redirect('agregar_perro', usuario)
-=======
             email = form.cleaned_data['email']
             password = form.cleaned_data['password1']
             msj = 'Gracias por registrarse en Oh My Dog, su contraseña es: ' + password
             send_mail('Registro Oh My Dog', msj, 'ohmydogg.vet@gmail.com', [email])
             login(request, usuario)    
             return redirect('agregar_perro')
->>>>>>> 30d2fb9a047288a112884cdb017e8448f5a7c894
         else:
             return render(request, "registro.html", {"form": form})
     
@@ -125,7 +113,6 @@ def mis_mascotas(request):
         'libretas_sanitarias': libretas_sanitarias,
         'vacunas': vacunas
     })
-<<<<<<< HEAD
 
 # Del veterinario:
 class ListaDeClientes(ListView):
@@ -175,12 +162,4 @@ def ver_perros_cliente(request, dni):
         "libretas_sanitarias": libretas_sanitaras,
         "vacunas": vacunas,
     })
-=======
-    
-    
-
-    
-
-
->>>>>>> 30d2fb9a047288a112884cdb017e8448f5a7c894
 
