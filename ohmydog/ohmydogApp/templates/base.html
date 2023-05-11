@@ -9,17 +9,17 @@
    <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
 
-<body> 
+<body style="background-color: rgba(255, 204, 153, 1);"> 
     <div style="text-align: right; margin-right: 100px; color: black;">
-      
+    
         {% if user.is_authenticated %}
-  
+
         Hola {{ user.nombre}} &nbsp;&nbsp;<a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a>
-  
+
         {% else %}
-  
+
         <a href="{% url 'login' %}" style="color: black;">Login</a> &nbsp; &nbsp; <a href="{% url 'registro' %}" style="color: black;">Regístrate</a>
-  
+
         {% endif %}
     
     </div>
@@ -33,21 +33,27 @@
                     <li class="nav-item"><a class="nav-link" href="#">Solicitar turno</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Adopcion</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Perros perdidos</a></li>
+<<<<<<< HEAD
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'agregar_paseador_cuidador' %}">Paseadores y cuidadores</a></li>
                     {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Paseadores y cuidadores</a></li>
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
+=======
+                    <li class="nav-item"><a class="nav-link" href="#">Paseadores/cuidadores</a></li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
+                    {% endif %}
+>>>>>>> eab8ef8aef9787f8e3083c5ce2bf6828dbfeba7d
                 </ul>
             </div>
         </div>
     </nav>
+    
+    {% block content %}
 
-{% block content %}
-
-{% endblock %}
-
+    {% endblock %}
 </body>
 
 </html>
