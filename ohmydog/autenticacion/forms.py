@@ -26,10 +26,10 @@ class FiltrosDeListadoDeClientes(forms.Form):
         self.fields['nombre'].widget.attrs.update({'placeholder': 'Nombre'})
         self.fields['apellido'].widget.attrs.update({'placeholder': 'Apellido'})
         self.fields['dni'].widget.attrs.update({'placeholder': 'DNI'})
-
     
 class CambiarEmailForm(forms.Form):
     email = forms.EmailField()
     
+
 
     
