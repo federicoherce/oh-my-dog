@@ -19,3 +19,10 @@ def agregar_paseador_cuidador(request):
     return render(request, 'agregar_paseador_cuidador.html', {
         'form': form
     })
+
+def listar_paseadores_cuidadores(request):
+    paseadores_cuidadores = PaseadorCuidador.objects.all
+    return render(request, "listar_paseadores_cuidadores.html", {
+        'paseadores_cuidadores': paseadores_cuidadores
+    })
+

@@ -33,19 +33,10 @@
                     <li class="nav-item"><a class="nav-link" href="#">Solicitar turno</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Adopcion</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Perros perdidos</a></li>
-<<<<<<< HEAD
-                    {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'agregar_paseador_cuidador' %}">Paseadores y cuidadores</a></li>
-                    {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Paseadores y cuidadores</a></li>
-                    {% endif %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
-=======
-                    <li class="nav-item"><a class="nav-link" href="#">Paseadores/cuidadores</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'listar_paseadores_cuidadores' %}">Paseadores y cuidadores</a></li>
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
                     {% endif %}
->>>>>>> eab8ef8aef9787f8e3083c5ce2bf6828dbfeba7d
                 </ul>
             </div>
         </div>
