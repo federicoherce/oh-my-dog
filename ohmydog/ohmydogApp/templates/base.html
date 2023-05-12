@@ -11,16 +11,23 @@
 
 <body style="background-color: rgba(255, 204, 153, 1);"> 
     <div style="text-align: right; margin-right: 100px; color: black;">
-    
+
         {% if user.is_authenticated %}
 
-        Hola {{ user.nombre}} &nbsp;&nbsp;<a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a>
+        Sesión Iniciada &nbsp;&nbsp;<a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a>
 
         {% else %}
 
-        <a href="{% url 'login' %}" style="color: black;">Login</a> &nbsp; &nbsp; <a href="{% url 'registro' %}" style="color: black;">Regístrate</a>
+        <a href="{% url 'login' %}" style="color: black;">Iniciar Sesión</a> 
 
         {% endif %}
+
+        {% if user.is_superuser %}
+
+        <a href="{% url 'registro' %}" style="color: black;">Registrar usuario</a>
+
+        {% endif %}
+
     
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
