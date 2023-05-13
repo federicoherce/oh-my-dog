@@ -7,20 +7,15 @@
 <html>
     <body>
         <img src= "{% static '/img/ohmydog.png' %}">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+        {% for msg in messages %}
+        <script>
+            swal('{{msg}}');
+        </script>
+        {% endfor %}
         <br>
         {% if user.is_authenticated %}
             <a href="{% url 'listado_de_clientes' %}", style="margin-left: 92%; color: black;">Lista de clientes</a>
-        {% endif %}
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <div class="centered-div"> 
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                    <script style="display: flex; justify-content: center; align-items: center; height: 100vh;">alert('{{ message }}');</script>
-                 </li>
-            </div>
-            {% endfor %}
-        </ul>
         {% endif %}
     </body>
 </html>
