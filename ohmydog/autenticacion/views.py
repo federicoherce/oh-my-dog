@@ -1,11 +1,11 @@
 from typing import Any, Dict, Mapping, Optional, Type, Union
 from django.db.models.query import QuerySet
 from django.forms.utils import ErrorList
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views.generic import View
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib import messages
-from .forms import CustomUserCreationForm, EmailAuthenticationForm, FiltrosDeListadoDeClientes, CambiarEmailForm
+from .forms import CustomUserCreationForm, EmailAuthenticationForm, FiltrosDeListadoDeClientes, CambiarEmailForm, modificarDatosCliente
 from django.contrib.auth.decorators import login_required, user_passes_test
 from perros.models import Perro, LibretaSanitaria, Vacuna
 from django.views.generic import ListView, DetailView
@@ -55,7 +55,7 @@ def loguear(request):
                 else:
                     return redirect('cambiarContra')
         else:
-            messages.error(request, "información incorrecta")
+            messages.error(request, "Email o contraseña invalidos")
     form=EmailAuthenticationForm()
     return render(request, "login.html", {"form": form}) 
 
@@ -165,3 +165,31 @@ def ver_perros_cliente(request, dni):
         "vacunas": vacunas,
     })
 
+@user_passes_test(lambda u: u.is_superuser) 
+def modificar_datos_cliente(request, dni_url):
+    cliente = CustomUser.objects.get(dni = dni_url)
+    if request.method == "POST":
+        form = modificarDatosCliente(request.POST)
+        if form.is_valid():
+            nuevoNombre = request.POST.get('nombre')
+            nuevoApellido = request.POST.get('apellido')
+            nuevoDni = request.POST.get('dni')
+            nuevoTelefono = request.POST.get('telefono')
+            todosLosTfnos = CustomUser.objects.exclude(telefono=cliente.telefono).values_list('telefono', flat=True)
+            todosLosDnis = CustomUser.objects.exclude(dni=cliente.dni).values_list('dni', flat=True)
+            if nuevoDni in todosLosDnis:
+                messages.error(request, "El dni ya se encuentra registrado")
+                return render(request, "modificar_datos.html", {"form": form, "cliente": cliente})
+            if nuevoTelefono in todosLosTfnos:
+                messages.error(request, "El telefono ya se encuentra registrado")
+                return render(request, "modificar_datos.html", {"form": form, "cliente": cliente})
+            cliente.nombre = nuevoNombre
+            cliente.apellido = nuevoApellido
+            cliente.dni = nuevoDni
+            cliente.telefono = nuevoTelefono
+            cliente.save()
+            messages.success(request, 'Datos modificados con exito')
+            return redirect('perfil_cliente', cliente.dni)
+    else:
+        form = modificarDatosCliente()
+    return render(request, "modificar_datos.html", {"form": form, "cliente": cliente})

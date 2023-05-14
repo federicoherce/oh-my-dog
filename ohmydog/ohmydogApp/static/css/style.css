@@ -420,3 +420,7 @@
       margin-bottom: 0 !important;
     }
   }
+
+  .asteriskField {
+    display: none; 
+  }

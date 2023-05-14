@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from .models import CustomUser
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import RegexValidator
+
 
 class CustomUserCreationForm(UserCreationForm):    
     class Meta:
@@ -12,7 +14,7 @@ class CustomUserCreationForm(UserCreationForm):
         
 class EmailAuthenticationForm(AuthenticationForm):
     username = forms.EmailField(
-        label=_("email"),
+        label=_("Email"),
         widget=forms.TextInput(attrs={'autofocus': True}),
     )
 
@@ -29,6 +31,18 @@ class FiltrosDeListadoDeClientes(forms.Form):
     
 class CambiarEmailForm(forms.Form):
     email = forms.EmailField()
+
+class modificarDatosCliente(forms.Form):
+    nombre = forms.CharField(max_length=30, required=True, validators=[
+            RegexValidator(r'^[a-zA-Z]+$', 'El nombre solo debe contener caracteres.')])
+    apellido = forms.CharField(max_length=30, required=True, validators=[
+            RegexValidator(r'^[a-zA-Z]+$', 'El apellido solo debe contener caracteres.')])
+    dni = forms.CharField(max_length=8, required=True, validators=[
+            RegexValidator(r'^[0-9]{8}$', 'El DNI debe tener 8 dígitos.')], error_messages= {
+            'unique': 'Ya existe un usuario con este DNI'})
+    telefono = forms.CharField(max_length=15, required=True, validators=[
+            RegexValidator(r'^[0-9]+$', 'El teléfono solo debe contener números.')], error_messages={
+            'unique': 'Ya existe un usuario con este telefono'})
     
 
 
