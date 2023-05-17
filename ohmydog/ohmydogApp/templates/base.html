@@ -7,6 +7,9 @@
    <title>Oh My Dog</title>
    <!-- Core theme CSS (includes Bootstrap)-->
    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+   integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+   crossorigin="anonymous"> 
 </head>
 
 <body style="background-color: rgba(255, 204, 153, 1);"> 
@@ -42,8 +45,12 @@
                     <li class="nav-item"><a class="nav-link" href="#">Perros perdidos</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'listar_paseadores_cuidadores' %}">Paseadores y cuidadores</a></li>
                     {% if user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'agregar_paseador_cuidador' %}">Paseadores y cuidadores</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Paseadores y cuidadores</a></li>
                     {% endif %}
+>>>>>>>>> Temporary merge branch 2
+                    <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
                 </ul>
             </div>
         </div>
