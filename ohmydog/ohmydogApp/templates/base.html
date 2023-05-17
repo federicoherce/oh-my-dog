@@ -35,7 +35,7 @@
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <img src= "{% static 'img/logo.png' %}"  width = 100px height = "auto" style="margin-left: -100px;">
+            <img src= "{% static 'img/logo.png' %}" href="{% url 'home' %}" width = 100px height = "auto" style="margin-left: -100px;">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -45,7 +45,7 @@
                     <li class="nav-item"><a class="nav-link" href="#">Perros perdidos</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'listar_paseadores_cuidadores' %}">Paseadores y cuidadores</a></li>
                     {% if user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
                     {% endif %}
                     {% if user.is_superuser %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'listado_de_clientes'%}">Lista de clientes</a></li>
