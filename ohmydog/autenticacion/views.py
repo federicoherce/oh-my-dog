@@ -6,24 +6,21 @@ from django.views.generic import View
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib import messages
 from .forms import CustomUserCreationForm, EmailAuthenticationForm, FiltrosDeListadoDeClientes, CambiarEmailForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from perros.models import Perro, LibretaSanitaria, Vacuna
 from django.views.generic import ListView, DetailView
 from .models import CustomUser
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.mail import send_mail
 
+
 # Create your views here.
 
-# Del veterinario:
-class registro(View):
-    
-    def get(self, request):
-        form = CustomUserCreationForm()
-        
-        return render(request, 'registro.html', {"form": form})
-    
-    def post(self, request):
+@user_passes_test(lambda u: u.is_superuser) 
+def registro(request): 
+    password = CustomUser.objects.make_random_password(length=5, 
+    allowed_chars='abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ0123456789')
+    if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             usuario = form.save()
@@ -31,10 +28,13 @@ class registro(View):
             password = form.cleaned_data['password1']
             msj = 'Gracias por registrarse en Oh My Dog, su contraseña es: ' + password
             send_mail('Registro Oh My Dog', msj, 'ohmydogg.vet@gmail.com', [email])
-            login(request, usuario)    
             return redirect('agregar_perro', form.cleaned_data['dni'])
         else:
-            return render(request, "registro.html", {"form": form})
+            return render(request, "registro.html", {"form": form, "contra": password})
+    else:
+        form = CustomUserCreationForm()
+        return render(request, 'registro.html', {"form": form, "contra": password}) 
+
     
 def cerrar_sesion(request):
     logout(request)
@@ -69,6 +69,7 @@ def cambiarContra(request):
             user = CustomUser.objects.get(email = request.user)
             user.activo = True
             user.save()
+            messages.success(request, 'Su contraseña se ha modificado con exito')
             return redirect("/")
     else:
         form = PasswordChangeForm(request.user)
@@ -87,6 +88,7 @@ def cambiarEmail(request):
                 user = CustomUser.objects.get(email = request.user)
                 user.email = nuevoEmail
                 user.save()
+                messages.success(request, 'Su email se ha modificado con exito')
                 return redirect('/')
             else:
                 messages.error(request, "Ese email ya se encuentra registrado")
