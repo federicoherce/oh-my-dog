@@ -13,10 +13,6 @@
             swal('{{msg}}');
         </script>
         {% endfor %}
-        <br>
-        {% if user.is_authenticated %}
-            <a href="{% url 'listado_de_clientes' %}", style="margin-left: 92%; color: black;">Lista de clientes</a>
-        {% endif %}
     </body>
 </html>
 
