@@ -18,8 +18,6 @@ from django.core.mail import send_mail
 
 @user_passes_test(lambda u: u.is_superuser) 
 def registro(request):
-    if (request.user.is_superuser == False):
-        return redirect('home')
     
     password = CustomUser.objects.make_random_password(length=5, 
     allowed_chars='abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ0123456789')
@@ -176,8 +174,6 @@ def ver_perros_cliente(request, dni):
 
 @user_passes_test(lambda u: u.is_superuser) 
 def modificar_datos_cliente(request, dni_url):
-    if (request.user.is_superuser == False):
-        return redirect("home")
     
     cliente = CustomUser.objects.get(dni = dni_url)
     if request.method == "POST":
@@ -205,3 +201,7 @@ def modificar_datos_cliente(request, dni_url):
     else:
         form = modificarDatosCliente()
     return render(request, "modificar_datos.html", {"form": form, "cliente": cliente})
+
+# @user_passes_test(lambda u: u.is_superuser)
+# def modificar_datos_perro(request, dni):
+
