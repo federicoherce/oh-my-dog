@@ -24,7 +24,9 @@
     <li><strong>DNI:</strong> {{ usuario.dni }}</li>
     <li><strong>Número de telefono:</strong> {{ usuario.telefono }}</li>
     <br>
-    <a href="{% url 'mis_mascotas' %}">Mis Mascotas</a>
+    <a href="{% url 'mis_mascotas' %}" style="color: black;">Mis Mascotas</a> &nbsp;
+    <a href="{% url 'cambiarContra' %}" style="color: black;">Modificar Contraseña</a> &nbsp;
+    <a href="{% url 'cambiarEmail' %}" style="color: black;">Modificar Email</a> &nbsp;
 </body>
 </html>
 

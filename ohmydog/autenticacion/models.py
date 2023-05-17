@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import UserManager, AbstractBaseUser, PermissionsMixin
+from django.core.validators import RegexValidator
 #from perros.models import Perro
 
 # Create your models here.
@@ -21,16 +22,21 @@ class CustomUserManager(UserManager):
     def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('activo', True)
         return self._create_user(email, password, **extra_fields)
     
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, error_messages={
             'unique': 'Ya existe un usuario con este email'})
-    nombre = models.CharField(max_length=30)
-    apellido = models.CharField(max_length=30)
-    dni = models.CharField(max_length=30, unique=True, error_messages= {
+    nombre = models.CharField(max_length=30, validators=[
+            RegexValidator(r'^[a-zA-Z]+$', 'El nombre solo debe contener caracteres.')])
+    apellido = models.CharField(max_length=30, validators=[
+            RegexValidator(r'^[a-zA-Z]+$', 'El apellido solo debe contener caracteres.')])
+    dni = models.CharField(max_length=8, unique=True, validators=[
+            RegexValidator(r'^[0-9]{8}$', 'El DNI debe tener 8 dígitos.')], error_messages= {
             'unique': 'Ya existe un usuario con este DNI'})
-    telefono = models.CharField(max_length=30, unique=True, error_messages={
+    telefono = models.CharField(max_length=15, unique=True, validators=[
+            RegexValidator(r'^[0-9]+$', 'El teléfono solo debe contener números.')], error_messages={
             'unique': 'Ya existe un usuario con este telefono'})
     activo = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)

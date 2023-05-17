@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perros de Cliente</title>
+</head>
+<body>
+    <h1> Perros de {{ cliente.nombre }} {{ cliente.apellido }}</h1>
+    <a href="{% url 'perfil_cliente' cliente.dni %}" style="color: black;">Volver</a>
+    <br>
+    {% if mascotas %}
+        <ul>
+            {% for mascota in mascotas %}
+                <li><strong>Nombre: </strong>{{ mascota.nombre }}</li>
+                <li><strong>Raza: </strong> {{ mascota.raza }} </li>
+                <li><strong>Color: </strong> {{ mascota.color }} </li>
+                <li><strong>Fecha de Nacimiento: </strong> {{ mascota.fecha_de_nacimiento }} </li>
+                <h4><strong>Libreta sanitaria:</strong></h4>
+                <ul>
+                    {% for libreta_sanitaria in libretas_sanitarias %}
+                        {% if libreta_sanitaria.perro == mascota %}
+                            {% for vacuna in vacunas %}
+                                {% if vacuna.libreta_sanitaria == libreta_sanitaria %}
+                                    <li><strong>{{ vacuna.tipo }} - {{ vacuna.fecha }}</strong></li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <form method="POST" action="{% url 'perros_cliente' cliente.dni %}" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="mascota_id" value="{{ mascota.id }}">
+                    <input type="submit" value="Borrar" onclick="return confirm('¿Estás seguro de que deseas borrar esta mascota?')">
+                </form>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p> Aún no tiene mascotas registradas </p>
+    {% endif %}
+</body>
+</html>
+
+{% endblock %}

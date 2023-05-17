@@ -14,7 +14,7 @@
 </head>
 <body>
     <h1>Mis Mascotas</h1>
-    <a href="{% url 'mi_perfil' %}">Volver a perfil</a>
+    <a href="{% url 'mi_perfil' %}" style="color: black;">Volver a perfil</a>
     <br>
     <br>
     {% if mascotas %}
@@ -25,18 +25,19 @@
                 <li><strong>Color: </strong>{{ mascota.color }}</li>
                 <li><strong>Fecha de Nacimiento: </strong>{{ mascota.fecha_de_nacimiento }}</li>   
                 <h4><strong>Libreta sanitaria:</strong></h4>
-                        {% for libretasanitaria in libretas_sanitarias%}
-                            {% if libretasanitaria.perro == mascota %}
-                                {% for vacuna in vacunas %}
-                                    {% if vacuna.libreta_sanitaria == libretasanitaria %}
-                                        <li>{{ vacuna.tipo }} - {{  vacuna.fecha  }}</li>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-                        {% endfor %}
-                </li>
+                        <ul>
+                            {% for libretasanitaria in libretas_sanitarias%}
+                                {% if libretasanitaria.perro == mascota %}
+                                    {% for vacuna in vacunas %}
+                                        {% if vacuna.libreta_sanitaria == libretasanitaria %}
+                                            <li>{{ vacuna.tipo }} - {{  vacuna.fecha  }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
             {% endfor %}
-            <br>
+            <hr>
         </ul>
     {% else %}
         <p> Aún no tenés mascotas registradas </p>

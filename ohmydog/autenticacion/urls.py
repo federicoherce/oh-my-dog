@@ -14,18 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.urls import path, include
-from .views import registro, cerrar_sesion, loguear, cambiarContra, cambiarEmail
+from django.urls import path, include, re_path
+from .views import registro, cerrar_sesion, loguear, cambiarContra, cambiarEmail, mi_perfil, mis_mascotas, ListaDeClientes, ver_perfil_cliente, ver_perros_cliente
 from autenticacion import views
-from .views import registro, cerrar_sesion, loguear, mi_perfil, mis_mascotas
+from .views import registro, cerrar_sesion, loguear, mi_perfil, mis_mascotas, modificar_datos_cliente
 
 
 urlpatterns = [
-    path('', registro.as_view(), name='registro'),
+    path('', registro, name='registro'),
     path('cerrar_sesion', cerrar_sesion, name='cerrar_sesion'),
     path('login', loguear , name='login'),
     path('cambiarContra', cambiarContra, name ='cambiarContra'),
     path('cambiarEmail', cambiarEmail, name ='cambiarEmail'),
     path('mi_perfil', mi_perfil, name='mi_perfil'),
     path('mi_perfil/mis_mascotas', mis_mascotas, name='mis_mascotas'),
+    path('listado_de_clientes', ListaDeClientes.as_view(), name='listado_de_clientes'),
+    path('perfil/<str:dni>', ver_perfil_cliente, name='perfil_cliente'),
+    path('perfil/<str:dni>/perros', ver_perros_cliente, name="perros_cliente"),
+    path('perfil/<str:dni_url>/datos', modificar_datos_cliente, name="modificar_datos"),
 ]

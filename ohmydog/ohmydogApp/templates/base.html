@@ -7,20 +7,30 @@
    <title>Oh My Dog</title>
    <!-- Core theme CSS (includes Bootstrap)-->
    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+   integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+   crossorigin="anonymous"> 
 </head>
 
 <body style="background-color: rgba(255, 204, 153, 1);"> 
     <div style="text-align: right; margin-right: 100px; color: black;">
-      
+
         {% if user.is_authenticated %}
-  
-        Hola {{ user.nombre}} &nbsp;&nbsp;<a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a>
-  
+
+        Sesión Iniciada &nbsp;&nbsp;<a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a>
+
         {% else %}
-  
-        <a href="{% url 'login' %}" style="color: black;">Login</a> &nbsp; &nbsp; <a href="{% url 'registro' %}" style="color: black;">Regístrate</a>
-  
+
+        <a href="{% url 'login' %}" style="color: black;">Iniciar Sesión</a> 
+
         {% endif %}
+
+        {% if user.is_superuser %}
+
+        <a href="{% url 'registro' %}" style="color: black;">Registrar usuario</a>
+
+        {% endif %}
+
     
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -33,21 +43,18 @@
                     <li class="nav-item"><a class="nav-link" href="#">Solicitar turno</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Adopcion</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Perros perdidos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'listar_paseadores_cuidadores' %}">Paseadores y cuidadores</a></li>
                     {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'agregar_paseador_cuidador' %}">Paseadores y cuidadores</a></li>
-                    {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Paseadores y cuidadores</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
                     {% endif %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+    
+    {% block content %}
 
-{% block content %}
-
-{% endblock %}
-
+    {% endblock %}
 </body>
 
 </html>
