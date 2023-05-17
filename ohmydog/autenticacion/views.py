@@ -19,7 +19,7 @@ from django.core.mail import send_mail
 @user_passes_test(lambda u: u.is_superuser) 
 def registro(request):
     if (request.user.is_superuser == False):
-        return redirect("home")
+        return redirect('home')
     
     password = CustomUser.objects.make_random_password(length=5, 
     allowed_chars='abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ0123456789')
@@ -120,10 +120,10 @@ def mis_mascotas(request):
     })
 
 # Del veterinario:
-@user_passes_test(lambda u: u.is_superuser)
+#@user_passes_test(lambda u: u.is_superuser)
 def lista_de_clientes(request):
     if (request.user.is_superuser == False):
-        return redirect("home")
+        return redirect('home')
     queryset = CustomUser.objects.filter(is_superuser=False)
     nombre = request.GET.get('nombre')
     apellido = request.GET.get('apellido')

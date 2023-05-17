@@ -8,9 +8,6 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 # Create your views here.
 @login_required
 def agregar_paseador_cuidador(request):
-    if (request.user.is_superuser == False):
-        return redirect("home")
-
     if request.method == "POST":
         form = CrearPaseadorCuidador(request.POST)
         if form.is_valid():
