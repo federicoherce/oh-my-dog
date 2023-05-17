@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views.generic import View
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib import messages
-from .forms import CustomUserCreationForm, EmailAuthenticationForm, FiltrosDeListadoDeClientes, CambiarEmailForm, modificarDatosCliente
+from .forms import CustomUserCreationForm, EmailAuthenticationForm, FiltrosDeListadoDeClientes, CambiarEmailForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from perros.models import Perro, LibretaSanitaria, Vacuna
 from django.views.generic import ListView, DetailView
