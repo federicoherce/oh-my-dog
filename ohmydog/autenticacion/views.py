@@ -161,9 +161,11 @@ def ver_perros_cliente(request, dni):
     vacunas = Vacuna.objects.filter(libreta_sanitaria__in=libretas_sanitaras)
 
     if request.method == "POST":
-        perro_a_borrar = get_object_or_404(Perro, id=request.POST['mascota_id'])
-        perro_a_borrar.delete()
-        redirect("perros_cliente", cliente)
+        perro_id = request.POST.get('mascota_id')
+        if perros.filter(id=perro_id).exists():
+            perro_a_borrar = Perro.objects.get(id=perro_id)
+            perro_a_borrar.delete()
+            redirect("perros_cliente", dni=dni)
 
     return render(request, "perros_cliente.html", {
         "cliente": cliente,
