@@ -28,14 +28,14 @@
     
     <br>
     {% if usuario.is_superuser == False %}
-        <button href="{% url 'mis_mascotas' %}" style="color: black;">Mis Mascotas</button> &nbsp;
+        <a href="{% url 'mis_mascotas' %}" style="color: black;">Mis Mascotas</a> &nbsp;
         <br>
         <br>
     {% endif %}
-    <button href="{% url 'cambiarContra' %}" style="color: black;">Modificar Contraseña</button> &nbsp;
+    <a href="{% url 'cambiarContra' %}" style="color: black;">Modificar Contraseña</a> &nbsp;
     <br>
     <br>
-    <button href="{% url 'cambiarEmail' %}" style="color: black;">Modificar Email</button> &nbsp;
+    <a href="{% url 'cambiarEmail' %}" style="color: black;">Modificar Email</a> &nbsp;
 </body>
 </html>
 
