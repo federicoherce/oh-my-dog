@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paseadores - Cuidadores</title>
+</head>
+<body>
+    <h1>Paseadores - Cuidadores</h1>
+    <br>
+    <br>
+    {% if paseadores_cuidadores %}
+        <ul>
+            {% for paseador_cuidador in paseadores_cuidadores %}
+                <li><strong>Nombre y Apellido: </strong>{{ paseador_cuidador.nomyap}}</li>
+                <li><strong>DNI: </strong>{{ paseador_cuidador.dni }}</li>
+                <li><strong>Descripcion: </strong>{{ paseador_cuidador.textolibre }}</li>
+                {% if user.is_authenticated and user.is_superuser %}
+                    <a href="{% url 'modificar_paseador_cuidador' paseador_cuidador.dni %}">Modificar</a>
+                    <form method="POST" action="{% url 'listar_paseadores_cuidadores' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="paseador_cuidador.dni" value="{{ paseador_cuidador.dni }}">
+                        <input type="submit" value="Borrar" onclick="return confirm('¿Estás seguro de que deseas borrar este Paseador o Cuidador?')">
+                    </form>
+                {% endif %}
+            {% endfor %}
+            <hr>
+        </ul>
+    {% else %}
+        <p> Aún no hay paseadores o cuidadores registrados </p>
+    {% endif %}
+    <br>
+    {% if user.is_authenticated and user.is_superuser %}
+        <a class="nav-link" href="{% url 'agregar_paseador_cuidador' %}">Agregar paseador o cuidador</a>
+        {% endif %}
+</body>
+</html>
+
+{% endblock %}
