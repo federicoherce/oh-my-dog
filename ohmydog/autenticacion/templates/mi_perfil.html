@@ -18,14 +18,23 @@
 <body>
     <h1>Mi Perfil:</h1>
     <br>
-    <li><strong>Nombre:</strong> {{ usuario.nombre }}</li>
-    <li><strong>Apellido:</strong> {{ usuario.apellido }}</li>
+    {% if usuario.is_superuser == False %}
+        <li><strong>Nombre:</strong> {{ usuario.nombre }}</li>
+        <li><strong>Apellido:</strong> {{ usuario.apellido }}</li>
+        <li><strong>DNI:</strong> {{ usuario.dni }}</li>
+        <li><strong>Número de telefono:</strong> {{ usuario.telefono }}</li>
+    {% endif %}
     <li><strong>Email:</strong> {{ usuario.email }}</li>
-    <li><strong>DNI:</strong> {{ usuario.dni }}</li>
-    <li><strong>Número de telefono:</strong> {{ usuario.telefono }}</li>
+    
     <br>
-    <a href="{% url 'mis_mascotas' %}" style="color: black;">Mis Mascotas</a> &nbsp;
+    {% if usuario.is_superuser == False %}
+        <a href="{% url 'mis_mascotas' %}" style="color: black;">Mis Mascotas</a> &nbsp;
+        <br>
+        <br>
+    {% endif %}
     <a href="{% url 'cambiarContra' %}" style="color: black;">Modificar Contraseña</a> &nbsp;
+    <br>
+    <br>
     <a href="{% url 'cambiarEmail' %}" style="color: black;">Modificar Email</a> &nbsp;
 </body>
 </html>

@@ -1,11 +1,11 @@
 from typing import Any, Dict, Mapping, Optional, Type, Union
 from django.db.models.query import QuerySet
 from django.forms.utils import ErrorList
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse, HttpResponse
 from django.views.generic import View
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib import messages
-from .forms import CustomUserCreationForm, EmailAuthenticationForm, FiltrosDeListadoDeClientes, CambiarEmailForm
+from .forms import CustomUserCreationForm, EmailAuthenticationForm, FiltrosDeListadoDeClientes, CambiarEmailForm, modificarDatosCliente
 from django.contrib.auth.decorators import login_required, user_passes_test
 from perros.models import Perro, LibretaSanitaria, Vacuna
 from django.views.generic import ListView, DetailView
@@ -17,7 +17,10 @@ from django.core.mail import send_mail
 # Create your views here.
 
 @user_passes_test(lambda u: u.is_superuser) 
-def registro(request): 
+def registro(request):
+    if (request.user.is_superuser == False):
+        return redirect("home")
+    
     password = CustomUser.objects.make_random_password(length=5, 
     allowed_chars='abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ0123456789')
     if request.method == 'POST':
@@ -117,46 +120,52 @@ def mis_mascotas(request):
     })
 
 # Del veterinario:
-class ListaDeClientes(ListView):
-    model = CustomUser
-    template_name = "listado_de_clientes.html"
-    context_object_name = "clientes"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = FiltrosDeListadoDeClientes()
-        return context
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        nombre = self.request.GET.get('nombre')
-        apellido = self.request.GET.get('apellido')
-        dni = self.request.GET.get('dni')
-
-        if nombre:
-            queryset = queryset.filter(nombre__icontains=nombre)
-        if apellido:
-            queryset = queryset.filter(apellido__icontains=apellido)
-        if dni:
-            queryset = queryset.filter(dni__icontains=dni)
-        return queryset
+@user_passes_test(lambda u: u.is_superuser)
+def lista_de_clientes(request):
+    if (request.user.is_superuser == False):
+        return redirect("home")
+    queryset = CustomUser.objects.filter(is_superuser=False)
+    nombre = request.GET.get('nombre')
+    apellido = request.GET.get('apellido')
+    dni = request.GET.get('dni')
+    if nombre:
+        queryset = queryset.filter(nombre__icontains=nombre) 
+    if apellido:
+        queryset = queryset.filter(apellido__icontains=apellido)
+    if dni:
+        queryset = queryset.filter(dni__icontains=dni)
+    
+    form = FiltrosDeListadoDeClientes()
+    context = {
+        'clientes' : queryset,
+        'form' : form
+    }
+    return render(request, "listado_de_clientes.html", context)
 
 # Del veterinario:
 def ver_perfil_cliente(request, dni):
+    if (request.user.is_superuser == False):
+            return redirect("home")
+
     cliente = CustomUser.objects.get(dni=dni)
     return render(request, "perfil_cliente.html", {"cliente": cliente})
 
 # Del veterinario:
 def ver_perros_cliente(request, dni):
+    if (request.user.is_superuser == False):
+        return redirect("home")
+
     cliente = CustomUser.objects.get(dni=dni)
     perros = Perro.objects.filter(dueño=cliente)
     libretas_sanitaras = LibretaSanitaria.objects.filter(perro__in=perros)
     vacunas = Vacuna.objects.filter(libreta_sanitaria__in=libretas_sanitaras)
 
     if request.method == "POST":
-        perro_a_borrar = get_object_or_404(Perro, id=request.POST['mascota_id'])
-        perro_a_borrar.delete()
-        redirect("perros_cliente", cliente)
+        perro_id = request.POST.get('mascota_id')
+        if perros.filter(id=perro_id).exists():
+            perro_a_borrar = Perro.objects.get(id=perro_id)
+            perro_a_borrar.delete()
+            redirect("perros_cliente", dni=dni)
 
     return render(request, "perros_cliente.html", {
         "cliente": cliente,
@@ -167,6 +176,9 @@ def ver_perros_cliente(request, dni):
 
 @user_passes_test(lambda u: u.is_superuser) 
 def modificar_datos_cliente(request, dni_url):
+    if (request.user.is_superuser == False):
+        return redirect("home")
+    
     cliente = CustomUser.objects.get(dni = dni_url)
     if request.method == "POST":
         form = modificarDatosCliente(request.POST)

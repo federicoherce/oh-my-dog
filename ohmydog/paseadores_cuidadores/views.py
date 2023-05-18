@@ -8,13 +8,16 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 # Create your views here.
 @login_required
 def agregar_paseador_cuidador(request):
+    if (request.user.is_superuser == False):
+        return redirect("home")
+
     if request.method == "POST":
         form = CrearPaseadorCuidador(request.POST)
         if form.is_valid():
             PaseadorCuidador.objects.create(nomyap=request.POST['nomyap'], 
                                  dni=request.POST['dni'],
                                  textolibre=request.POST['textolibre'])
-            return redirect('home')    # Debería redirigirlo al perfil del usuario
+            return redirect('home')
     else:
         form = CrearPaseadorCuidador()
     return render(request, 'agregar_paseador_cuidador.html', {

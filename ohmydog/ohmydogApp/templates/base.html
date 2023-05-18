@@ -47,6 +47,9 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
                     {% endif %}
+                    {% if user.is_superuser %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'listado_de_clientes'%}">Lista de clientes</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

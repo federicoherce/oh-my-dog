@@ -12,12 +12,12 @@ def agregar_perro(request, dni):
     if request.method == "POST":
         form = CrearPerro(request.POST)
         if form.is_valid():
-            p = Perro.objects.create(nombre=request.POST['nombre'], 
+            un_perro = Perro.objects.create(nombre=request.POST['nombre'], 
                                  raza=request.POST['raza'],
                                  color=request.POST['color'],
                                  fecha_de_nacimiento=request.POST['fecha_de_nacimiento'],
                                  dueño=usuario)
-            LibretaSanitaria.objects.create(perro=p)
+            LibretaSanitaria.objects.create(perro=un_perro)
             return redirect("perros_cliente", usuario.dni)
     else:
         form = CrearPerro()
