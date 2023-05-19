@@ -17,7 +17,7 @@ Including another URLconf
 from django.urls import path, include, re_path, re_path
 from .views import registro, cerrar_sesion, loguear, cambiarContra, cambiarEmail, mi_perfil, mis_mascotas, ver_perfil_cliente, ver_perros_cliente
 from autenticacion import views
-from .views import registro, cerrar_sesion, loguear, mi_perfil, mis_mascotas, modificar_datos_cliente, lista_de_clientes
+from .views import registro, cerrar_sesion, loguear, mi_perfil, mis_mascotas, modificar_datos_cliente, lista_de_clientes, modificar_datos_perro
 
 
 urlpatterns = [
@@ -32,4 +32,5 @@ urlpatterns = [
     path('perfil/<str:dni>', ver_perfil_cliente, name='perfil_cliente'),
     path('perfil/<str:dni>/perros', ver_perros_cliente, name="perros_cliente"),
     path('perfil/<str:dni_url>/datos', modificar_datos_cliente, name="modificar_datos"),
+    path('perfil/<str:dni>/modificar/<int:perro_id>', modificar_datos_perro, name="modificar_datos_perro")
 ]
