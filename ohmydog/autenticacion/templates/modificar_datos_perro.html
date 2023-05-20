@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar datos de perro</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
+</head>
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        let nombre = document.getElementById("id_nombre");
+        nombre.value = "{{perro.nombre}}";
+
+        let raza = document.getElementById("id_raza");
+        raza.value = "{{perro.raza}}";
+
+        let color = document.getElementById("id_color");
+        color.value = "{{perro.color}}";
+
+        let fecha_de_nacimiento = docmuent.getElementById("id_fecha_de_nacimiento");
+        fecha_de_nacimiento.value = "{{perro.fecha_de_nacimiento}}" 
+    });
+</script>
+<body>
+    <form action="" method="POST"> {% csrf_token %}
+        <div style="width: 75%; margin: auto;">
+            {{form|crispy}}
+        <input type="submit" value="Confirmar">
+        </div>
+    </form>
+</body>
+</html>
+
+{% endblock %}

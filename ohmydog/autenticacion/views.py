@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse, 
 from django.views.generic import View
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib import messages
-from .forms import CustomUserCreationForm, EmailAuthenticationForm, FiltrosDeListadoDeClientes, CambiarEmailForm, modificarDatosCliente
+from .forms import CustomUserCreationForm, EmailAuthenticationForm, FiltrosDeListadoDeClientes, CambiarEmailForm, modificarDatosCliente, ModificarDatosPerro
 from django.contrib.auth.decorators import login_required, user_passes_test
 from perros.models import Perro, LibretaSanitaria, Vacuna
 from django.views.generic import ListView, DetailView
@@ -202,6 +202,26 @@ def modificar_datos_cliente(request, dni_url):
         form = modificarDatosCliente()
     return render(request, "modificar_datos.html", {"form": form, "cliente": cliente})
 
-# @user_passes_test(lambda u: u.is_superuser)
-# def modificar_datos_perro(request, dni):
+
+@user_passes_test(lambda u: u.is_superuser)
+def modificar_datos_perro(request, dni, perro_id):
+    perro = Perro.objects.get(id=perro_id)
+    if request.method == "POST":
+        form = ModificarDatosPerro(request.POST)
+        
+        if form.is_valid():
+            perro.nombre = form.cleaned_data['nombre']
+            perro.raza = form.cleaned_data['raza']
+            perro.color = form.cleaned_data['color']
+            perro.fecha_de_nacimiento = form.cleaned_data['fecha_de_nacimiento']
+            perro.save()
+            messages.success(request, 'Datos modificados con exito')
+            return redirect('perros_cliente', dni)
+    else:
+        form = ModificarDatosPerro()
+    return render(request, "modificar_datos_perro.html", {
+        "form": form,
+        "perro": perro
+    })
+
 

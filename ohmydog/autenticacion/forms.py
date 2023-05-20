@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from .models import CustomUser
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
+from datetime import date
 
 
 class CustomUserCreationForm(UserCreationForm):    
@@ -44,6 +45,18 @@ class modificarDatosCliente(forms.Form):
             RegexValidator(r'^[0-9]+$', 'El teléfono solo debe contener números.')], error_messages={
             'unique': 'Ya existe un usuario con este telefono'})
     
+# forms.Form => Se usa cuando se quiere crear un formulario independiente, desde cero. Hay que definir manualmente 
+# los campos y las validaciones para el formulario.
+# forms.ModelForm => Se usa cuando se quiere crear un formulario basado en un modelo existente. Los campos y 
+# las validaciones se generan automáticamente según el modelo.
 
-
+class ModificarDatosPerro(forms.Form):
+    nombre = forms.CharField(max_length=50)
+    raza = forms.CharField(max_length=50)
+    color = forms.CharField(max_length=50)
+    fecha_de_nacimiento = forms.DateField(
+        label="Fecha de nacimiento",
+        widget=forms.widgets.DateInput(attrs={'type': 'date', 'max': str(date.today())}),
+        input_formats=['%Y-%m-%d']
+    )
     
