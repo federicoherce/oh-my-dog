@@ -8,7 +8,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>Perros en Adopción</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
     {% for msg in messages %}
@@ -18,9 +18,45 @@
     {% endfor %}
 </head>
 <body>
-    -------
-    Listado De Perros
-    -------
+    <h1>Perros en Adopción</h1>
+    <br>
+    <br>
+    {% if perros_en_adopcion %}
+        <ul>
+            {% for perro in perros_en_adopcion %}
+                <li><strong>Nombre: </strong>{{ perro.nombre }}</li>
+                <li><strong>Raza: </strong>{{ perro.raza }}</li>
+                <li><strong>Color: </strong>{{ perro.color }}</li>
+                <li><strong>Tamaño: </strong>{{ perro.tamaño }}</li>
+                <li><strong>Sexo: </strong>{{ perro.sexo }}</li>
+                <li><strong>Origen: </strong>{{ perro.origen }}</li>
+                <li><strong>Observacion: </strong>{{ perro.observacion }}</li>
+                {% if perro.adoptado %}
+                    <strong style="color: red;">ADOPTADO</strong>
+                {% else %}              
+                    <strong style="color: green;">EN ADOPCIÓN</strong>
+                {% endif %}
+                {% if user.id == perro.publicado_por.id %}
+                    <!--<button>Marcar como adoptado</button>
+                    <button>Eliminar</button>-->
+                    {% if not perro.adoptado %}
+                        <form method="post" action="{% url 'marcar_Adoptado' perro.id %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Marcar como Adoptado">
+                        </form>
+                    {% endif %}
+                    <form method="post" action="{% url 'eliminar_perro_en_adopcion' perro.id %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Eliminar perro en adopcion">
+                    </form>
+                {% endif %}
+            {% endfor %}
+            <hr>
+        </ul>
+    {% else %}
+        <p> Aún no hay perros en adopción publicados </p>
+    {% endif %}
+    <br>
     {% if user.is_authenticated %}
     <a href="{% url 'publicar_perro' %}" style="color: black;">Publicar Perro en Adopcion</a>
     {% endif %}
