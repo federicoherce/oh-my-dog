@@ -36,7 +36,7 @@ def registro(request):
         form = CustomUserCreationForm()
         return render(request, 'registro.html', {"form": form, "contra": password}) 
 
-    
+@login_required
 def cerrar_sesion(request):
     logout(request)
     return redirect('home')

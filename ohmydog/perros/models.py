@@ -10,6 +10,9 @@ class Perro(models.Model):
     color = models.CharField(max_length=50)
     fecha_de_nacimiento = models.DateField()
     dueño = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nombre
     
 class LibretaSanitaria(models.Model):
     perro = models.ForeignKey(Perro, on_delete=models.CASCADE)

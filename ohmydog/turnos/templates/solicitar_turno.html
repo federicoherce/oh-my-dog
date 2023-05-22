@@ -1,0 +1,48 @@
+
+{% extends "base.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Turno</title>
+</head>
+<body>
+    <h1>
+        Solicitar un turno.
+    </h1>
+    <form action="" method="POST"> {% csrf_token %}
+        <div style="width: 75%; margin: auto;">
+            <label for="{{ form.perro.id_for_label }}">Perro: </label>
+            {{ form.perro }}
+        </div>
+        <div style="width: 75%; margin: auto;">
+            <label for="{{ form.fecha.id_for_label }}">Fecha: </label>
+            {{ form.fecha }}
+        </div>
+        <div style="width: 75%; margin: auto;">
+            <label for="{{ form.hora.id_for_label }}">Hora: </label>
+            {{ form.hora }}
+        </div>
+        <div style="width: 75%; margin: auto;">
+            <label for="{{ form.motivo.id_for_label }}">Motivo: </label>
+            {{ form.motivo }}
+        </div>
+        <button type="submit" style="margin-left: 10%;">Solicitar turno</button>
+    </form>
+    {% if messages %} 
+            {% for mensaje in messages %}
+                <b>{{mensaje}}</b>
+            {% endfor %}
+    {% endif %}
+</body>
+</html>
+
+{% endblock %}

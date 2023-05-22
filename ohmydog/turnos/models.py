@@ -6,17 +6,28 @@ from perros.models import Perro
 # Create your models here.
 class Turno(models.Model):
     MOTIVO_CHOICES = [
-        ('Vacuna', 'Vacuna'),
-        ('Vacuna antirrabica', 'Vacuna antirrabica'),
-        ('Desparasitacion', 'Desparasitacion'),
-        ('Castracion', 'Castracion'),
-        ('Urgencia', 'Urgencia'),
-        ('Consulta', 'Consulta')
+        ('vacuna', 'Vacuna'),
+        ('vacuna_antirrabica', 'Vacuna antirrabica'),
+        ('desparasitacion', 'Desparasitación'),
+        ('castracion', 'Castración'),
+        ('urgencia', 'Urgencia'),
+        ('consulta', 'Consulta general')
+    ]
+    HORARIO_CHOICES = [
+        ('tarde', 'Tarde'),
+        ('mañana', 'Mañana')
     ]
 
-    veterinario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    fecha = models.DateField(default=timezone.now)
-    hora = models.TimeField(default=timezone.now)
+    ESTADO_CHOICES = [
+        ('pendiente', 'Pendiente'),
+        ('aceptado', 'Aceptado'),
+        ('rechazado', 'Rechazado')
+    ]
+
+    cliente = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    fecha = models.DateField()
+    hora = models.CharField(max_length=20, choices=HORARIO_CHOICES)
     cliente_asitio = models.BooleanField(default=False)
     perro = models.ForeignKey(Perro, on_delete=models.CASCADE)
     motivo = models.CharField(max_length=20, choices=MOTIVO_CHOICES)
+    estado = models.CharField(max_length=10, choices=ESTADO_CHOICES, default='pendiente')

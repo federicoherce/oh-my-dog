@@ -40,7 +40,11 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link active" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Solicitar turno</a></li>
+                    {% if user.is_superuser %}
+                        <li class="nav-item"><a class="nav-link" href="#">Turnos</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'turnos_cliente' %}">Turnos</a></li>
+                    {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'perros_en_adopcion' %}">Adopcion</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Perros perdidos</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'listar_paseadores_cuidadores' %}">Paseadores y cuidadores</a></li>
