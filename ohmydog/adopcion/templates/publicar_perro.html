@@ -13,12 +13,15 @@
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 </head>
-<form action="" method="POST"> {% csrf_token %}
-    <div style= "width: 75%; margin: auto;"> 
-        {{form|crispy}}
-    <input type="submit" value="Publicar Perro">
-    </div>
-</form>
+<body> 
+    <p class="titulos-format"> Publicar un perro en adopción </p>
+    <form action="" class="formularios" method="POST"> {% csrf_token %}
+        <div style= "width: 75%; margin: auto;"> 
+            {{form|crispy}}
+        <input type="submit"  class="btn btn-primary" value="Publicar Perro">
+        </div>
+    </form>
+</body>
 </html>
 
 

@@ -20,10 +20,11 @@
     {% endfor %}
 </head>
 <body>
-    <form action="" method="POST"> {% csrf_token %}
+    <p class="titulos-format"> Iniciar sesión</p>
+    <form action="" method="POST" class="formularios"> {% csrf_token %}
         <div style= "width: 75%; margin: auto;"> 
             {{form|crispy}}
-        <input type="submit" value="Iniciar Sesión">
+        <input type="submit" class="btn btn-primary" value="Iniciar Sesión">
         </div>
     </form>
 </body>

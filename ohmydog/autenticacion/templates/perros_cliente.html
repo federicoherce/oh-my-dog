@@ -41,7 +41,7 @@
                 <form method="POST" action="{% url 'perros_cliente' cliente.dni %}" style="display: inline;">
                     {% csrf_token %}
                     <input type="hidden" name="mascota_id" value="{{ mascota.id }}">
-                    <input type="submit" value="Borrar" onclick="return confirm('¿Estás seguro de que deseas borrar esta mascota?')">
+                    <input type="submit"  class="btn btn-primary" value="Borrar" onclick="return confirm('¿Estás seguro de que deseas borrar esta mascota?')">
                 </form>
                 <hr>
             {% endfor %}

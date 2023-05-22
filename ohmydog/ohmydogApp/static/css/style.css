@@ -319,6 +319,12 @@
     position: static;
   }
   
+  .titulos-format {
+    text-align: center;
+    font-family: "Arial", sans-serif;
+    font-size: 40px;
+  }
+
   .navbar-collapse {
     flex-basis: 100%;
     flex-grow: 1;
@@ -423,4 +429,17 @@
 
   .asteriskField {
     display: none; 
+  }
+
+  .titulos-format {
+    text-align: center;
+    font-family: "Arial", sans-serif;
+    font-size: 40px;
+    text-decoration: underline;
+
+}
+
+  .formularios {
+    width: 50%;
+    margin: 0 auto;
   }

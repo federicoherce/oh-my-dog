@@ -34,10 +34,13 @@
     });
 </script>
 <body>
-    <form action="" method="POST"> {% csrf_token %}
+    <h1 class="titulos-format">
+        Modificar datos del perro
+    </h1>
+    <form action="" method="POST" class="formularios"> {% csrf_token %}
         <div style="width: 75%; margin: auto;">
             {{form|crispy}}
-        <input type="submit" value="Confirmar">
+        <input type="submit"  class="btn btn-primary"  value="Confirmar">
         </div>
     </form>
 </body>

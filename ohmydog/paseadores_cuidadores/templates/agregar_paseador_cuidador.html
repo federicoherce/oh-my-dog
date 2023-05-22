@@ -13,13 +13,14 @@
     <title>Agregar paseador o cuidador</title>
 </head>
 <body>
-    <h1>
-        Agregar un paseador o cuidador.
+    <h1 class="titulos-format">
+        Agregar paseadores/cuidadores
     </h1>
-    <form action="" method="POST"> {% csrf_token %}
+    <br>
+    <form action="" method="POST" class="formularios"> {% csrf_token %}
         <div style= "width: 75%; margin: auto;"> 
             {{form|crispy}}
-        <input type="submit" value="Enviar">
+        <input type="submit"   class="btn btn-primary" value="Enviar">
         </div>
     </form>
 </body>

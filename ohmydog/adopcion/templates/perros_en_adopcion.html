@@ -18,7 +18,13 @@
     {% endfor %}
 </head>
 <body>
-    <h1>Perros en Adopción</h1>
+    <h1>Perros en Adopción</h1> 
+    {% if user.is_authenticated %}
+    <form method="get" action="{% url 'publicar_perro' %}">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Publicar Perro en Adopcion">
+    </form>
+    {% endif %}
     <br>
     <br>
     {% if perros_en_adopcion %}
@@ -36,6 +42,7 @@
                 {% else %}              
                     <strong style="color: green;">EN ADOPCIÓN</strong>
                 {% endif %}
+                <br>
                 {% if user.id == perro.publicado_por.id %}
                     <!--<button>Marcar como adoptado</button>
                     <button>Eliminar</button>-->
@@ -47,9 +54,17 @@
                     {% endif %}
                     <form method="post" action="{% url 'eliminar_perro_en_adopcion' perro.id %}">
                         {% csrf_token %}
-                        <input type="submit" value="Eliminar perro en adopcion">
+                        <input type="submit"  value="Eliminar perro en adopcion">
                     </form>
+                {% else %}
+                    {% if not perro.adoptado %}
+                        <form method="post" action="{% url 'enviar_solicitud_adopcion' perro.publicado_por.id user.id perro.nombre%}">
+                            {% csrf_token %}
+                        <input type="submit" value="Enviar solicitud de adopcion"> 
+                        </form>
+                    {% endif %} 
                 {% endif %}
+            <br>
             {% endfor %}
             <hr>
         </ul>
@@ -57,9 +72,6 @@
         <p> Aún no hay perros en adopción publicados </p>
     {% endif %}
     <br>
-    {% if user.is_authenticated %}
-    <a href="{% url 'publicar_perro' %}" style="color: black;">Publicar Perro en Adopcion</a>
-    {% endif %}
 </body> 
 </html>
 

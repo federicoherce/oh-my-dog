@@ -16,8 +16,8 @@
     <h1>Listado de Clientes</h1>
     <form method="GET" action="{% url 'listado_de_clientes' %}">
         {{ form.as_p }}
-        <input type="submit" value="Filtrar">
-        <input type="submit" href="{% url 'listado_de_clientes' %}", value="Deshacer">
+        <input type="submit"  class="btn btn-primary" value="Filtrar">
+        <input type="submit"  class="btn btn-primary" href="{% url 'listado_de_clientes' %}", value="Deshacer">
     </form>
     <hr>
     <ol>

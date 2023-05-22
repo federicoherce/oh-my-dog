@@ -31,7 +31,9 @@ class FiltrosDeListadoDeClientes(forms.Form):
         self.fields['dni'].widget.attrs.update({'placeholder': 'DNI'})
     
 class CambiarEmailForm(forms.Form):
-    email = forms.EmailField()
+    email = forms.EmailField(widget=forms.TextInput(
+            attrs={'placeholder': 'Escriba su nueva dirección de correo electrónico'}))
+    
 
 class modificarDatosCliente(forms.Form):
     nombre = forms.CharField(max_length=30, required=True, validators=[
