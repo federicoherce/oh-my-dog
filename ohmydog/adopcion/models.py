@@ -16,7 +16,7 @@ class Adopcion(models.Model):
         ('H', 'Hembra'),
     ]
     
-    SOLO_CARACTERES = RegexValidator(r'^[a-zA-Z]+$', 'Este campo solo puede contener caracteres.')
+    SOLO_CARACTERES = RegexValidator(r'^[a-zA-Z\sáÁéÉíÍóÓúÚ]+$', 'Este campo solo puede contener caracteres.')
     
     publicado_por = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     nombre = models.CharField(max_length=30, validators=[SOLO_CARACTERES])

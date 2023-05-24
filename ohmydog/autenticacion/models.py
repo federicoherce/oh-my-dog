@@ -3,6 +3,10 @@ from django.contrib.auth.models import UserManager, AbstractBaseUser, Permission
 from django.core.validators import RegexValidator
 #from perros.models import Perro
 
+
+
+SOLO_CARACTERES = RegexValidator(r'^[a-zA-Z\sáÁéÉíÍóÓúÚ]+$', 'Este campo solo puede contener caracteres.')
+
 # Create your models here.
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
@@ -28,10 +32,8 @@ class CustomUserManager(UserManager):
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, error_messages={
             'unique': 'Ya existe un usuario con este email'})
-    nombre = models.CharField(max_length=30, validators=[
-            RegexValidator(r'^[a-zA-Z]+$', 'El nombre solo debe contener caracteres.')])
-    apellido = models.CharField(max_length=30, validators=[
-            RegexValidator(r'^[a-zA-Z]+$', 'El apellido solo debe contener caracteres.')])
+    nombre = models.CharField(max_length=30,validators=[SOLO_CARACTERES])
+    apellido = models.CharField(max_length=30, validators=[SOLO_CARACTERES])
     dni = models.CharField(max_length=8, unique=True, validators=[
             RegexValidator(r'^[0-9]{8}$', 'El DNI debe tener 8 dígitos.')], error_messages= {
             'unique': 'Ya existe un usuario con este DNI'})

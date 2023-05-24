@@ -7,6 +7,8 @@ from django.core.validators import RegexValidator
 from datetime import date
 
 
+SOLO_CARACTERES = RegexValidator(r'^[a-zA-Z\sáÁéÉíÍóÓúÚ]+$', 'Este campo solo puede contener caracteres.')
+
 class CustomUserCreationForm(UserCreationForm):    
     class Meta:
         model = CustomUser
@@ -36,10 +38,8 @@ class CambiarEmailForm(forms.Form):
     
 
 class modificarDatosCliente(forms.Form):
-    nombre = forms.CharField(max_length=30, required=True, validators=[
-            RegexValidator(r'^[a-zA-Z]+$', 'El nombre solo debe contener caracteres.')])
-    apellido = forms.CharField(max_length=30, required=True, validators=[
-            RegexValidator(r'^[a-zA-Z]+$', 'El apellido solo debe contener caracteres.')])
+    nombre = forms.CharField(max_length=30, required=True, validators=[SOLO_CARACTERES])
+    apellido = forms.CharField(max_length=30, required=True, validators=[SOLO_CARACTERES])
     dni = forms.CharField(max_length=8, required=True, validators=[
             RegexValidator(r'^[0-9]{8}$', 'El DNI debe tener 8 dígitos.')], error_messages= {
             'unique': 'Ya existe un usuario con este DNI'})

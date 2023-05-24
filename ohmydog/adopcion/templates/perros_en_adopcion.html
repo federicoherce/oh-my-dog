@@ -58,13 +58,19 @@
                     </form>
                 {% else %}
                     {% if not perro.adoptado %}
-                        <form method="post" action="{% url 'enviar_solicitud_adopcion' perro.publicado_por.id user.id perro.nombre%}">
-                            {% csrf_token %}
+                        {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'enviar_solicitud_adopcion' perro.publicado_por.id user.id perro.nombre%}">
+                                {% csrf_token %}
+                            <input type="submit" value="Enviar solicitud de adopcion"> 
+                            </form>
+                         {% else %}
+                         <form method="get" action="{% url 'solicitud_adopcion_no_cliente' perro.publicado_por.id perro.nombre %}">
                         <input type="submit" value="Enviar solicitud de adopcion"> 
                         </form>
+                        {% endif %}
                     {% endif %} 
                 {% endif %}
-            <br>
+            <br> 
             {% endfor %}
             <hr>
         </ul>

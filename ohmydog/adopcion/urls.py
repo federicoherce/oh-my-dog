@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import publicar, listar_perros_adopcion, marcar_Adoptado, eliminar_perro_en_adopcion, enviar_solicitud_adopcion
+from .views import publicar, listar_perros_adopcion, marcar_Adoptado, eliminar_perro_en_adopcion, enviar_solicitud_adopcion, solicitud_adopcion_no_cliente
 
 urlpatterns = [
     path('perros_en_adopcion', listar_perros_adopcion, name="perros_en_adopcion"),
@@ -8,4 +8,6 @@ urlpatterns = [
     path('cliente/<int:perro_id>/eliminar/', eliminar_perro_en_adopcion, name='eliminar_perro_en_adopcion'),
     path('enviar_solicitud/<int:autor>/<int:interesado>/<str:perro>/',
     enviar_solicitud_adopcion, name="enviar_solicitud_adopcion"),
+    path('solicitud_adopcion_no_cliente/<int:autor>/<str:perro>/',
+    solicitud_adopcion_no_cliente, name="solicitud_adopcion_no_cliente" )
 ]

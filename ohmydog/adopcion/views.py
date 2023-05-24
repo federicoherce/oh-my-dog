@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .forms import PublicarPerroEnAdopcion
+from .forms import PublicarPerroEnAdopcion, AdopcionForm
 from .models import Adopcion
 from autenticacion.models import CustomUser
 from django.contrib import messages
@@ -62,13 +62,32 @@ def eliminar_perro_en_adopcion(request, perro_id):
 def enviar_solicitud_adopcion(request, autor, interesado, perro):
     publicado_por = CustomUser.objects.get(id=autor)
     quiere_adoptar = CustomUser.objects.get(id=interesado)
-    
+        
     asunto_interesado = "Solicitud enviada"
     msj_interesado = "Su solicitud de adopcion fue enviada con exito, espere a que el dueño se ponga en contacto con usted para concretar la adopcion de " + perro
     send_mail(asunto_interesado, msj_interesado, 'ohmydogg.vet@gmail.com', [quiere_adoptar.email])
-    
+        
     asunto_autor = "Alguien quiere adoptar a tu perro"
     msj_autor = quiere_adoptar.email + " ha solicitado adoptar a " + perro + ". Comuníquese con el para concretar su adopción"
     send_mail(asunto_autor, msj_autor, "ohmydogg.vet@gmail.com", [publicado_por.email])
     messages.success(request, 'Solicitud enviada')
     return redirect('perros_en_adopcion')
+
+def solicitud_adopcion_no_cliente(request, autor, perro):
+    if request.method == "GET":
+        form = AdopcionForm()
+        return render(request, "solicitud_no_cliente.html", {
+            "form": form})
+    else:
+        emailNoCliente = request.POST.get('email')
+        asunto_interesado = "Solicitud enviada"
+        msj_interesado = "Su solicitud de adopcion fue enviada con exito, espere a que el dueño se ponga en contacto con usted para concretar la adopcion de " + perro
+        send_mail(asunto_interesado, msj_interesado, 'ohmydogg.vet@gmail.com', [emailNoCliente])
+        
+        publicado_por = CustomUser.objects.get(id=autor)
+        asunto_autor = "Alguien quiere adoptar a tu perro"
+        msj_autor = emailNoCliente + " ha solicitado adoptar a " + perro + ". Comuníquese con el para concretar su adopción"
+        send_mail(asunto_autor, msj_autor, "ohmydogg.vet@gmail.com", [publicado_por.email])
+        messages.success(request, 'Solicitud enviada')
+        return redirect('perros_en_adopcion')
+        
