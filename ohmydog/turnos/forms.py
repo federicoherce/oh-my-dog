@@ -38,3 +38,16 @@ class SolicitarTurnoForm(forms.Form):
             raise forms.ValidationError('No puede solicitar un turno de vacuna antirrábica para un perro menor a 4 meses.')
         return cleaned_data
 
+class ModificarTurnoForm(forms.Form):
+    horarios = [
+        ('mañana', 'Mañana'),
+        ('tarde', 'Tarde')
+    ]
+
+    hora = forms.ChoiceField(choices=horarios, label="Horario")
+    motivo = forms.CharField(widget=forms.Textarea)
+
+    def __init__(self, *args, **kwargs):
+        turno_horario = kwargs.pop('turno_horario', None)
+        super(ModificarTurnoForm, self).__init__(*args, **kwargs)
+        self.fields['hora'].initial = turno_horario

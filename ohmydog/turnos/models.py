@@ -21,7 +21,8 @@ class Turno(models.Model):
     ESTADO_CHOICES = [
         ('pendiente', 'Pendiente'),
         ('aceptado', 'Aceptado'),
-        ('rechazado', 'Rechazado')
+        ('rechazado', 'Rechazado'),
+        ('modificado', 'Modificado')
     ]
 
     cliente = models.ForeignKey(CustomUser, on_delete=models.CASCADE)

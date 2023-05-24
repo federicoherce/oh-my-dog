@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver turno: </title>
+</head>
+<body>
+    <h1>Detalles del turno: </h1>
+    <br>
+    <p>Fecha: {{ turno.fecha }}</p>
+    <p>Horario: {{ turno.hora }}</p>
+    <p>Motivo: {{ turno.motivo }}</p>
+    <p>Estado: {{ turno.estado }}</p>
+    <!-- Otros detalles ...-->
+
+    {% if turno.estado == "pendiente" %}
+        <form action="" method="post"> {% csrf_token %}
+            <input type="submit" name="accion" value="Aceptar">
+        </form>
+
+        <form action="" method="post"> {% csrf_token %}
+            <input type="submit" name="accion" value="Rechazar">
+        </form>
+
+        <form action="" method="post"> {% csrf_token %}
+            <input id="modificar-btn" type="button" name="accion" value="Modificar">
+        </form>
+
+        <div id="formulario_modificar" style="display: none;">
+            <form action="" id="modificar_turno_form" action="" method="post"> {% csrf_token %}
+                {% if form %}
+                    {{ form.as_p }}
+                {% endif %}
+                <input type="submit" id="guardar-cambios-btn" name="accion" value="Guardar cambios">
+                <button type="button" id="cancelar-btn">Cancelar</button>
+            </form>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+
+                //Manejar el clic en el Modificar
+                $('#modificar-btn').click(function() {
+                    $("#formulario_modificar").show();
+                });
+
+                //Manejar el clic en el Cancelar del formulario de modificación
+                $('#formulario_modificar #cancelar-btn').click(function() {
+                    $('#formulario_modificar').hide();
+                });
+
+                //Evitar que el formulario se envíe de manera automática
+                //$('#modificar_turno_form').submit(function(e) {
+                //    e.preventDefault();
+                //});
+
+                $('#guardar-cambios-btn').click(function() {
+                    $('#modificar_turno_form').submit();
+                });
+            });
+        </script>
+    {% endif %}
+
+</body>
+</html>
+{% endblock %}

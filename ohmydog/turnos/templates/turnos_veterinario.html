@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turnos de veterinario</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
+</head>
+<body>
+    <h1>Turnos: </h1>
+    Acá iría el listado de turnos, junto con filtros, la opción de ver un turno y eso lo lleva a una ventana donde pueda confirmar, modificar o rechazar un turno.
+    <br>
+</body>
+</html>
+
+{% endblock %}
