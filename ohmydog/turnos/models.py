@@ -28,7 +28,7 @@ class Turno(models.Model):
     cliente = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     fecha = models.DateField()
     hora = models.CharField(max_length=20, choices=HORARIO_CHOICES)
-    cliente_asitio = models.BooleanField(default=False)
+    cliente_asistio = models.BooleanField(default=False, null=True)
     perro = models.ForeignKey(Perro, on_delete=models.CASCADE)
     motivo = models.CharField(max_length=20, choices=MOTIVO_CHOICES)
     estado = models.CharField(max_length=10, choices=ESTADO_CHOICES, default='pendiente')

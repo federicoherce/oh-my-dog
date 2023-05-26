@@ -41,7 +41,7 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link active" href="{% url 'home' %}">Home</a></li>
                     {% if user.is_superuser %}
-                        <li class="nav-item"><a class="nav-link" href="#">Turnos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'turnos_veterinario' %}">Turnos</a></li>
                     {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'turnos_cliente' %}">Turnos</a></li>
                     {% endif %}

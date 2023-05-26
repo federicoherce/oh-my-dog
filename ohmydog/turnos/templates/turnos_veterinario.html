@@ -20,9 +20,46 @@
     {% endfor %}
 </head>
 <body>
-    <h1>Turnos: </h1>
-    Acá iría el listado de turnos, junto con filtros, la opción de ver un turno y eso lo lleva a una ventana donde pueda confirmar, modificar o rechazar un turno.
-    <br>
+    <h1 class="titulos-format">Turnos: </h1>
+    <ul>
+    <form method="get" action="{% url 'turnos_veterinario' %}">
+        <label for="estado_filtro">Filtrar por estado:</label>
+        <select id="estado_filtro" name="estado">
+            <option value=""></option>
+            <option value="aceptado">Aceptados</option>
+            <option value="rechazado">Rechazados</option>
+            <option value="pendiente">Pendientes</option>
+            <option value="modificado">Modificados</option>
+        </select>
+        <button type="submit">Filtrar</button> 
+        <input type="submit" href="{% url 'turnos_veterinario' %}" value="Deshacer">
+      </form>  
+    {% for turno in turnos %} 
+        <li><strong> Cliente: </strong>{{ turno.cliente }}</li> 
+        <li><strong> Fecha: </strong>{{ turno.fecha }}</li> 
+        <li><strong> Hora: </strong>{{ turno.hora }}</li> 
+        <li><strong> Motivo: </strong>{{ turno.motivo }}</li>
+        {% if turno.cliente_asistio is None %} 
+            <li><strong> Estado: </strong>{{ turno.estado }}</li> 
+            <li><strong> Asistio: </strong> -- </li>   
+        {% else %}
+            {% if turno.cliente_asistio %}
+                <li><strong> Asistio: </strong> Si </li> 
+            {% else %}
+                <li><strong> Asistio: </strong> No </li>   
+            {% endif %} 
+        {% endif %}
+        <br>
+        {% if turno.estado == "pendiente" %} 
+        <form method="get" action="{% url 'ver_turno' turno.id %}">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="Ver turno">
+        </form>
+        {% endif %}
+    {% empty %}
+        <p>No se encontraron turnos</p>
+    {% endfor %}
+    </ul>
 </body>
 </html>
 

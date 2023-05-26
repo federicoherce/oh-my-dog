@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.views import View
 from django.core.mail import send_mail
+from datetime import date
 
 # Create your views here.
 @login_required
@@ -22,6 +23,7 @@ def solicitar_turno(request):
                 perro=form.cleaned_data['perro'],
                 motivo=form.cleaned_data['motivo']
             )
+            turno.cliente_asistio = None
             turno.save()
             messages.success(request, "El turno fue solicitado con éxito. Un veterinario lo revisará pronto.")
             return redirect("solicitar_turno")
@@ -40,8 +42,12 @@ def turnos_cliente(request):
 
 @user_passes_test(lambda u: u.is_superuser)
 def turnos_veterinario(request):
-    # Listar todos los turnos, filtros, ver un turno en específico
-    return render(request, 'turnos_veterinario.html')
+    turnos = Turno.objects.all().order_by('fecha')
+    if request.GET.get('estado'):
+        filtrado = request.GET['estado']
+        if filtrado != "":
+            turnos = turnos.filter(estado=filtrado)
+    return render(request, 'turnos_veterinario.html', {"turnos": turnos})
 
 @user_passes_test(lambda u: u.is_superuser)
 def ver_turno(request, turno_id):
@@ -91,6 +97,7 @@ class VerTurno(View):
                 Su turno para el día {turno.fecha} en el horario {turno.hora} cuyo motivo es {turno.motivo} ha sido rechazado.
             """
             cliente = CustomUser.objects.get(email=turno.cliente)
+        ## turno.delete()
             send_mail('Turno rechazado', msj, 'ohmydogg.vet@gmail.com', [cliente.email])
             messages.success(request, "Turno rechazado con éxito. Se le envío un mail al cliente sobre el estado del turno")
             return redirect('turnos_veterinario')
@@ -112,4 +119,6 @@ class VerTurno(View):
             'form': form,
         }
         return render(request, self.template, context)
+    
+
     

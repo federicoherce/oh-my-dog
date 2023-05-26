@@ -6,13 +6,34 @@
 
 <html>
     <body>
-        <img src= "{% static '/img/ohmydog.png' %}">
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
         {% for msg in messages %}
         <script>
             swal('{{msg}}');
         </script>
         {% endfor %}
+        {% if user.is_superuser %} 
+            {% if turnos %} 
+                <p class="titulos-format">Turnos del día: </p>
+                {% for turno in turnos %} 
+                    {% if turno.cliente_asistio is None %}
+                        <li><strong> Cliente: </strong>{{ turno.cliente.nombre}} {{turno.cliente.apellido }}</li>  
+                        <li><strong> Hora: </strong>{{ turno.hora }}</li> 
+                        <li><strong> Motivo: </strong>{{ turno.motivo }}</li> 
+                        <form method="post" action="{% url 'confirmar_asistencia' turno.id 'true' %}"> {% csrf_token %}
+                            <input type="submit" class="btn btn-primary" value="Asistio">
+                        </form>
+                        <form method="post" action="{% url 'confirmar_asistencia' turno.id 'false' %}"> {% csrf_token %}
+                            <input type="submit" class="btn btn-primary" value="No asistio">
+                        </form>
+                    {% endif %}
+                {% endfor %} 
+            {% else %} 
+                <p class="titulos-format">No hay turnos para el día de hoy.</p>
+            {% endif %}
+        {% else %}
+            <img src= "{% static '/img/ohmydog.png' %}">
+        {% endif %}
         <br>
     </body>
 </html>
