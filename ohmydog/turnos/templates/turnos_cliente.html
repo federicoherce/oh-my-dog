@@ -11,10 +11,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turnos de cliente</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
 </head>
 <body>
     <h1>Turnos: </h1>
-    Aca iría la lista de turnos del cliente.
+    <form method="get" action="{% url 'turnos_cliente' %}">
+        <label for="fecha_filtro">Filtrar por estado:</label>
+        <select id="fecha_filtro" name="fecha">
+            <option value=""></option>
+            <option value="pasado">Pasados</option>
+            <option value="futuro">Futuros</option>
+        </select>
+        <button type="submit">Filtrar</button> 
+        <input type="submit" href="{% url 'turnos_veterinario' %}" value="Deshacer">
+      </form>  
+    {% for turno in turnos %} 
+        <li><strong> Fecha: </strong>{{ turno.fecha }}</li> 
+        <li><strong> Hora: </strong>{{ turno.hora }}</li> 
+        <li><strong> Perro: </strong>{{ turno.perro.nombre }}</li>
+        <li><strong> Motivo: </strong>{{ turno.motivo }}</li>
+        <li><strong> Estado: </strong>{{ turno.estado }}</li>
+        <a href="{% url 'ver_turno' turno.id %}">Ver detalles</a>
+    {% empty %}
+        <p>No tienes turnos</p>
+    {% endfor %}
     <br>
     <a href="{% url 'solicitar_turno' %}">Solicitar un turno</a>
 </body>

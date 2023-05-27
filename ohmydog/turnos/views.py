@@ -37,8 +37,17 @@ def solicitar_turno(request):
 
 @login_required
 def turnos_cliente(request):
-    # Listar turnos de cliente, filtros, confirmar o rechazar modificación de turnos, etc.
-    return render(request, 'turnos_cliente.html')
+    cliente_actual = request.user.id
+    turnos = Turno.objects.filter(cliente=cliente_actual).order_by('fecha')
+    if request.GET.get('fecha'):
+        filtrado = request.GET['fecha']
+        if filtrado == 'pasado':
+            turnos = turnos.filter(fecha__lt=date.today())
+        elif filtrado == 'futuro':
+            turnos = turnos.filter(fecha__gte=date.today())
+    return render(request, "turnos_cliente.html", {
+        'turnos': turnos
+    })
 
 @user_passes_test(lambda u: u.is_superuser)
 def turnos_veterinario(request):

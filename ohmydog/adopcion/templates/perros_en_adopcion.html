@@ -44,18 +44,16 @@
                 {% endif %}
                 <br>
                 {% if user.id == perro.publicado_por.id %}
-                    <!--<button>Marcar como adoptado</button>
-                    <button>Eliminar</button>-->
                     {% if not perro.adoptado %}
                         <form method="post" action="{% url 'marcar_Adoptado' perro.id %}">
                             {% csrf_token %}
                             <input type="submit" value="Marcar como Adoptado">
                         </form>
+                        <form method="post" action="{% url 'eliminar_perro_en_adopcion' perro.id %}">
+                            {% csrf_token %}
+                            <input type="submit"  value="Eliminar perro en adopcion">
+                        </form>
                     {% endif %}
-                    <form method="post" action="{% url 'eliminar_perro_en_adopcion' perro.id %}">
-                        {% csrf_token %}
-                        <input type="submit"  value="Eliminar perro en adopcion">
-                    </form>
                 {% else %}
                     {% if not perro.adoptado %}
                         {% if user.is_authenticated %}
