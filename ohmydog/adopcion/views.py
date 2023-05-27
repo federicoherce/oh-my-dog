@@ -31,7 +31,7 @@ def publicar(request):
 
 
 def listar_perros_adopcion(request):
-    perros_en_adopcion = Adopcion.objects.all
+    perros_en_adopcion = Adopcion.objects.all().order_by('adoptado')
 
     if request.method == "POST":
         #perro_a_borrar = Adopcion.objects.get(nombre=request.POST['perros_adopcion.'])

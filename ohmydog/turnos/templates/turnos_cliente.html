@@ -36,7 +36,7 @@
         <li><strong> Perro: </strong>{{ turno.perro.nombre }}</li>
         <li><strong> Motivo: </strong>{{ turno.motivo }}</li>
         <li><strong> Estado: </strong>{{ turno.estado }}</li>
-        <a href="{% url 'ver_turno' turno.id %}">Ver detalles</a>
+        <a href="{% url 'ver_turno_cliente' turno.id %}">Ver detalles</a>
     {% empty %}
         <p>No tienes turnos</p>
     {% endfor %}
