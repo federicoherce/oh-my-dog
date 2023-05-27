@@ -1,3 +1,5 @@
+from typing import Any
+from django import http
 from django.shortcuts import render, redirect
 from .models import Turno
 from .forms import SolicitarTurnoForm, ModificarTurnoForm
@@ -8,6 +10,7 @@ from django.contrib import messages
 from django.views import View
 from django.core.mail import send_mail
 from datetime import date
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 @login_required
@@ -49,16 +52,12 @@ def turnos_veterinario(request):
             turnos = turnos.filter(estado=filtrado)
     return render(request, 'turnos_veterinario.html', {"turnos": turnos})
 
-@user_passes_test(lambda u: u.is_superuser)
-def ver_turno(request, turno_id):
-    turno = Turno.objects.get(id=turno_id)
-    return render(request, 'ver_turno.html', {
-        'turno': turno
-    })
-
-#@user_passes_test(lambda u: u.is_superuser)
-class VerTurno(View):
+class VerTurnoVeterinario(View):
     template = "ver_turno.html"
+
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, turno_id):
         turno = Turno.objects.get(id=turno_id)
@@ -72,12 +71,6 @@ class VerTurno(View):
     def post(self, request, turno_id):
         turno = Turno.objects.get(id=turno_id)
         form = ModificarTurnoForm(request.POST or None, turno_horario=turno.hora)
-        #print(request.POST)
-        #print(request.POST.get('aceptar'))
-        #print(request.POST.get('rechazar'))
-        #print(request.POST.get('modificar'))
-        print(request.POST)
-        print(form.is_valid())
 
         accion = request.POST.get('accion')
         if accion == 'Aceptar':
@@ -120,5 +113,20 @@ class VerTurno(View):
         }
         return render(request, self.template, context)
     
-
-    
+def ver_turno_cliente(request, turno_id):
+    turno = Turno.objects.get(id=turno_id)
+    if request.method == 'POST':
+        #Todo lo que hace si con respecto a si acepta la modificación o no (en función de si el turno fue modificado)
+        accion = request.POST.get('action')
+        if accion == "Aceptar":
+            print('acepto')
+            turno.estado = "aceptado"
+            msj_feedback = "Modificación de turno aceptada. Ya puede acudir al turno."
+        elif accion == "Rechazar":
+            print('rechazo')
+            msj_feedback = "Modificación de turno rechazada. Deberá solicitar un nuevo turno."
+            turno.estado = "rechazado"
+        turno.save()
+        messages.success(request, msj_feedback)
+        return redirect('turnos_cliente')
+    return render(request, "ver_turno_cliente.html", {'turno': turno})

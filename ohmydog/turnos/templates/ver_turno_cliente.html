@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver turno</title>
+    
+</head>
+<body>
+    <h1>Detalles del turno: </h1>
+    <br>
+    <p>Fecha: {{ turno.fecha }}</p>
+    <p>Horario: {{ turno.hora }}</p>
+    <p>Motivo: {{ turno.motivo }}</p>
+    <p>Estado: {{ turno.estado }}</p>
+    {% if turno.estado == "modificado" %}
+        <form action="" method="post"> {% csrf_token %}
+            <input type="submit" name="action" value="Aceptar">
+            <input type="submit" name="action" value="Rechazar">
+        </form>
+    {% endif %}
+</body>
+</html>
+
+{% endblock %}
