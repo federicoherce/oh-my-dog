@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Pagar turno</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
+    <style>
+        hr {
+            border: none;
+            height: 3px;
+            background-color: black;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="titulos-format">Pagar Turno</h1> 
+    <form method="post" action="{% url 'pagar_turno' turno.id %}">
+        {% csrf_token %}
+        <label for="monto">Monto:</label>
+        <input type="number" name="monto" id="monto" required>
+    
+        <br>
+    
+    <label for="id_metodo_pago">Método de Pago:</label>
+    <select name="metodo_pago" id="id_metodo_pago" required>
+      <option value="tarjeta">Tarjeta</option>
+      <option value="cripto">Cripto</option>
+    </select>
+
+    <br>
+
+    <input type="submit" value="Pagar">
+    
+      </form>
+    <br>
+    <br>
+    
+    <br>
+</body> 
+</html>
+
+
+{% endblock %}
