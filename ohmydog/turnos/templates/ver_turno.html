@@ -11,36 +11,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver turno: </title>
+    <style>
+
+    </style>
 </head>
 <body>
-    <h1>Detalles del turno: </h1>
+    <h1 class="titulos-format ">Detalles del turno: </h1>
     <br>
-    <p>Fecha: {{ turno.fecha }}</p>
-    <p>Horario: {{ turno.hora }}</p>
-    <p>Motivo: {{ turno.motivo }}</p>
-    <p>Estado: {{ turno.estado }}</p>
+    <ul class="info-list">
+        <li><strong> Fecha: </strong>{{ turno.fecha }}</li> 
+        <li><strong> Horario: </strong>{{ turno.hora }}</</li> 
+        <li><strong> Motivo: </strong>{{ turno.motivo }}</li>
+        <li><strong> Estado: </strong>{{ turno.estado }}</li> 
+    </ul>
     <!-- Otros detalles ...-->
 
-    {% if turno.estado == "pendiente" %}
+{% if turno.estado == "pendiente" %}
+    <div class="contenedor-botones" style="left:400px; margin-top:30px">
+
         <form action="" method="post"> {% csrf_token %}
-            <input type="submit" name="accion" value="Aceptar">
+            <input type="submit" class="btn btn-primary" name="accion" value="Aceptar">
         </form>
 
         <form action="" method="post"> {% csrf_token %}
-            <input type="submit" name="accion" value="Rechazar">
+            <input type="submit" class="btn btn-primary" name="accion" value="Rechazar">
         </form>
 
         <form action="" method="post"> {% csrf_token %}
-            <input id="modificar-btn" type="button" name="accion" value="Modificar">
+            <input id="modificar-btn" class="btn btn-primary"  type="button" name="accion" value="Modificar">
         </form>
+    </div>
 
         <div id="formulario_modificar" style="display: none;">
             <form action="" id="modificar_turno_form" action="" method="post"> {% csrf_token %}
-                {% if form %}
-                    {{ form.as_p }}
+              <b>  {% if form %}
+                    {{ form.as_p }} </b> 
                 {% endif %}
-                <input type="submit" id="guardar-cambios-btn" name="accion" value="Guardar cambios">
-                <button type="button" id="cancelar-btn">Cancelar</button>
+                <input type="submit"class="btn btn-primary" id="guardar-cambios-btn" name="accion" value="Guardar cambios">
+                <button type="button" class="btn btn-primary"id="cancelar-btn">Cancelar</button>
             </form>
         </div>
 

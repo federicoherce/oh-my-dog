@@ -48,8 +48,8 @@
         <li><strong> Fecha: </strong>{{ turno.fecha }}</li> 
         <li><strong> Hora: </strong>{{ turno.hora }}</li> 
         <li><strong> Motivo: </strong>{{ turno.motivo }}</li>
+        <li><strong> Estado: </strong>{{ turno.estado }}</li> 
         {% if turno.cliente_asistio is None %} 
-            <li><strong> Estado: </strong>{{ turno.estado }}</li> 
             <li><strong> Asistio: </strong> -- </li>   
         {% else %}
             {% if turno.cliente_asistio %}
@@ -68,7 +68,7 @@
         </form>
         {% endif %}
     {% empty %}
-        <p>No se encontraron turnos</p>
+        <b> <p style="text-align: center; font-size:larger">No se encontraron turnos</p> </b>
     {% endfor %}
 </body>
 </html>

@@ -106,6 +106,7 @@ class VerTurnoVeterinario(View):
             return redirect('turnos_veterinario')
         elif accion == 'Rechazar':
             turno.estado = 'rechazado'
+            turno.cliente_asistio = False
             turno.save()
             msj = f"""
                 Su turno para el día {turno.fecha} en el horario {turno.hora} cuyo motivo es {turno.motivo} ha sido rechazado.

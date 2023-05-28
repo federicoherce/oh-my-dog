@@ -44,8 +44,8 @@
         </script>
         {% endfor %}
         {% if user.is_superuser %} 
+            <p class="titulos-format">Turnos del día:</p>
             {% if turnos %}
-                <p class="titulos-format">Turnos del día:</p>
                 <table id="tabla">
                     <tr>
                         <th>Cliente</th>
@@ -74,8 +74,8 @@
                     </ul>
                 </table>
             {% endif %}
-            {% if not asistidos %}
-                  <script>
+            {% if not hayTurnos %}
+                <script>
                     // Obtén una referencia al elemento <table> que deseas eliminar
                     var table = document.querySelector('tabla');
 
@@ -84,10 +84,15 @@
                     // Elimina el elemento <table> de su padre (por ejemplo, un div)
                     tabla.parentNode.removeChild(tabla);
                     }
-                  </script>
+                 </script>
+                 <img src= "{% static 'img/perrotriste.png' %}" width="200px" style="display: block; margin-left: auto; margin-right: auto;">
+                <p style="font-family:'Times New Roman', Times, serif;
+                font-size: 25px; text-align:center"> <b>No hay turnos para hoy</b></p>   
+                <br> 
+            {% endif %}
+            {% if pendientes %}
                   <p style="font-family:'Times New Roman', Times, serif;
-                   font-size: 25px; text-align:center"> No hay turnos para hoy</p>    
-                   <img src= "{% static 'img/perrotriste.png' %}" width="200px" style="display: block; margin-left: auto; margin-right: auto;">
+                   font-size: 25px; text-align:center"> <b>Hay turnos pendientes</b> </p>    
             {% endif %}          
         {% else %}
             <h1 class="titulos-format">Bienvenido a nuestra veterinaria</h1>
