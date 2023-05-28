@@ -2,11 +2,15 @@ from django.shortcuts import render, redirect
 # from django.views.generic import View
 from .forms import CrearPerro
 from .models import Perro, LibretaSanitaria
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from autenticacion.models import CustomUser
 
 # Create your views here.
-@login_required
+def is_superuser(user):
+    return user.is_superuser
+
+@login_required(login_url='login')
+@user_passes_test(is_superuser, login_url='home')
 def agregar_perro(request, dni):
     usuario = CustomUser.objects.get(dni=dni)
     if request.method == "POST":

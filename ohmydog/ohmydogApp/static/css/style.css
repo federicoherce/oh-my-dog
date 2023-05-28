@@ -450,7 +450,7 @@
 
   .titulos-format {
     text-align: center;
-    font-family: 'Times New Roman', Times, serif, sans-serif;
+    font-family: "Arial", sans-serif;
     font-size: 40px;
     text-decoration: underline;
 
@@ -459,6 +459,28 @@
   .formularios {
     width: 50%;
     margin: 0 auto;
+  }
+
+  .info-list {
+    list-style: disc;
+    padding: 0;
+    margin-left:25px;
+  }
+
+  .info-list li {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+
+  .info-list li strong {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  .info-list li span {
+    display: inline-block;
+    margin-left: 10px;
+    color: #555555;
   }
 
   .top-bar {
@@ -470,52 +492,28 @@
     color: black;
 }
 
-.logo-container {
-    flex: 1;
-}
-
-.logo {
-    width: 100px;
-    height: auto;
-}
-
-.button-container {
-    display: flex;
-    gap: 10px;
-}
-
-.session-info {
-    margin-right: 10px;
-}
-
-.login-button,
-.logout-button,
-.register-button {
-    color: black;
-    text-decoration: none;
-}
-
-navbar-celeste {
-  background-color: #ABCDEF;
-}
-  .info-list {
-    list-style: disc;
-    padding: 0;
-    margin-left:25px;
+  .logo-container {
+      flex: 1;
   }
 
-.info-list li {
-    margin-bottom: 10px;
-    font-size: 18px;
+  .logo {
+      width: 100px;
+      height: auto;
   }
 
-.info-list li strong {
-    font-weight: bold;
-    margin-right: 10px;
+  .button-container {
+      display: flex;
+      gap: 10px;
   }
 
-.info-list li span {
-    display: inline-block;
-    margin-left: 10px;
-    color: #555555;
+  .session-info {
+      margin-right: 10px;
   }
+
+  .login-button,
+  .logout-button,
+  .register-button {
+      color: black;
+      text-decoration: none;
+  }
+

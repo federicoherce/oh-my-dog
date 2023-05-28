@@ -13,7 +13,10 @@ from datetime import date
 from django.utils.decorators import method_decorator
 
 # Create your views here.
-@login_required
+def is_superuser(user):
+    return user.is_superuser
+
+@login_required(login_url='login')
 def solicitar_turno(request):
     if request.method == 'POST':
         form = SolicitarTurnoForm(request.user, request.POST)
@@ -38,7 +41,7 @@ def solicitar_turno(request):
 
     return render(request, 'solicitar_turno.html', {'form': form})
 
-@login_required
+@login_required(login_url='login')
 def turnos_cliente(request):
     cliente_actual = request.user.id
     turnos = Turno.objects.filter(cliente=cliente_actual).order_by('fecha')
@@ -52,7 +55,8 @@ def turnos_cliente(request):
         'turnos': turnos
     })
 
-@user_passes_test(lambda u: u.is_superuser)
+@login_required(login_url='login')
+@user_passes_test(is_superuser, login_url='home')
 def turnos_veterinario(request):
     turnos = Turno.objects.all().order_by('fecha')
     if request.GET.get('estado'):
@@ -61,6 +65,8 @@ def turnos_veterinario(request):
             turnos = turnos.filter(estado=filtrado)
     return render(request, 'turnos_veterinario.html', {"turnos": turnos})
 
+
+# Me falta implementar los decoradores para que solo el veterinario pueda acceder (ya es re tarde y tengo nono)
 class VerTurnoVeterinario(View):
     template = "ver_turno.html"
 
@@ -121,7 +127,8 @@ class VerTurnoVeterinario(View):
             'form': form,
         }
         return render(request, self.template, context)
-    
+
+@login_required(login_url='login') 
 def ver_turno_cliente(request, turno_id):
     turno = Turno.objects.get(id=turno_id)
     if request.method == 'POST':

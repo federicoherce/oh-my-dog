@@ -16,7 +16,11 @@ from django.core.mail import send_mail
 
 # Create your views here.
 
-@user_passes_test(lambda u: u.is_superuser) 
+def is_superuser(user):
+    return user.is_superuser
+
+@login_required(login_url='login')
+@user_passes_test(is_superuser, login_url='home')
 def registro(request):
     
     password = CustomUser.objects.make_random_password(length=5, 
@@ -36,7 +40,7 @@ def registro(request):
         form = CustomUserCreationForm()
         return render(request, 'registro.html', {"form": form, "contra": password}) 
 
-@login_required
+@login_required(login_url='login')
 def cerrar_sesion(request):
     logout(request)
     return redirect('home')
@@ -60,7 +64,7 @@ def loguear(request):
     form=EmailAuthenticationForm()
     return render(request, "login.html", {"form": form}) 
 
-@login_required      
+@login_required(login_url='login')    
 def cambiarContra(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, data=request.POST)
@@ -76,7 +80,7 @@ def cambiarContra(request):
         form = PasswordChangeForm(request.user)
     return render(request, "cambiarContra.html", {"form": form})
 
-@login_required
+@login_required(login_url='login')
 def cambiarEmail(request):
     mensaje_error = ' '
     formulario = CambiarEmailForm()
@@ -96,8 +100,7 @@ def cambiarEmail(request):
     return render(request, 'cambiarEmail.html', {"form": formulario})
 
 
-# Del cliente:
-@login_required
+@login_required(login_url='login')
 def mi_perfil(request):
     usuario = request.user
     return render(request, "mi_perfil.html", {
@@ -105,8 +108,7 @@ def mi_perfil(request):
     })
     
 
-# Del cliente:
-@login_required
+@login_required(login_url='login')
 def mis_mascotas(request):
     mascotas = Perro.objects.filter(dueño=request.user)
     libretas_sanitarias = LibretaSanitaria.objects.filter(perro__in=mascotas)
@@ -118,7 +120,8 @@ def mis_mascotas(request):
     })
 
 # Del veterinario:
-#@user_passes_test(lambda u: u.is_superuser)
+@login_required(login_url='login')
+@user_passes_test(is_superuser, login_url='home')
 def lista_de_clientes(request):
     if (request.user.is_superuser == False):
         return redirect('home')
@@ -140,7 +143,8 @@ def lista_de_clientes(request):
     }
     return render(request, "listado_de_clientes.html", context)
 
-# Del veterinario:
+@login_required(login_url='login')
+@user_passes_test(is_superuser, login_url='home')
 def ver_perfil_cliente(request, dni):
     if (request.user.is_superuser == False):
             return redirect("home")
@@ -148,7 +152,8 @@ def ver_perfil_cliente(request, dni):
     cliente = CustomUser.objects.get(dni=dni)
     return render(request, "perfil_cliente.html", {"cliente": cliente})
 
-# Del veterinario:
+@login_required(login_url='login')
+@user_passes_test(is_superuser, login_url='home')
 def ver_perros_cliente(request, dni):
     if (request.user.is_superuser == False):
         return redirect("home")
@@ -172,7 +177,8 @@ def ver_perros_cliente(request, dni):
         "vacunas": vacunas,
     })
 
-@user_passes_test(lambda u: u.is_superuser) 
+@login_required(login_url='login')
+@user_passes_test(is_superuser, login_url='home')
 def modificar_datos_cliente(request, dni_url):
     
     cliente = CustomUser.objects.get(dni = dni_url)
@@ -203,7 +209,8 @@ def modificar_datos_cliente(request, dni_url):
     return render(request, "modificar_datos.html", {"form": form, "cliente": cliente})
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@login_required(login_url='login')
+@user_passes_test(is_superuser, login_url='home')
 def modificar_datos_perro(request, dni, perro_id):
     perro = Perro.objects.get(id=perro_id)
     if request.method == "POST":

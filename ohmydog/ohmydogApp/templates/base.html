@@ -30,7 +30,7 @@
             {% if user.is_authenticated %}
                 &nbsp;&nbsp; <b><a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a> </b>
             {% else %}
-                <a href="{% url 'login' %}" class="login-button">Iniciar Sesión</a>
+                <a href="{% url 'login' %}" class="login-button" style="color: black">Iniciar Sesión</a>
             {% endif %}
             {% if user.is_superuser %}
                 <a href="{% url 'registro' %}" class="register-button">Registrar usuario</a>
@@ -47,18 +47,20 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    {% if user.is_superuser %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'turnos_veterinario' %}">Turnos</a></li>
-                    {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'turnos_cliente' %}">Turnos</a></li>
+                    {% if user.is_authenticated %}
+                        {% if user.is_superuser %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'turnos_veterinario' %}">Turnos</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'turnos_cliente' %}">Turnos</a></li>
+                        {% endif %}
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'perros_en_adopcion' %}">Adopcion</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'listar_paseadores_cuidadores' %}">Paseadores y cuidadores</a></li>
-                    {% if not user.is_superuser %}
+                    {% if not user.is_superuser and user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
                     {% endif %}
                     {% if user.is_superuser %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'listado_de_clientes'%}">Lista de clientes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'listado_de_clientes'%}">Clientes</a></li>
                     {% endif %}
                 </ul>
             </div>
