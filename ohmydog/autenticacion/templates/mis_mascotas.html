@@ -61,11 +61,6 @@
 </head>
 <body>
     <h1 class="titulos-format">Mis Mascotas</h1>
-    <form method="get" action="{% url 'mi_perfil' %}" style="position:absolute; top:140px;">
-        {% csrf_token %}
-        <input type="submit" class="btn btn-primary" value="Volver">
-    </form>
-    <br>
     <br>
     {% if mascotas %}
         <ul class="info-list">

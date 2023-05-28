@@ -517,3 +517,12 @@
       text-decoration: none;
   }
 
+  .contenedor-botones {
+    position: absolute;
+    top: 195px;
+    left: 1000px;
+    padding: 10px;
+    border: 2px solid black;
+    background-color: #fab168;
+     }
+

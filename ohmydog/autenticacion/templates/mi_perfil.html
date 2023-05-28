@@ -13,7 +13,7 @@
     <title>Mi Perfil</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <style>
-        .button-container {
+        .contenedor-botones {
             position: absolute;
             top: 195px;
             left: 1000px;
@@ -55,7 +55,7 @@
     <li><strong>Email:</strong> {{ usuario.email }}</li>
     </ul>
     <br>
-    <div class="button-container"> 
+    <div class="contenedor-botones"> 
         <form method="get" action="{% url 'mis_mascotas' %}">
             {% csrf_token %}
             <input type="submit" class="btn btn-primary" value="       Mis Mascotas       ">

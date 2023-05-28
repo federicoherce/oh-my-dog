@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.views import View
 from django.core.mail import send_mail
 from datetime import date
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 
 # Create your views here.
@@ -63,6 +64,11 @@ def turnos_veterinario(request):
         filtrado = request.GET['estado']
         if filtrado != "":
             turnos = turnos.filter(estado=filtrado)
+        return render(request, 'turnos_veterinario.html', {"turnos": turnos})
+    fecha_actual = timezone.now().date()
+    turnos = Turno.objects.filter(fecha__gte=fecha_actual).order_by('fecha')
+    turnos_pasados = Turno.objects.filter(fecha__lt=fecha_actual).order_by('fecha')
+    turnos = list(turnos) + list(turnos_pasados)
     return render(request, 'turnos_veterinario.html', {"turnos": turnos})
 
 

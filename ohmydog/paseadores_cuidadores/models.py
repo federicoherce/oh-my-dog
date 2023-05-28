@@ -6,8 +6,8 @@ from django.core.validators import RegexValidator
 # Create your models here.
 class PaseadorCuidador(models.Model):
     TIPO_CHOICES = [
-        ('P', 'Paseador'),
-        ('C', 'Cuidador'),
+        ('Paseador', 'Paseador'),
+        ('Cuidador', 'Cuidador'),
     ]
 
     nomyap = models.CharField(max_length=50)

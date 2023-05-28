@@ -18,11 +18,19 @@
         swal('{{msg}}');
     </script>
     {% endfor %}
+    <style>
+            hr {
+        border: none;
+        height: 3px;
+        background-color: black;
+        margin: 20px 0;
+    }
+
+    </style>
 </head>
 <body>
     <h1 class="titulos-format">Turnos: </h1>
-    <ul>
-    <form method="get" action="{% url 'turnos_veterinario' %}">
+    <form method="get" action="{% url 'turnos_veterinario' %}" style="text-align: center;">
         <label for="estado_filtro">Filtrar por estado:</label>
         <select id="estado_filtro" name="estado">
             <option value=""></option>
@@ -31,10 +39,11 @@
             <option value="pendiente">Pendientes</option>
             <option value="modificado">Modificados</option>
         </select>
-        <button type="submit">Filtrar</button> 
-        <input type="submit" href="{% url 'turnos_veterinario' %}" value="Deshacer">
+        <button class="btn btn-primary" type="submit">Filtrar</button> 
+        <input type="submit" class="btn btn-primary" href="{% url 'turnos_veterinario' %}" value="Deshacer">
       </form>  
     {% for turno in turnos %} 
+    <ul class="info-list">
         <li><strong> Cliente: </strong>{{ turno.cliente }}</li> 
         <li><strong> Fecha: </strong>{{ turno.fecha }}</li> 
         <li><strong> Hora: </strong>{{ turno.hora }}</li> 
@@ -49,6 +58,8 @@
                 <li><strong> Asistio: </strong> No </li>   
             {% endif %} 
         {% endif %}
+        <hr>
+    </ul>
         <br>
         {% if turno.estado == "pendiente" %} 
         <form method="get" action="{% url 'ver_turno_veterinario' turno.id %}">
@@ -59,7 +70,6 @@
     {% empty %}
         <p>No se encontraron turnos</p>
     {% endfor %}
-    </ul>
 </body>
 </html>
 

@@ -16,11 +16,19 @@
         swal('{{msg}}');
     </script>
     {% endfor %}
+    <style>
+        hr {
+            border: none;
+            height: 3px;
+            background-color: black;
+            margin: 20px 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Perros en Adopción</h1> 
+    <h1 class="titulos-format">Perros en Adopción</h1> 
     {% if user.is_authenticated %}
-    <form method="get" action="{% url 'publicar_perro' %}">
+    <form method="get" action="{% url 'publicar_perro' %}" style="text-align: center;">
         {% csrf_token %}
         <input type="submit" class="btn btn-primary" value="Publicar Perro en Adopcion">
     </form>
@@ -28,7 +36,7 @@
     <br>
     <br>
     {% if perros_en_adopcion %}
-        <ul>
+        <ul class="info-list">
             {% for perro in perros_en_adopcion %}
                 <li><strong>Nombre: </strong>{{ perro.nombre }}</li>
                 <li><strong>Raza: </strong>{{ perro.raza }}</li>
@@ -47,11 +55,11 @@
                     {% if not perro.adoptado %}
                         <form method="post" action="{% url 'marcar_Adoptado' perro.id %}">
                             {% csrf_token %}
-                            <input type="submit" value="Marcar como Adoptado">
+                            <input type="submit" class="btn btn-primary" value="Marcar como Adoptado">
                         </form>
                         <form method="post" action="{% url 'eliminar_perro_en_adopcion' perro.id %}">
                             {% csrf_token %}
-                            <input type="submit"  value="Eliminar perro en adopcion">
+                            <input type="submit" class="btn btn-primary"  value="Eliminar perro en adopcion">
                         </form>
                     {% endif %}
                 {% else %}
@@ -59,7 +67,7 @@
                         {% if user.is_authenticated %}
                             <form method="post" action="{% url 'enviar_solicitud_adopcion' perro.publicado_por.id user.id perro.nombre%}">
                                 {% csrf_token %}
-                            <input type="submit" value="Enviar solicitud de adopcion"> 
+                            <input type="submit" class="btn btn-primary" value="Enviar solicitud de adopcion"> 
                             </form>
                          {% else %}
                          <form method="get" action="{% url 'solicitud_adopcion_no_cliente' perro.publicado_por.id perro.nombre %}">
@@ -68,9 +76,9 @@
                         {% endif %}
                     {% endif %} 
                 {% endif %}
+            <hr>
             <br> 
             {% endfor %}
-            <hr>
         </ul>
     {% else %}
         <p> Aún no hay perros en adopción publicados </p>

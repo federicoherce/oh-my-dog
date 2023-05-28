@@ -21,10 +21,10 @@
     {% endfor %}
 </head>
 <body>
-    <h1>
+    <h1 class="titulos-format">
         Solicitar un turno.
     </h1>
-    <form action="" method="POST"> {% csrf_token %}
+    <form style="text-align: center;" action="" method="POST"> {% csrf_token %}
         <div style="width: 75%; margin: auto;">
             <label for="{{ form.perro.id_for_label }}">Perro: </label>
             {{ form.perro }}
@@ -41,7 +41,7 @@
             <label for="{{ form.motivo.id_for_label }}">Motivo: </label>
             {{ form.motivo }}
         </div>
-        <button type="submit" style="margin-left: 10%;">Solicitar turno</button>
+        <button type="submit" class="btn btn-primary">Solicitar turno</button>
     </form>
     
 </body>

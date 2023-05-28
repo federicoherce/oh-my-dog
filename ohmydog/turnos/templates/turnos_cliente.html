@@ -19,29 +19,33 @@
     {% endfor %}
 </head>
 <body>
-    <h1>Turnos: </h1>
-    <form method="get" action="{% url 'turnos_cliente' %}">
+    <h1 class="titulos-format">Turnos: </h1>
+    <form method="get" action="{% url 'turnos_cliente' %}" style="text-align: center;">
         <label for="fecha_filtro">Filtrar por estado:</label>
         <select id="fecha_filtro" name="fecha">
             <option value=""></option>
             <option value="pasado">Pasados</option>
             <option value="futuro">Futuros</option>
         </select>
-        <button type="submit">Filtrar</button> 
-        <input type="submit" href="{% url 'turnos_veterinario' %}" value="Deshacer">
+        <button type="submit" class="btn btn-primary">Filtrar</button> 
+        <input type="submit" class="btn btn-primary" href="{% url 'turnos_veterinario' %}" value="Deshacer">
       </form>  
+      <form method="get" action="{% url 'solicitar_turno' %}" style="text-align: center;">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Solicitar Turno">
+    </form>
     {% for turno in turnos %} 
+    <ul class="info-list"> 
         <li><strong> Fecha: </strong>{{ turno.fecha }}</li> 
         <li><strong> Hora: </strong>{{ turno.hora }}</li> 
         <li><strong> Perro: </strong>{{ turno.perro.nombre }}</li>
         <li><strong> Motivo: </strong>{{ turno.motivo }}</li>
         <li><strong> Estado: </strong>{{ turno.estado }}</li>
-        <a href="{% url 'ver_turno_cliente' turno.id %}">Ver detalles</a>
     {% empty %}
         <p>No tienes turnos</p>
     {% endfor %}
+    </ul>
     <br>
-    <a href="{% url 'solicitar_turno' %}">Solicitar un turno</a>
 </body>
 </html>
 

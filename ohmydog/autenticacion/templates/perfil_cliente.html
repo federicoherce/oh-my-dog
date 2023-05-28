@@ -18,7 +18,7 @@
     </script>
     {% endfor %}
     <style>
-        .button-container {
+    .contenedor-botones {
             position: absolute;
             top: 195px;
             left: 1000px;
@@ -26,27 +26,6 @@
             border: 2px solid black;
             background-color: #fab168;
              }
-    .info-list {
-        list-style: disc;
-        padding: 0;
-        margin-left:25px;
-    }
-
-    .info-list li {
-        margin-bottom: 10px;
-        font-size: 18px;
-    }
-
-    .info-list li strong {
-        font-weight: bold;
-        margin-right: 10px;
-    }
-
-    .info-list li span {
-        display: inline-block;
-        margin-left: 10px;
-        color: #555555;
-    }
     </style>
 </head>
 <body>
@@ -58,18 +37,18 @@
         <li><strong>Email: </strong>{{ cliente.email }}</li>
         <li><strong>DNI: </strong>{{ cliente.dni }}</li>
         <li><strong>Número de teléfono: </strong>{{ cliente.telefono }}</li>
-        <div class="button-container"> 
+        <div class="contenedor-botones"> 
             <form method="get" action="{% url 'modificar_datos' cliente.dni %}">
                 {% csrf_token %}
                 <input type="submit" class="btn btn-primary" value="Modificar Datos">
             </form>
             <form method="get" action="{% url 'perros_cliente' cliente.dni %}">
                 {% csrf_token %}
-                <input type="submit" class="btn btn-primary" value="Ver Perros">
+                <input type="submit" class="btn btn-primary" value="     Ver Perros     ">
             </form>
             <form method="get" action="{% url 'agregar_perro' cliente.dni %}">
                 {% csrf_token %}
-                <input type="submit" class="btn btn-primary" value="Agregar Perro">
+                <input type="submit" class="btn btn-primary" value="  Agregar Perro  ">
             </form>
         </div>
     </ul>

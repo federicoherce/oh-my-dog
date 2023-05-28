@@ -14,28 +14,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perros de Cliente</title>
     <style>
-        .info-list {
-            list-style: disc;
-            padding: 0;
-            margin-left: 25px;
-        }
-
-        .info-list li {
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-
-        .info-list li strong {
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .info-list li span {
-            display: inline-block;
-            margin-left: 10px;
-            color: #555555;
-        }
-
         hr {
             border: none;
             height: 3px;
@@ -63,10 +41,6 @@
 </head>
 <body>
     <h1 class="titulos-format"> Perros de {{ cliente.nombre }} {{ cliente.apellido }}</h1>
-    <form method="get" action="{% url 'perfil_cliente' cliente.dni %}" style="position:absolute; top:140px;">
-        {% csrf_token %}
-        <input type="submit" class="btn btn-primary" value="Volver">
-    </form>
     <br>
     {% if mascotas %}
         <ul class="info-list">
