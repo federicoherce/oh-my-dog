@@ -9,33 +9,44 @@
    <link href="{% static 'css/style.css' %}" rel="stylesheet">
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
-   crossorigin="anonymous"> 
+   crossorigin="anonymous">
+   <style>
+        .logo-container {
+            display: flex;
+            margin-left: 20px;
+        }
+
+        .logo {
+            width: 100px;
+            height: auto;
+        }
+    </style>
 </head>
 
 <body style="background-color: rgba(255, 204, 153, 1);"> 
-    <div style="text-align: right; margin-right: 100px; color: black;">
-
-        {% if user.is_authenticated %}
-
-        Sesión Iniciada &nbsp;&nbsp;<a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a>
-
-        {% else %}
-
-        <a href="{% url 'login' %}" style="color: black;">Iniciar Sesión</a> 
-
-        {% endif %}
-
-        {% if user.is_superuser %}
-
-        <a href="{% url 'registro' %}" style="color: black;">Registrar usuario</a>
-
-        {% endif %}
-
     
+    <div class="top-bar">
+        <div class="logo-container">
+            <img class="logo" src="{% static 'img/logo.png' %}" alt="logo" href="{% url 'home' %}">
+        </div>
+        <div class="button-container">
+            {% if user.is_authenticated %}
+                <span class="session-info">Sesión Iniciada</span>
+                <a href="{% url 'cerrar_sesion' %}" class="logout-button">Cerrar sesión</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="login-button">Iniciar Sesión</a>
+            {% endif %}
+            {% if user.is_superuser %}
+                <a href="{% url 'registro' %}" class="register-button">Registrar usuario</a>
+            {% endif %}
+        </div>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-celeste">
         <div class="container">
-            <img src= "{% static 'img/logo.png' %}" href="{% url 'home' %}" width = 100px height = "auto" style="margin-left: -100px;">
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -58,6 +69,8 @@
             </div>
         </div>
     </nav>
+
+    
     
     {% block content %}
 
