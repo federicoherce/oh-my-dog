@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipo de vacuna</title>
+</head>
+<body>
+    <h1 class="titulos-format">
+        Introducir tipo de vacuna
+    </h1>
+    <br>
+    <form action="" method="POST" class="formularios"> {% csrf_token %}
+        <div style= "width: 75%; margin: auto;"> 
+            {{form|crispy}}
+        <input type="submit"   class="btn btn-primary" value="Enviar">
+        </div>
+    </form>
+</body>
+</html>
+
+{% endblock %}
+
+
+
+  

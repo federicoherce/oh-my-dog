@@ -6,14 +6,14 @@ from autenticacion.models import CustomUser
 # Create your models here.
 class Adopcion(models.Model):
     TAMAÑO_CHOICES = [
-        ('P', 'Pequeño'),
-        ('M', 'Mediano'),
-        ('G', 'Grande'),
+        ('Pequeño', 'Pequeño'),
+        ('Mediano', 'Mediano'),
+        ('Grande', 'Grande'),
     ]
 
     SEXO_CHOICES = [
-        ('M', 'Macho'),
-        ('H', 'Hembra'),
+        ('Macho', 'Macho'),
+        ('Hembra', 'Hembra'),
     ]
     
     SOLO_CARACTERES = RegexValidator(r'^[a-zA-Z\sáÁéÉíÍóÓúÚ]+$', 'Este campo solo puede contener caracteres.')

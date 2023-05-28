@@ -5,6 +5,37 @@
 {% block content %}
 
 <html>
+    <head>
+        <style>
+         li, form {
+        display: inline;
+        margin-right: 20px;
+        }
+        hr {
+            border: none;
+            height: 3px;
+            background-color: black;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        th, td {
+            padding: 5px;
+            text-align: left;
+            border-bottom: 1px solid black;
+            font-size: 18px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+        </style>
+    </head>
     <body>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
         {% for msg in messages %}
@@ -13,26 +44,61 @@
         </script>
         {% endfor %}
         {% if user.is_superuser %} 
-            {% if turnos %} 
-                <p class="titulos-format">Turnos del día: </p>
-                {% for turno in turnos %} 
-                    {% if turno.cliente_asistio is None %}
-                        <li><strong> Cliente: </strong>{{ turno.cliente.nombre}} {{turno.cliente.apellido }}</li>  
-                        <li><strong> Hora: </strong>{{ turno.hora }}</li> 
-                        <li><strong> Motivo: </strong>{{ turno.motivo }}</li> 
-                        <form method="post" action="{% url 'confirmar_asistencia' turno.id 'true' %}"> {% csrf_token %}
-                            <input type="submit" class="btn btn-primary" value="Asistio">
-                        </form>
-                        <form method="post" action="{% url 'confirmar_asistencia' turno.id 'false' %}"> {% csrf_token %}
-                            <input type="submit" class="btn btn-primary" value="No asistio">
-                        </form>
-                    {% endif %}
-                {% endfor %} 
-            {% else %} 
-                <p class="titulos-format">No hay turnos para el día de hoy.</p>
+            {% if turnos %}
+                <p class="titulos-format">Turnos del día:</p>
+                <table id="tabla">
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Hora</th>
+                        <th>Motivo</th>
+                        <th>Asistió</th>
+                        <th>No Asistió</th>
+                    </tr>
+                    <ul> 
+                    {% for turno in turnos %}
+                        {% if turno.cliente_asistio is None %}
+                            <tr>
+                                <td>{{ turno.cliente.nombre}} {{ turno.cliente.apellido}}</td>
+                                <td>{{ turno.hora}} </td>
+                                <td>{{ turno.motivo}}</td>
+                                <td> <form method="post" action="{% url 'confirmar_asistencia' turno.id 'true' %}"> {% csrf_token %}
+                                <input type="submit" class="btn btn-primary" value="Asistió">
+                                </form></td>
+                                <td> <form method="post" action="{% url 'confirmar_asistencia' turno.id 'false' %}"> {% csrf_token %}
+                                <input type="submit" class="btn btn-primary" value="No asistió">
+                                </form></td>
+                            </tr>
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </table>
             {% endif %}
+            {% if not asistidos %}
+                  <script>
+                    // Obtén una referencia al elemento <table> que deseas eliminar
+                    var table = document.querySelector('tabla');
+
+                    // Verifica si el elemento <table> existe
+                    if (tabla) {
+                    // Elimina el elemento <table> de su padre (por ejemplo, un div)
+                    tabla.parentNode.removeChild(tabla);
+                    }
+                  </script>
+                  <p style="font-family:'Times New Roman', Times, serif;
+                   font-size: 25px; text-align:center"> No hay turnos para hoy</p>    
+                   <img src= "{% static 'img/perrotriste.png' %}" width="200px" style="display: block; margin-left: auto; margin-right: auto;">
+            {% endif %}          
         {% else %}
-            <img src= "{% static '/img/ohmydog.png' %}">
+            <h1 class="titulos-format">Bienvenido a nuestra veterinaria</h1>
+            <hr>
+            <p style="font-family:'Times New Roman', Times, serif; font-size: 25px;
+            text-align: center; ">Donde el cuidado y bienestar de tus mascotas es nuestra prioridad. Aquí podrás solicitar turnos, adoptar perros, encontrar paseadores y cuidadores de confianza, y disfrutar de nuestro servicio de cruza de perros responsable. Nuestro equipo está listo para brindarles la mejor atención y amor a tus queridos compañeros peludos. ¡Únete a nuestra familia y descubre todo lo que podemos hacer juntos por ellos!</p>
+            <img src= "{% static 'img/feliz.png' %}" width="200px" style="display: block; margin-left: auto; margin-right: auto;" > 
+            <hr style="margin-top: 30px;
+            margin-bottom: 30px;
+            border: 0;
+            border-top: 2px solid black;">
         {% endif %}
         <br>
     </body>

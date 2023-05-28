@@ -15,7 +15,7 @@ class Perro(models.Model):
         return self.nombre
     
 class LibretaSanitaria(models.Model):
-    perro = models.ForeignKey(Perro, on_delete=models.CASCADE)
+    perro = models.ForeignKey(Perro, on_delete=models.CASCADE, null=True)
 
 class Vacuna(models.Model):
     tipo = models.CharField(max_length=50)

@@ -10,6 +10,13 @@
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
    crossorigin="anonymous"> 
+   <style>
+    b::after {
+    content: "|";
+    margin: 0 5px;
+    color: black;
+    }
+   </style>
 </head>
 
 <body style="background-color: rgba(255, 204, 153, 1);"> 
@@ -17,17 +24,17 @@
 
         {% if user.is_authenticated %}
 
-        Sesión Iniciada &nbsp;&nbsp;<a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a>
+        &nbsp;&nbsp; <b><a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a> </b>
 
         {% else %}
 
-        <a href="{% url 'login' %}" style="color: black;">Iniciar Sesión</a> 
+        <strong> <a href="{% url 'login' %}" style="color: black;">Iniciar Sesión</a>   </strong>
 
         {% endif %}
 
         {% if user.is_superuser %}
 
-        <a href="{% url 'registro' %}" style="color: black;">Registrar usuario</a>
+        <b> <a href="{% url 'registro' %}" style="color: black;">Registrar usuario</a> </b>
 
         {% endif %}
 
@@ -39,16 +46,15 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
                     {% if user.is_superuser %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'turnos_veterinario' %}">Turnos</a></li>
                     {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'turnos_cliente' %}">Turnos</a></li>
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'perros_en_adopcion' %}">Adopcion</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Perros perdidos</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'listar_paseadores_cuidadores' %}">Paseadores y cuidadores</a></li>
-                    {% if user.is_authenticated %}
+                    {% if not user.is_superuser %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
                     {% endif %}
                     {% if user.is_superuser %}
@@ -67,7 +73,7 @@
         <div class="container">
           <p class="m-0 mbt">
             <b> 
-              <a href="#" style="color: black" class="link">Nuestras Veterinarias</a> ·
+              <a href="#" style="color: black" class="link">Ubicacion</a> ·
               <a href="#" style="color: black"  class="link">Redes Sociales</a>
             </b>
           </p>

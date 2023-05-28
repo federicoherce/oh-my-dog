@@ -433,7 +433,7 @@
 
   .titulos-format {
     text-align: center;
-    font-family: "Arial", sans-serif;
+    font-family: 'Times New Roman', Times, serif, sans-serif;
     font-size: 40px;
     text-decoration: underline;
 
@@ -442,4 +442,26 @@
   .formularios {
     width: 50%;
     margin: 0 auto;
+  }
+
+  .info-list {
+    list-style: disc;
+    padding: 0;
+    margin-left:25px;
+  }
+
+.info-list li {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+
+.info-list li strong {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+.info-list li span {
+    display: inline-block;
+    margin-left: 10px;
+    color: #555555;
   }
