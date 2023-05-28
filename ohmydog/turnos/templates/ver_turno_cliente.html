@@ -15,18 +15,22 @@
     
 </head>
 <body>
-    <h1>Detalles del turno: </h1>
+    <h1 class="titulos-format">Detalles del turno: </h1>
     <br>
-    <p>Fecha: {{ turno.fecha }}</p>
-    <p>Horario: {{ turno.hora }}</p>
-    <p>Perro: {{ turno.perro.nombre }}</p>
-    <p>Motivo: {{ turno.motivo }}</p>
-    <p>Estado: {{ turno.estado }}</p>
+    <ul class="info-list"> 
+    <li> <strong>Fecha:</strong>{{ turno.fecha }}</li>
+    <li><strong>Horario:</strong>{{ turno.hora }}</li>
+    <li><strong>Perro:</strong>{{ turno.perro.nombre }}</li>
+    <li><strong>Morivo:</strong>{{ turno.motivo }}</li>
+    <li><strong>Estado:</strong>{{ turno.estado }}</li>
+    </ul>
     {% if turno.estado == "modificado" %}
+    <div class="contenedor-botones" style="left:250px; margin-top:100px"> 
         <form action="" method="post"> {% csrf_token %}
-            <input type="submit" name="action" value="Aceptar">
-            <input type="submit" name="action" value="Rechazar">
+            <input type="submit" class="btn btn-primary" name="action" value="Aceptar">
+            <input type="submit"class="btn btn-primary" name="action" value="Rechazar">
         </form>
+    </div>
     {% endif %}
 </body>
 </html>
