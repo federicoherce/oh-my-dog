@@ -14,13 +14,8 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 </head>
 <body> 
-    <p class="titulos-format"> Enviar solicitud de adopción</p>
-    <form action="" class="formularios" method="POST"> {% csrf_token %}
-        <div style= "width: 75%; margin: auto;"> 
-            {{form|crispy}}
-        <input type="submit"  class="btn btn-primary" value="Enviar">
-        </div>
-    </form>
+    <p class="titulos-format"> QR PARA PAGAR</p>
+    <img src="{% static 'ruta/imagen.jpg' %}" alt="Descripción de la imagen">
 </body>
 </html>
 

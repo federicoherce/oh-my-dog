@@ -28,7 +28,8 @@ urlpatterns = [
     path('perros/', include('perros.urls')),
     path('paseadores_cuidadores/', include('paseadores_cuidadores.urls')),
     path('adopcion/', include('adopcion.urls')),
-    path('turnos/', include('turnos.urls'))
+    path('turnos/', include('turnos.urls')),
+    path('pagos/', include('pagos.urls'))
 ]
 
 

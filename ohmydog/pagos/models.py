@@ -26,7 +26,6 @@ class Pago(models.Model):
     SOLO_CARACTERES = RegexValidator(r'^[a-zA-Z\sáÁéÉíÍóÓúÚ]+$', 'Este campo solo puede contener caracteres.')
     
     monto = models.DecimalField(max_digits=10, decimal_places=2)
-    turno = models.ForeignKey(Turno, on_delete=models.CASCADE)
 
 
 class Tarjeta(models.Model):

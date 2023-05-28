@@ -19,7 +19,7 @@ class CrearTarjeta(forms.ModelForm):
 class CrearPago(forms.ModelForm):
     class Meta:
         model = Pago 
-        fields = ('monto', 'turno')
+        fields = ('monto',)
 
 
 

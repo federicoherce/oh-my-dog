@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 
 # Create your views here.
 @user_passes_test(lambda u: u.is_superuser) 
-def pagarConTarjeta(request):
+def pagar_con_tarjeta(request):
     if request.method == "POST":
         form = CrearTarjeta(request.POST)
         if form.is_valid():
@@ -24,13 +24,12 @@ def pagarConTarjeta(request):
     })
 
 @user_passes_test(lambda u: u.is_superuser) 
-def pagarTurno(request, turno_id):
-    turno = Turno.objects.all(Turno, id=turno_id)
+def pagar_turno(request):
 
     if request.method == 'POST':
     
         monto = request.POST.get('monto')
-        pago = Pago(turno=turno, monto=monto)
+        pago = Pago(monto=monto)
         pago.save()
         metodo_pago = request.POST['metodo_pago']
         if metodo_pago == 'tarjeta':
@@ -38,4 +37,4 @@ def pagarTurno(request, turno_id):
         elif metodo_pago == 'cripto':
             return redirect('escanear_qr', pago_id=pago.id)
 
-    return render(request, 'pagar_turno.html', {'turno': turno})
+    return render(request, 'pagar_turno.html')

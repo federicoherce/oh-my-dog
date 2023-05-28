@@ -27,24 +27,24 @@
 </head>
 <body>
     <h1 class="titulos-format">Pagar Turno</h1> 
-    <form method="post" action="{% url 'pagar_turno' turno.id %}">
+    <form method="post" action="{% url 'pagar_turno' %}">
         {% csrf_token %}
         <label for="monto">Monto:</label>
         <input type="number" name="monto" id="monto" required>
     
         <br>
     
-    <label for="id_metodo_pago">Método de Pago:</label>
-    <select name="metodo_pago" id="id_metodo_pago" required>
-      <option value="tarjeta">Tarjeta</option>
-      <option value="cripto">Cripto</option>
-    </select>
+        <label for="id_metodo_pago">Método de Pago:</label>
+        <select name="metodo_pago" id="id_metodo_pago" required>
+            <option value="tarjeta">Tarjeta</option>
+             <option value="cripto">Cripto</option>
+         </select>
 
     <br>
 
     <input type="submit" value="Pagar">
     
-      </form>
+    </form>
     <br>
     <br>
     
