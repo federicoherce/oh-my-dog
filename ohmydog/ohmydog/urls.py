@@ -23,6 +23,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('confimar_asistencia/<int:turno_id>/<str:asistio>',
     views.confirmar_asistencia, name= "confirmar_asistencia"),
+    path('actualizar_libreta/<int:turno_id>', views.actualizar_libreta, name="actualizar_libreta"),
     path('autenticacion/', include('autenticacion.urls')),
     path('perros/', include('perros.urls')),
     path('paseadores_cuidadores/', include('paseadores_cuidadores.urls')),

@@ -19,6 +19,7 @@
     <br>
     <p>Fecha: {{ turno.fecha }}</p>
     <p>Horario: {{ turno.hora }}</p>
+    <p>Perro: {{ turno.perro.nombre }}</p>
     <p>Motivo: {{ turno.motivo }}</p>
     <p>Estado: {{ turno.estado }}</p>
     {% if turno.estado == "modificado" %}

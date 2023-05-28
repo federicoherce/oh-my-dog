@@ -12,30 +12,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
+    <style>
+        .button-container {
+            position: absolute;
+            top: 195px;
+            left: 1000px;
+            padding: 10px;
+            border: 2px solid black;
+            background-color: #fab168;
+        }
+        .info-list {
+        list-style: disc;
+        padding: 0;
+        margin-left:25px;
+        }
+
+        .info-list li {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .info-list li strong {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .info-list li span {
+            display: inline-block;
+            margin-left: 10px;
+            color: #555555;
+        }
+    </style>
 </head>
 <body>
-    <h1>Mi Perfil:</h1>
+    <h1 class="titulos-format">Mi Perfil</h1>
     <br>
-    {% if usuario.is_superuser == False %}
+    <ul class="info-list"> 
         <li><strong>Nombre:</strong> {{ usuario.nombre }}</li>
         <li><strong>Apellido:</strong> {{ usuario.apellido }}</li>
         <li><strong>DNI:</strong> {{ usuario.dni }}</li>
         <li><strong>Número de telefono:</strong> {{ usuario.telefono }}</li>
-    {% endif %}
     <li><strong>Email:</strong> {{ usuario.email }}</li>
-    
+    </ul>
     <br>
-    {% if usuario.is_superuser == False %}
-        <a href="{% url 'mis_mascotas' %}" style="color: black;">Mis Mascotas</a> &nbsp;
-        <br>
-        <br>
-    {% endif %}
-    <a href="{% url 'cambiarContra' %}" style="color: black;">Modificar Contraseña</a> &nbsp;
-    <br>
-    <br>
-    <a href="{% url 'cambiarEmail' %}" style="color: black;">Modificar Email</a> &nbsp;
+    <div class="button-container"> 
+        <form method="get" action="{% url 'mis_mascotas' %}">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="       Mis Mascotas       ">
+        </form>
+        <form method="get" action="{% url 'cambiarContra' %}">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="Modificar Contraseña">
+        </form>
+        <form method="get" action="{% url 'cambiarEmail' %}">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="      Modificar Email      ">
+        </form>
+    </div>
 </body>
 </html>
 

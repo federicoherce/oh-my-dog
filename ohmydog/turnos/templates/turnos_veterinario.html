@@ -51,7 +51,7 @@
         {% endif %}
         <br>
         {% if turno.estado == "pendiente" %} 
-        <form method="get" action="{% url 'ver_turno' turno.id %}">
+        <form method="get" action="{% url 'ver_turno_veterinario' turno.id %}">
             {% csrf_token %}
             <input type="submit" class="btn btn-primary" value="Ver turno">
         </form>

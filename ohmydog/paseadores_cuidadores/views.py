@@ -13,16 +13,24 @@ def agregar_paseador_cuidador(request):
         if form.is_valid():
             PaseadorCuidador.objects.create(nomyap=request.POST['nomyap'], 
                                  dni=request.POST['dni'],
-                                 textolibre=request.POST['textolibre'])
-            return redirect('home')
+                                 textolibre=request.POST['textolibre'],
+                                 tipo=request.POST['tipo'])
+            return redirect('listar_paseadores_cuidadores')
     else:
         form = CrearPaseadorCuidador()
     return render(request, 'agregar_paseador_cuidador.html', {
         'form': form
     })
 
+
+
 def listar_paseadores_cuidadores(request):
     paseadores_cuidadores = PaseadorCuidador.objects.all
+
+    if request.GET.get('tipo'):
+        filtrado = request.GET['tipo']
+        if filtrado != "":
+            paseadores_cuidadores = PaseadorCuidador.objects.filter(tipo=filtrado)
 
     if request.method == "POST":
         pc_a_borrar = PaseadorCuidador.objects.get(dni=request.POST['paseador_cuidador.dni'])
@@ -42,6 +50,7 @@ def modificar_paseador_cuidador(request, dni):
             nuevoNomyap = request.POST.get('nomyap')
             nuevoDni = request.POST.get('dni')
             nuevoTextoLibre = request.POST.get('textolibre')
+            nuevoTipo = request.POST.get('tipo')
             todosLosDnis = PaseadorCuidador.objects.exclude(dni=paseador_cuidador.dni).values_list('dni', flat=True)
             if nuevoDni in todosLosDnis:
                 messages.error(request, "El dni ya se encuentra registrado")
@@ -49,6 +58,7 @@ def modificar_paseador_cuidador(request, dni):
             paseador_cuidador.nomyap = nuevoNomyap
             paseador_cuidador.dni = nuevoDni
             paseador_cuidador.textolibre = nuevoTextoLibre
+            paseador_cuidador.tipo = nuevoTipo
             paseador_cuidador.save()
             messages.success(request, 'Datos modificados con exito')
             return redirect('listar_paseadores_cuidadores')

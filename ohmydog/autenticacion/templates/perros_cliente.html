@@ -13,42 +13,99 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perros de Cliente</title>
+    <style>
+        .info-list {
+            list-style: disc;
+            padding: 0;
+            margin-left: 25px;
+        }
+
+        .info-list li {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .info-list li strong {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .info-list li span {
+            display: inline-block;
+            margin-left: 10px;
+            color: #555555;
+        }
+
+        hr {
+            border: none;
+            height: 3px;
+            background-color: black;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        th, td {
+            padding: 5px;
+            text-align: left;
+            border-bottom: 1px solid black;
+            font-size: 18px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
 </head>
 <body>
-    <h1> Perros de {{ cliente.nombre }} {{ cliente.apellido }}</h1>
-    <a href="{% url 'perfil_cliente' cliente.dni %}" style="color: black;">Volver</a>
+    <h1 class="titulos-format"> Perros de {{ cliente.nombre }} {{ cliente.apellido }}</h1>
+    <form method="get" action="{% url 'perfil_cliente' cliente.dni %}" style="position:absolute; top:140px;">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Volver">
+    </form>
     <br>
     {% if mascotas %}
-        <ul>
+        <ul class="info-list">
             {% for mascota in mascotas %}
                 <li><strong>Nombre: </strong>{{ mascota.nombre }}</li>
                 <li><strong>Raza: </strong> {{ mascota.raza }} </li>
                 <li><strong>Color: </strong> {{ mascota.color }} </li>
                 <li><strong>Fecha de Nacimiento: </strong> {{ mascota.fecha_de_nacimiento }} </li>
-                <a href="{% url 'modificar_datos_perro' cliente.dni mascota.id%}" style="color:black;">Modificar datos</a>
+                <input type="submit"  class="btn btn-primary" value="Borrar Perro" onclick="return confirm('¿Estás seguro de que deseas borrar esta mascota?')"
+                >
                 <h4><strong>Libreta sanitaria:</strong></h4>
-                <ul>
-                    {% for libreta_sanitaria in libretas_sanitarias %}
-                        {% if libreta_sanitaria.perro == mascota %}
+                <table>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Fecha</th>
+                    </tr>
+                    {% for libretasanitaria in libretas_sanitarias %}
+                        {% if libretasanitaria.perro == mascota %}
                             {% for vacuna in vacunas %}
-                                {% if vacuna.libreta_sanitaria == libreta_sanitaria %}
-                                    <li><strong>{{ vacuna.tipo }} - {{ vacuna.fecha }}</strong></li>
+                                {% if vacuna.libreta_sanitaria == libretasanitaria %}
+                                    <tr>
+                                        <td>{{ vacuna.tipo }}</td>
+                                        <td>{{ vacuna.fecha }}</td>
+                                    </tr>
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
                     {% endfor %}
-                </ul>
-                <form method="POST" action="{% url 'perros_cliente' cliente.dni %}" style="display: inline;">
-                    {% csrf_token %}
-                    <input type="hidden" name="mascota_id" value="{{ mascota.id }}">
-                    <input type="submit"  class="btn btn-primary" value="Borrar" onclick="return confirm('¿Estás seguro de que deseas borrar esta mascota?')">
-                </form>
+                </table>
                 <hr>
             {% endfor %}
         </ul>
     {% else %}
-        <p> Aún no tiene mascotas registradas </p>
+        <p>Aún no tenés mascotas registradas.</p>
     {% endif %}
+    <form method="POST" action="{% url 'perros_cliente' cliente.dni %}" style="display: inline;">
+        {% csrf_token %}
+        <input type="hidden" name="mascota_id" value="{{ mascota.id }}">
+    </form>
 </body>
 </html>
 
