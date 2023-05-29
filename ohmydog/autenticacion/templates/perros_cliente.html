@@ -55,6 +55,7 @@
                     <input type="submit"  class="btn btn-primary" value="Borrar Perro" 
                     onclick="return confirm('¿Estás seguro de que deseas borrar esta mascota?')">
                 </form>
+                <a href="{% url 'modificar_datos_perro' cliente.dni mascota.id %}">Modificar datos</a>
                 
                 <h4><strong>Libreta sanitaria:</strong></h4>
                 <table>
@@ -79,7 +80,7 @@
             {% endfor %}
         </ul>
     {% else %}
-        <p>Aún no tenés mascotas registradas.</p>
+        <p>Aún no posee mascotas registradas.</p>
     {% endif %}
     
 </body>
