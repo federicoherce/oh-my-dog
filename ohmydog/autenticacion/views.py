@@ -162,7 +162,7 @@ def ver_perros_cliente(request, dni):
     perros = Perro.objects.filter(dueño=cliente)
     libretas_sanitaras = LibretaSanitaria.objects.filter(perro__in=perros)
     vacunas = Vacuna.objects.filter(libreta_sanitaria__in=libretas_sanitaras)
-
+    
     if request.method == "POST":
         perro_id = request.POST.get('mascota_id')
         if perros.filter(id=perro_id).exists():

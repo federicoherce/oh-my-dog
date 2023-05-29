@@ -49,8 +49,13 @@
                 <li><strong>Raza: </strong> {{ mascota.raza }} </li>
                 <li><strong>Color: </strong> {{ mascota.color }} </li>
                 <li><strong>Fecha de Nacimiento: </strong> {{ mascota.fecha_de_nacimiento }} </li>
-                <input type="submit"  class="btn btn-primary" value="Borrar Perro" onclick="return confirm('¿Estás seguro de que deseas borrar esta mascota?')"
-                >
+                <form method="POST" action="{% url 'perros_cliente' cliente.dni %}" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="mascota_id" value="{{ mascota.id }}">
+                    <input type="submit"  class="btn btn-primary" value="Borrar Perro" 
+                    onclick="return confirm('¿Estás seguro de que deseas borrar esta mascota?')">
+                </form>
+                
                 <h4><strong>Libreta sanitaria:</strong></h4>
                 <table>
                     <tr>
@@ -76,10 +81,7 @@
     {% else %}
         <p>Aún no tenés mascotas registradas.</p>
     {% endif %}
-    <form method="POST" action="{% url 'perros_cliente' cliente.dni %}" style="display: inline;">
-        {% csrf_token %}
-        <input type="hidden" name="mascota_id" value="{{ mascota.id }}">
-    </form>
+    
 </body>
 </html>
 
