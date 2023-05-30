@@ -47,6 +47,10 @@ def pagar_turno(request):
                 return redirect('pagos:pagar_con_tarjeta', monto=monto)
             elif metodo_pago == 'cripto':
                 return redirect('pagos:escanear_qr', monto=monto)
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, error)
     else:
         form = CrearPago()
     return render(request, 'pagar_turno.html')

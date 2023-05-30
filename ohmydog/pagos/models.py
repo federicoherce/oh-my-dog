@@ -2,7 +2,7 @@ from datetime import timezone
 from xml.dom import ValidationErr
 from django.db import models
 from django.core.validators import RegexValidator
-from turnos.models import Turno
+from django.core.validators import MinValueValidator
 
 def validate_fecha_vencimiento(value):
     current_month = timezone.now().strftime('%m')
@@ -23,5 +23,5 @@ def validate_fecha_vencimiento(value):
 
 # Create your models here.
 class Pago(models.Model):    
-    monto = models.DecimalField(max_digits=10, decimal_places=2)
+    monto = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0, 'El monto a pagar debe ser mayor o igual a 0')])
 
