@@ -58,15 +58,15 @@
                 <li><strong> Asistio: </strong> No </li>   
             {% endif %} 
         {% endif %}
-        <hr>
-    </ul>
-        <br>
         {% if turno.estado == "pendiente" %} 
         <form method="get" action="{% url 'ver_turno_veterinario' turno.id %}">
             {% csrf_token %}
             <input type="submit" class="btn btn-primary" value="Ver turno">
         </form>
         {% endif %}
+        <hr>
+    </ul>
+        <br>
     {% empty %}
         <b> <p style="text-align: center; font-size:larger">No se encontraron turnos</p> </b>
     {% endfor %}

@@ -41,6 +41,12 @@
         <li><strong> Perro: </strong>{{ turno.perro.nombre }}</li>
         <li><strong> Motivo: </strong>{{ turno.motivo }}</li>
         <li><strong> Estado: </strong>{{ turno.estado }}</li>
+        {% if turno.estado == "modificado" %} 
+        <form method="get" action="{% url 'ver_turno_cliente' turno.id %}">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="Aceptar/Rechazar Modificación">
+        </form>
+        {% endif %}
     {% empty %}
         <p>No tienes turnos</p>
     {% endfor %}

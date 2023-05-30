@@ -7,11 +7,10 @@ from datetime import date, timedelta
 from django.contrib import messages
 
 def home(request):
-    turnos = Turno.objects.filter(fecha=date.today(), estado__in=["aceptado"])
+    turnos = Turno.objects.filter(fecha=date.today(), estado__in=["aceptado"], cliente_asistio=None)
     turnosPendientes = Turno.objects.filter(estado="pendiente")
-    hayTurnos = Turno.objects.filter(fecha=date.today(), cliente_asistio=None)
     return render(request, "home.html", 
-    {"user": request.user, "turnos": turnos, "pendientes": turnosPendientes, "hayTurnos": hayTurnos})
+    {"user": request.user, "turnos": turnos, "pendientes": turnosPendientes})
 
 
 def confirmar_asistencia(request, turno_id, asistio):

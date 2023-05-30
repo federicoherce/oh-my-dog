@@ -60,7 +60,7 @@
                     <td>{{ cliente.nombre }}</td>
                     <td>{{ cliente.apellido }}</td>
                     <td>{{ cliente.dni }}</td>
-                    <td><a href="{% url 'perfil_cliente' cliente.dni %}" style="color: black;">Perfil</a></td>
+                    <td><a href="{% url 'perfil_cliente' cliente.dni %}" style="color: black;">Ver Perfil</a></td>
                 </tr>
         {% empty %}
             <li>No se encontraron usuarios</li>
