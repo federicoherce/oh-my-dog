@@ -12,7 +12,7 @@ class PaseadorCuidador(models.Model):
 
     nomyap = models.CharField(max_length=50)
     dni = models.CharField(unique=True, error_messages={'unique': 'Ya existe un usuario con este DNI'}, max_length=8, validators=[
-            RegexValidator(r'^[0-9]{8}$', 'El DNI debe tener 8 dígitos.')])
+            RegexValidator(r'^[0-9]+$', 'El DNI solo debe contener números.')])
     textolibre = models.TextField(max_length=200)
     tipo = models.CharField(max_length=10, choices=TIPO_CHOICES, default='P')
 

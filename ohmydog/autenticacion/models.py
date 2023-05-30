@@ -35,7 +35,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     nombre = models.CharField(max_length=30,validators=[SOLO_CARACTERES])
     apellido = models.CharField(max_length=30, validators=[SOLO_CARACTERES])
     dni = models.CharField(max_length=8, unique=True, validators=[
-            RegexValidator(r'^[0-9]{8}$', 'El DNI debe tener 8 dígitos.')], error_messages= {
+            RegexValidator(r'^[0-9]+$', 'El DNI solo debe contener números.')], error_messages= {
             'unique': 'Ya existe un usuario con este DNI'})
     telefono = models.CharField(max_length=15, unique=True, validators=[
             RegexValidator(r'^[0-9]+$', 'El teléfono solo debe contener números.')], error_messages={
