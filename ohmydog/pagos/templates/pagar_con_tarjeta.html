@@ -23,41 +23,25 @@
         });
       });
     </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
 </head>
 <body> 
     <p class="titulos-format"> Pagar con Tarjeta </p>
-    <!--<form action="" class="formularios" method="POST"> {% csrf_token %}
+    <form action="{% url 'pagos:pagar_con_tarjeta' monto %}" class="formularios" method="POST"> {% csrf_token %}
         <div style= "width: 75%; margin: auto;"> 
             {{form|crispy}}
-        <input type="submit"  class="btn btn-primary" value="Publicar Perro">
+        <input type="submit"  class="btn btn-primary" value="Pagar">
         </div>
-    </form>-->
+    </form>
     
-  <form method="post" action="{% url 'pagar con tarjeta' monto %}">
-    {% csrf_token %}
-    <label for="id_nombre_titular">Nombre del Titular:</label>
-    <input type="text" name="nombre_titular" id="id_nombre_titular" required>
+    <h1>El monto del pago es: {{ monto }}</h1>
 
-    <br>
-
-    <label for="id_numero_tarjeta">Número de Tarjeta:</label>
-    <input type="text" name="numero_tarjeta" id="id_numero_tarjeta" required>
-
-    <br>
-
-    <label for="id_fecha_vencimiento">Fecha de Vencimiento:</label>
-    <input type="text" name="fecha_vencimiento" id="id_fecha_vencimiento" pattern="\d{2}/\d{4}" required>
-
-    <br>
-
-    <label for="id_codigo_seguridad">Código de Seguridad:</label>
-    <input type="text" name="codigo_seguridad" id="id_codigo_seguridad" required>
-
-    <br>
-
-    <input type="submit" value="Pagar">
-
-  </form>
+  
 </body>
 </html>
 

@@ -10,12 +10,18 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>QR para pagar</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 </head>
 <body> 
     <p class="titulos-format"> QR PARA PAGAR</p>
-    <img src="{% static 'ruta/imagen.jpg' %}" alt="Descripción de la imagen">
+    <img src="{% static 'img/qr_cripto2.png' %}" alt="QR para pagar">
+    <form method="post" action="{% url 'pagos:escanear_qr' monto %}">
+        {% csrf_token %}
+        <button type="submit" name="opcion" value="pagado">Pagado</button>
+        <button type="submit" name="opcion" value="volver">Volver</button>
+    </form>
+    <h1>El monto del pago es: {{ monto }}</h1>
 </body>
 </html>
 

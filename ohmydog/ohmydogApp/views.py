@@ -30,7 +30,7 @@ def confirmar_asistencia(request, turno_id, asistio):
         elif turno.motivo == 'vacuna_antirrabica':
             return redirect('actualizar_libreta', turno_id)
         else:
-            return redirect('pagar_turno')
+            return redirect('pagos:pagar_turno')
     return redirect('home')
 
 
@@ -47,7 +47,7 @@ def actualizar_libreta(request, turno_id):
             vacuna.libreta_sanitaria = libreta
             vacuna.save()
             messages.success(request, 'Libreta actualizada')
-            return redirect('pagar_turno')
+            return redirect('pagos:pagar_turno')
     return render(request, "actualizar_libreta.html", {"form": form})
 
 def generarTurno(turno):
