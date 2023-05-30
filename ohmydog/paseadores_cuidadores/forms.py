@@ -29,8 +29,8 @@ class CrearPaseadorCuidador(forms.ModelForm):
 
 class modificarPaseadorCuidador(forms.Form):
     TIPO_CHOICES = [
-        ('P', 'Paseador'),
-        ('C', 'Cuidador'),
+        ('Paseador', 'Paseador'),
+        ('Cuidador', 'Cuidador'),
     ]    
     nomyap = forms.CharField(max_length=30, required=True)
     dni = forms.CharField(max_length=8, required=True, validators=[
