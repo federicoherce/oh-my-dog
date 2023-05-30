@@ -16,8 +16,8 @@ def validate_fecha_vencimiento(value):
 
     expiration_month, expiration_year = value[:2], value[3:]
 
-    if not expiration_month.isdigit() or not expiration_year.isdigit():
-        raise forms.ValidationError("El formato de la fecha de vencimiento debe contener solo dígitos para MM y AAAA.")
+    if not expiration_month.isdigit() or not expiration_year.isdigit() or int(expiration_month) > 12 or int(expiration_month) < 1:
+        raise forms.ValidationError("El formato de la fecha de vencimiento debe contener solo dígitos para MM y AAAA y corresponder a una fecha válida.")
 
     if int(expiration_year) < current_year:
         raise forms.ValidationError("La fecha de vencimiento debe ser posterior a la fecha actual.")
