@@ -22,7 +22,7 @@ def validate_fecha_vencimiento(value):
     if int(expiration_year) < current_year:
         raise forms.ValidationError("La fecha de vencimiento debe ser posterior a la fecha actual.")
 
-    if int(expiration_year) == current_year and expiration_month < current_month:
+    if int(expiration_year) == current_year and int(expiration_month) < current_month:
         raise forms.ValidationError("La fecha de vencimiento debe ser posterior a la fecha actual.")
 
 

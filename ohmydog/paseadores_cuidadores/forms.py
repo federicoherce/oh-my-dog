@@ -10,6 +10,7 @@ class CrearPaseadorCuidador(forms.ModelForm):
         fields = ('nomyap', 'dni', 'textolibre', 'tipo',)
         labels = {
             'nomyap': _('Nombre y apellido'),
+            'textolibre' : ('Texto libre'),
         }
 
 #class CrearPaseadorCuidador(forms.Form):
