@@ -76,18 +76,21 @@ def enviar_solicitud_adopcion(request, autor, interesado, perro):
 def solicitud_adopcion_no_cliente(request, autor, perro):
     if request.method == "GET":
         form = AdopcionForm()
-        return render(request, "solicitud_no_cliente.html", {
-            "form": form})
     else:
-        emailNoCliente = request.POST.get('email')
-        asunto_interesado = "Solicitud enviada"
-        msj_interesado = "Su solicitud de adopcion fue enviada con exito, espere a que el dueño se ponga en contacto con usted para concretar la adopcion de " + perro
-        send_mail(asunto_interesado, msj_interesado, 'ohmydogg.vet@gmail.com', [emailNoCliente])
-        
-        publicado_por = CustomUser.objects.get(id=autor)
-        asunto_autor = "Alguien quiere adoptar a tu perro"
-        msj_autor = emailNoCliente + " ha solicitado adoptar a " + perro + ". Comuníquese con el para concretar su adopción"
-        send_mail(asunto_autor, msj_autor, "ohmydogg.vet@gmail.com", [publicado_por.email])
-        messages.success(request, 'Solicitud enviada')
-        return redirect('perros_en_adopcion')
+        form = AdopcionForm(data=request.POST) 
+        if form.is_valid():
+            emailNoCliente = request.POST.get('email')
+            asunto_interesado = "Solicitud enviada"
+            msj_interesado = "Su solicitud de adopcion fue enviada con exito, espere a que el dueño se ponga en contacto con usted para concretar la adopcion de " + perro
+            send_mail(asunto_interesado, msj_interesado, 'ohmydogg.vet@gmail.com', [emailNoCliente])
+            
+            publicado_por = CustomUser.objects.get(id=autor)
+            asunto_autor = "Alguien quiere adoptar a tu perro"
+            msj_autor = emailNoCliente + " ha solicitado adoptar a " + perro + ". Comuníquese con el para concretar su adopción"
+            send_mail(asunto_autor, msj_autor, "ohmydogg.vet@gmail.com", [publicado_por.email])
+            messages.success(request, 'Solicitud enviada')
+            return redirect('perros_en_adopcion')
+    
+    return render(request, "solicitud_no_cliente.html", {
+            "form": form})
         
