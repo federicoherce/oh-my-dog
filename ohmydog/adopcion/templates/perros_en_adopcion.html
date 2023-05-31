@@ -27,11 +27,11 @@
 </head>
 <body>
     <h1 class="titulos-format">Perros en Adopción</h1> 
-    {% if user.is_authenticated %}
-    <form method="get" action="{% url 'publicar_perro' %}" style="text-align: center;">
-        {% csrf_token %}
-        <input type="submit" class="btn btn-primary" value="Publicar Perro en Adopcion">
-    </form>
+    {% if user.is_authenticated and not user.is_superuser %}
+        <form method="get" action="{% url 'publicar_perro' %}" style="text-align: center;">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="Publicar Perro en Adopcion">
+        </form>
     {% endif %}
     <br>
     <br>
@@ -59,7 +59,8 @@
                         </form>
                         <form method="post" action="{% url 'eliminar_perro_en_adopcion' perro.id %}">
                             {% csrf_token %}
-                            <input type="submit" class="btn btn-primary"  value="Eliminar perro en adopcion">
+                            <input type="submit" class="btn btn-primary"  value="Eliminar perro en adopcion" onclick=
+                            "return confirm('¿Estás seguro de que deseas borrar esta mascota?')">
                         </form>
                     {% endif %}
                 {% else %}

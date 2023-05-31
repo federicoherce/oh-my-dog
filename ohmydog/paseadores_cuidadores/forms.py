@@ -8,6 +8,9 @@ class CrearPaseadorCuidador(forms.ModelForm):
     class Meta:
         model = PaseadorCuidador
         fields = ('nomyap', 'dni', 'textolibre', 'tipo',)
+        labels = {
+            'nomyap': _('Nombre y apellido'),
+        }
 
 #class CrearPaseadorCuidador(forms.Form):
 #    TIPO_CHOICES = [

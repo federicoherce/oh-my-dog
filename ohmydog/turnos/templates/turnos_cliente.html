@@ -16,6 +16,14 @@
     <script>
         swal('{{msg}}');
     </script>
+    <style>
+        hr-line {
+            border: none;
+            height: 3px;
+            background-color: black;
+            margin: 20px 0;
+        }
+    </style>
     {% endfor %}
 </head>
 <body>
@@ -44,10 +52,11 @@
         {% if turno.estado == "modificado" %} 
         <form method="get" action="{% url 'ver_turno_cliente' turno.id %}">
             {% csrf_token %}
-            <input type="submit" class="btn btn-primary" value="Aceptar/Rechazar Modificación">
+            <input type="submit" class="btn btn-primary" value="Ver turno">
         </form>
         {% endif %}
     </ul>
+    <hr class="hr-line">
     {% empty %}
         <p>No tienes turnos</p>
     {% endfor %}
