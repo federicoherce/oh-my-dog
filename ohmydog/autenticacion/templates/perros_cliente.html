@@ -60,8 +60,10 @@
                     <input type="submit"  class="btn btn-primary" value="Borrar Perro" 
                     onclick="return confirm('¿Estás seguro de que deseas borrar esta mascota?')">
                 </form>
-                <a href="{% url 'modificar_datos_perro' cliente.dni mascota.id %}">Modificar datos</a>
-                
+                <form method="get" action="{% url 'modificar_datos_perro' cliente.dni mascota.id %}"style="display: inline;>
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary" value="Modificar Datos">
+                </form>
                 <h4><strong>Libreta sanitaria:</strong></h4>
                 <table>
                     <tr>

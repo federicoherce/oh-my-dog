@@ -26,15 +26,20 @@
       nomyap.value = "{{paseador_cuidador.nomyap}}";
       let dni = document.getElementById("id_dni");
       dni.value = "{{paseador_cuidador.dni}}";
-      let texto_libre = document.getElementById("id_texto_libre");
+      let texto_libre = document.getElementById("id_textolibre");
       texto_libre.value = "{{paseador_cuidador.textolibre}}";
     });
   </script>
 <body>
-    <form action="" method="POST"> {% csrf_token %}
+    <br>
+    <h1 class="titulos-format">
+        Modificar información 
+    </h1>
+    <br>
+    <form action="" method="POST" class="formularios"> {% csrf_token %}
         <div style= "width: 75%; margin: auto;"> 
             {{form|crispy}}
-        <input type="submit" value="Enviar">
+        <input type="submit"  class="btn btn-primary" value="Modificar">
         </div>
     </form>
 </body>

@@ -4,6 +4,7 @@ from .models import PaseadorCuidador
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
 
+
 class CrearPaseadorCuidador(forms.ModelForm):
     class Meta:
         model = PaseadorCuidador
@@ -36,9 +37,9 @@ class modificarPaseadorCuidador(forms.Form):
         ('Paseador', 'Paseador'),
         ('Cuidador', 'Cuidador'),
     ]    
-    nomyap = forms.CharField(max_length=30, required=True)
+    nomyap = forms.CharField(max_length=30, required=True, label="Nombre y apellido")
     dni = forms.CharField(max_length=8, required=True, validators=[
             RegexValidator(r'^[0-9]+$', 'El DNI solo debe contener números.')], error_messages= {
             'unique': 'Ya existe un usuario con este DNI'})
-    textolibre = forms.CharField(max_length=200, required=True)
+    textolibre = forms.CharField(max_length=200, required=True, label="Texto libre")
     tipo = forms.ChoiceField(choices=TIPO_CHOICES)

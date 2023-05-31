@@ -53,11 +53,11 @@
                 <br>
                 {% if user.id == perro.publicado_por.id %}
                     {% if not perro.adoptado %}
-                        <form method="post" action="{% url 'marcar_Adoptado' perro.id %}">
+                        <form method="post" action="{% url 'marcar_Adoptado' perro.id %}" style="display:inline">
                             {% csrf_token %}
                             <input type="submit" class="btn btn-primary" value="Marcar como Adoptado">
                         </form>
-                        <form method="post" action="{% url 'eliminar_perro_en_adopcion' perro.id %}">
+                        <form method="post" action="{% url 'eliminar_perro_en_adopcion' perro.id %}" style="display:inline" >
                             {% csrf_token %}
                             <input type="submit" class="btn btn-primary"  value="Eliminar perro en adopcion" onclick=
                             "return confirm('¿Estás seguro de que deseas borrar esta mascota?')">
@@ -65,15 +65,17 @@
                     {% endif %}
                 {% else %}
                     {% if not perro.adoptado %}
-                        {% if user.is_authenticated %}
+                        {% if user.is_authenticated and not user.is_superuser %}
                             <form method="post" action="{% url 'enviar_solicitud_adopcion' perro.publicado_por.id user.id perro.nombre%}">
                                 {% csrf_token %}
                             <input type="submit" class="btn btn-primary" value="Enviar solicitud de adopcion"> 
                             </form>
                          {% else %}
-                         <form method="get" action="{% url 'solicitud_adopcion_no_cliente' perro.publicado_por.id perro.nombre %}">
-                        <input type="submit" value="Enviar solicitud de adopcion"> 
-                        </form>
+                            {% if not user.is_superuser %}
+                                <form method="get" action="{% url 'solicitud_adopcion_no_cliente' perro.publicado_por.id perro.nombre %}">
+                                <input type="submit" class="btn btn-primary" value="Enviar solicitud de adopcion"> 
+                                </form>
+                            {% endif %}
                         {% endif %}
                     {% endif %} 
                 {% endif %}

@@ -15,13 +15,14 @@
 </head>
 <body> 
     <p class="titulos-format"> QR PARA PAGAR</p>
-        <img src="{% static 'img/qr_cripto2.png' %}" alt="QR para pagar" style="display: block; margin-left: auto; margin-right: auto;">
-    <form method="post" action="{% url 'pagos:escanear_qr' monto %}">
+   <b> <p style="text-align:center">El monto del pago es: ${{ monto }}</p></b>
+        <img src="{% static 'img/qr_cripto2.png' %}" alt="QR para pagar" width="300px" style="display: block; margin-left: auto; margin-right: auto;">
+        <br>
+        <form method="post" style="text-align:center"action="{% url 'pagos:escanear_qr' monto %}">
         {% csrf_token %}
-        <button type="submit" name="opcion" value="pagado">Pagado</button>
-        <button type="submit" name="opcion" value="volver">Volver</button>
+        <button type="submit" name="opcion" class="btn btn-primary"  value="pagado">Pagado</button>
+        <button type="submit" name="opcion" class="btn btn-primary"  value="volver">Volver</button>
     </form>
-    <h1>El monto del pago es: {{ monto }}</h1>
 </body>
 </html>
 
