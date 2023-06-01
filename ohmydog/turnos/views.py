@@ -13,6 +13,8 @@ from datetime import date
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 
+
+
 # Create your views here.
 def is_superuser(user):
     return user.is_superuser
