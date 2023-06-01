@@ -56,9 +56,22 @@ class ModificarDatosPerro(forms.Form):
     nombre = forms.CharField(max_length=50)
     raza = forms.CharField(max_length=50)
     color = forms.CharField(max_length=50)
-    fecha_de_nacimiento = forms.DateField(
-        label="Fecha de nacimiento",
-        widget=forms.widgets.DateInput(attrs={'type': 'date', 'max': str(date.today())}),
-        input_formats=['%Y-%m-%d']
+    #fecha_de_nacimiento = forms.DateField(
+    #    label="Fecha de nacimiento",
+    #    widget=forms.widgets.DateInput(attrs={'type': 'date', 'max': str(date.today())}),
+    #    input_formats=['%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y']
+    #)
+    fecha_de_nacimiento = forms.CharField(
+        label= "Fecha de nacimiento",
+        widget=forms.TextInput(attrs={'type': 'date', 'max': str(date.today())})
     )
+
+    def __init__(self, *args, **kwargs):
+        perro = kwargs.pop('perro')
+        super(ModificarDatosPerro, self).__init__(*args, **kwargs)
+        self.fields['nombre'].initial = perro.nombre
+        self.fields['raza'].initial = perro.raza
+        self.fields['color'].initial = perro.color
+        self.fields['fecha_de_nacimiento'].initial = perro.fecha_de_nacimiento
+
     

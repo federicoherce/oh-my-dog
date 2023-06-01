@@ -214,7 +214,7 @@ def modificar_datos_cliente(request, dni_url):
 def modificar_datos_perro(request, dni, perro_id):
     perro = Perro.objects.get(id=perro_id)
     if request.method == "POST":
-        form = ModificarDatosPerro(request.POST)
+        form = ModificarDatosPerro(request.POST, perro=perro)
         
         if form.is_valid():
             perro.nombre = form.cleaned_data['nombre']
@@ -225,7 +225,7 @@ def modificar_datos_perro(request, dni, perro_id):
             messages.success(request, 'Datos modificados con exito')
             return redirect('perros_cliente', dni)
     else:
-        form = ModificarDatosPerro()
+        form = ModificarDatosPerro(perro=perro)
     return render(request, "modificar_datos_perro.html", {
         "form": form,
         "perro": perro
