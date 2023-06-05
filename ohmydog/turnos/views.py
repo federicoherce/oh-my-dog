@@ -141,10 +141,8 @@ class VerTurnoVeterinario(View):
 def ver_turno_cliente(request, turno_id):
     turno = Turno.objects.get(id=turno_id)
     if request.method == 'POST':
-        #Todo lo que hace si con respecto a si acepta la modificación o no (en función de si el turno fue modificado)
         accion = request.POST.get('action')
         if accion == "Aceptar":
-            print('acepto')
             turno.estado = "aceptado"
             msj_feedback = "Modificación de turno aceptada. Ya puede acudir al turno."
         elif accion == "Rechazar":
