@@ -8,4 +8,5 @@
 ## Notas:
 - Entrega de documentos 1: MB
 - Entrega de documentos 2: MB
+- Demo 1: MB
 - PPT teoría: 17,50/20,00 = 8,75/10

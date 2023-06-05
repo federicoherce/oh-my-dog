@@ -57,6 +57,7 @@
                 <li><strong>Nombre: </strong>{{ mascota.nombre }}</li>
                 <li><strong>Raza: </strong> {{ mascota.raza }} </li>
                 <li><strong>Color: </strong> {{ mascota.color }} </li>
+                <li><strong>Sexo: </strong>{{ mascota.sexo }}</li>
                 <li><strong>Fecha de Nacimiento: </strong> {{ mascota.fecha_de_nacimiento }} </li>
                 <form method="POST" action="{% url 'perros_cliente' cliente.dni %}" style="display: inline;">
                     {% csrf_token %}

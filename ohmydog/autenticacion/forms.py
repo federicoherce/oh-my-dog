@@ -50,10 +50,32 @@ class modificarDatosCliente(forms.Form):
 # forms.ModelForm => Se usa cuando se quiere crear un formulario basado en un modelo existente. Los campos y 
 # las validaciones se generan automáticamente según el modelo.
 
+RAZAS_PERRO = [
+        ('labrador', 'Labrador'),
+        ('bulldog', 'Bulldog'),
+        ('pitbull', 'Pitbull'),
+        ('boxer', 'Boxer'),
+        ('pastor', 'Pastor aleman'),
+        ('beagle', 'Beagle'),
+        ('golden', 'Golden retriever'),
+        ('fox', 'Fox Terrier'),
+        ('esquimal', 'Esquimal canadiense'),
+        ('dalmata', 'Dalmata'),
+        ('yorkshire', 'Yorkshire terrier'),
+        ('siberiano', 'Siberiano'),
+        ('caniche', 'Caniche'),
+        ('chihuahua', 'Chihuaha')
+    ]
+
+SEXO_CHOICES = [
+        ('macho', 'Macho'),
+        ('hembra', 'Hembra')
+    ]
+
 class ModificarDatosPerro(forms.Form):
-    nombre = forms.CharField(max_length=50)
-    raza = forms.CharField(max_length=50)
-    color = forms.CharField(max_length=50)
+    nombre = forms.CharField(label="Nombre", max_length=50)
+    raza = forms.ChoiceField(label="Raza", choices=RAZAS_PERRO)
+    color = forms.CharField(label="Color", max_length=50)
     #fecha_de_nacimiento = forms.DateField(
     #    label="Fecha de nacimiento",
     #    widget=forms.widgets.DateInput(attrs={'type': 'date', 'max': str(date.today())}),
@@ -63,6 +85,7 @@ class ModificarDatosPerro(forms.Form):
         label= "Fecha de nacimiento",
         widget=forms.TextInput(attrs={'type': 'date', 'max': str(date.today())})
     )
+    sexo = forms.ChoiceField(label="Sexo", choices=SEXO_CHOICES, widget=forms.RadioSelect)
 
     def __init__(self, *args, **kwargs):
         perro = kwargs.pop('perro')
@@ -71,5 +94,6 @@ class ModificarDatosPerro(forms.Form):
         self.fields['raza'].initial = perro.raza
         self.fields['color'].initial = perro.color
         self.fields['fecha_de_nacimiento'].initial = perro.fecha_de_nacimiento
+        self.fields['sexo'].initial = perro.sexo
 
     
