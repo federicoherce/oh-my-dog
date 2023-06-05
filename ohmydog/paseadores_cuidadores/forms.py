@@ -38,8 +38,6 @@ class modificarPaseadorCuidador(forms.Form):
         ('Cuidador', 'Cuidador'),
     ]    
     nomyap = forms.CharField(max_length=30, required=True, label="Nombre y apellido")
-    dni = forms.CharField(max_length=8, required=True, validators=[
-            RegexValidator(r'^[0-9]+$', 'El DNI solo debe contener números.')], error_messages= {
-            'unique': 'Ya existe un usuario con este DNI'})
+    email = forms.EmailField(required=True, error_messages={'unique': 'Ya existe un paseador o cuidador con este email'})
     textolibre = forms.CharField(max_length=200, required=True, label="Texto libre")
     tipo = forms.ChoiceField(choices=TIPO_CHOICES)
