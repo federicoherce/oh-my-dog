@@ -44,8 +44,20 @@
     <form class="formularios" method="GET" action="{% url 'listado_de_clientes' %}">
         {{form|crispy}}
         <input type="submit"  class="btn btn-primary" value="Filtrar">
-        <input type="submit"  class="btn btn-primary" href="{% url 'listado_de_clientes' %}", value="Deshacer">
     </form>
+    {% if filtrado %}
+        <b><p style="text-align: center;">Filtrado por: {{ filtrado }}</p></b>
+        <form style="position:absolute; left:600px; bottom:73px" class="formularios" method="GET" action="{% url 'listado_de_clientes' %}">
+            <input type="submit"  class="btn btn-primary" value="Deshacer">
+        </form>
+    {% endif %}
+    <br>
+    {% if user.is_superuser %}
+    <form style="margin-left: 40px;" method="get" action="{% url 'registro' %}">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Registrar Usuario">
+    </form>
+    {% endif %}
     <hr>
     <ol>
         <table>

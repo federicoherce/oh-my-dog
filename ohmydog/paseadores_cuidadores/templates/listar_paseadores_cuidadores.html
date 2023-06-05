@@ -59,7 +59,12 @@
         <input type="radio" name="tipo" value="Paseador"> Paseador
         <input type="radio" name="tipo" value="Cuidador"> Cuidador
         <button class="btn btn-primary" type="submit">Filtrar</button>
-        <input type="submit"  class="btn btn-primary" href="{% url 'listar_paseadores_cuidadores' %}" value="Deshacer">
+        <br>
+        <br>
+        {% if filtrado %} 
+            <b> <p style="text-align: center;">Estas filtrando por: {{filtrado}}</p></b>
+            <input style="position:absolute; left:815px; top:269px" type="submit"  class="btn btn-primary" href="{% url 'listar_paseadores_cuidadores' %}" value="Deshacer">
+        {% endif %}
         <br>
         <br>
     </form>
@@ -85,7 +90,7 @@
             {% endfor %}
         </ul>
     {% else %}
-        <p style="text-align: center;"> Aún no hay paseadores o cuidadores registrados </p>
+      <b><p style="text-align: center;">Aún no hay paseadores o cuidadores registrados</p></b>
     {% endif %}
     <br>
 </body>

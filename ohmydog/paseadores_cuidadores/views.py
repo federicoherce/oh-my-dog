@@ -31,14 +31,16 @@ def listar_paseadores_cuidadores(request):
         filtrado = request.GET['tipo']
         if filtrado != "":
             paseadores_cuidadores = PaseadorCuidador.objects.filter(tipo=filtrado)
-
+    else:
+        filtrado = ""
     if request.method == "POST":
         pc_a_borrar = PaseadorCuidador.objects.get(dni=request.POST['paseador_cuidador.dni'])
         pc_a_borrar.delete()
         redirect("listar_paseadores_cuidadores")
 
     return render(request, "listar_paseadores_cuidadores.html", {
-        'paseadores_cuidadores': paseadores_cuidadores
+        'paseadores_cuidadores': paseadores_cuidadores,
+        'filtrado': filtrado
     })
 
 @user_passes_test(lambda u: u.is_superuser) 

@@ -40,8 +40,13 @@
             <option value="modificado">Modificados</option>
         </select>
         <button class="btn btn-primary" type="submit">Filtrar</button> 
-        <input type="submit" class="btn btn-primary" href="{% url 'turnos_veterinario' %}" value="Deshacer">
-      </form>  
+      </form> 
+    {% if filtrado %}
+      <b><p style="text-align: center;">Filtrado por: {{ filtrado }}s</p></b>
+      <form style="position:absolute; left:850px; top:214px" class="formularios" method="GET" action="{% url 'turnos_veterinario' %}">
+          <input type="submit"  class="btn btn-primary" value="Deshacer">
+      </form>
+    {% endif %} 
     {% for turno in turnos %} 
     <ul class="info-list">
         <li><strong> Cliente: </strong>{{ turno.cliente }}</li> 
