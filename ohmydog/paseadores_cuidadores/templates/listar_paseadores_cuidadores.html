@@ -59,7 +59,12 @@
         <input type="radio" name="tipo" value="Paseador"> Paseador
         <input type="radio" name="tipo" value="Cuidador"> Cuidador
         <button class="btn btn-primary" type="submit">Filtrar</button>
-        <input type="submit"  class="btn btn-primary" href="{% url 'listar_paseadores_cuidadores' %}" value="Deshacer">
+        <br>
+        <br>
+        {% if filtrado %} 
+            <b> <p style="text-align: center;">Estas filtrando por: {{filtrado}}</p></b>
+            <input style="position:absolute; left:815px; top:269px" type="submit"  class="btn btn-primary" href="{% url 'listar_paseadores_cuidadores' %}" value="Deshacer">
+        {% endif %}
         <br>
         <br>
     </form>
@@ -67,17 +72,17 @@
         <ul class="info-list">
             {% for paseador_cuidador in paseadores_cuidadores %}
                 <li><strong>Nombre y Apellido: </strong>{{ paseador_cuidador.nomyap}}</li>
-                <li><strong>DNI: </strong>{{ paseador_cuidador.dni }}</li>
+                <li><strong>Email: </strong>{{ paseador_cuidador.email }}</li>
                 <li><strong>Descripcion: </strong>{{ paseador_cuidador.textolibre }}</li>
                 <li><strong>Paseador o Cuidador: </strong>{{ paseador_cuidador.tipo }}</li>
                 {% if user.is_authenticated and user.is_superuser %}
-                    <form method="get" action="{% url 'modificar_paseador_cuidador' paseador_cuidador.dni %}"  style="display: inline;">
+                    <form method="get" action="{% url 'modificar_paseador_cuidador' paseador_cuidador.email %}"  style="display: inline;">
                         {% csrf_token %}
                         <input type="submit" class="btn btn-primary" value="Modificar">
                     </form>
                     <form method="POST" action="{% url 'listar_paseadores_cuidadores' %}" style="display: inline;">
                         {% csrf_token %}
-                        <input type="hidden" name="paseador_cuidador.dni" value="{{ paseador_cuidador.dni }}">
+                        <input type="hidden" name="paseador_cuidador.email" value="{{ paseador_cuidador.email }}">
                         <input type="submit" class="btn btn-primary" value="Borrar" onclick="return confirm('¿Estás seguro de que deseas borrar este Paseador o Cuidador?')">
                     </form>
                 {% endif %}
@@ -85,7 +90,7 @@
             {% endfor %}
         </ul>
     {% else %}
-        <p style="text-align: center;"> Aún no hay paseadores o cuidadores registrados </p>
+      <b><p style="text-align: center;">Aún no hay paseadores o cuidadores registrados</p></b>
     {% endif %}
     <br>
 </body>

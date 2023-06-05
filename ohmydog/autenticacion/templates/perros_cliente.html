@@ -46,6 +46,10 @@
 </head>
 <body>
     <h1 class="titulos-format"> Perros de {{ cliente.nombre }} {{ cliente.apellido }}</h1>
+    <form style="text-align: center;" method="get" action="{% url 'agregar_perro' cliente.dni '?' %}">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="  Agregar Perro  ">
+    </form>
     <br>
     {% if mascotas %}
         <ul class="info-list">
@@ -60,10 +64,12 @@
                     <input type="submit"  class="btn btn-primary" value="Borrar Perro" 
                     onclick="return confirm('¿Estás seguro de que deseas borrar esta mascota?')">
                 </form>
-                <form method="get" action="{% url 'modificar_datos_perro' cliente.dni mascota.id %}"style="display: inline;>
+                <form method="get" action="{% url 'modificar_datos_perro' cliente.dni mascota.id %}"style="display: inline;">
                     {% csrf_token %}
                     <input type="submit" class="btn btn-primary" value="Modificar Datos">
                 </form>
+                <br>
+                <br>
                 <h4><strong>Libreta sanitaria:</strong></h4>
                 <table>
                     <tr>

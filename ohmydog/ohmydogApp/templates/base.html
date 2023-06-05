@@ -21,9 +21,14 @@
         </div>
         <div class="button-container">
             {% if user.is_authenticated %}
+                <b>Hola, {{ user.nombre }}!</b>
+                {% if user.is_superuser %}
+                    <b>(admin)</b>
+                {% endif %}
                 &nbsp;&nbsp; <b><a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a> </b>
+
             {% else %}
-            <b>    <a href="{% url 'login' %}" class="login-button" style="color: black">Iniciar Sesión</a> </b>
+               <b> <a href="{% url 'login' %}" class="login-button" style="color: black">Iniciar Sesión</a> </b>
             {% endif %}
             {% if user.is_superuser %}
                <b> <a href="{% url 'registro' %}" class="register-button">Registrar usuario</a></b>

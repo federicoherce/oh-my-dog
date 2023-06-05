@@ -46,7 +46,7 @@
                 {% csrf_token %}
                 <input type="submit" class="btn btn-primary" value="     Ver Perros     ">
             </form>
-            <form method="get" action="{% url 'agregar_perro' cliente.dni %}">
+            <form method="get" action="{% url 'agregar_perro' cliente.dni '?' %}">
                 {% csrf_token %}
                 <input type="submit" class="btn btn-primary" value="  Agregar Perro  ">
             </form>

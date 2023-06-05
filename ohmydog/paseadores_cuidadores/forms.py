@@ -8,7 +8,7 @@ from django.core.validators import RegexValidator
 class CrearPaseadorCuidador(forms.ModelForm):
     class Meta:
         model = PaseadorCuidador
-        fields = ('nomyap', 'dni', 'textolibre', 'tipo',)
+        fields = ('nomyap', 'email', 'textolibre', 'tipo',)
         labels = {
             'nomyap': _('Nombre y apellido'),
             'textolibre' : ('Texto libre'),
