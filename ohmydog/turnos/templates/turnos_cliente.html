@@ -36,20 +36,25 @@
 </head>
 <body>
     <h1 class="titulos-format">Turnos: </h1>
+    <form method="get" action="{% url 'solicitar_turno' %}" style="text-align: center;">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Solicitar Turno">
+    </form>
     <form method="get" action="{% url 'turnos_cliente' %}" style="text-align: center;">
-        <label for="fecha_filtro">Filtrar por estado:</label>
+        <label for="fecha_filtro"><b>Filtrar por estado: </b></label>
         <select id="fecha_filtro" name="fecha">
             <option value=""></option>
             <option value="pasado">Pasados</option>
             <option value="futuro">Futuros</option>
         </select>
         <button type="submit" class="btn btn-primary">Filtrar</button> 
-        <input type="submit" class="btn btn-primary" href="{% url 'turnos_veterinario' %}" value="Deshacer">
       </form>  
-      <form method="get" action="{% url 'solicitar_turno' %}" style="text-align: center;">
-        {% csrf_token %}
-        <input type="submit" class="btn btn-primary" value="Solicitar Turno">
-    </form>
+      {% if filtrado %}
+      <b><p style="text-align: center;">Filtrado por: {{ filtrado }}s</p></b>
+      <form style="position:absolute; left:840px; top:268px" class="formularios" method="GET" action="{% url 'turnos_cliente' %}">
+          <input type="submit"  class="btn btn-primary" value="Deshacer">
+      </form>
+      {% endif %}   
     {% for turno in turnos %} 
     <ul class="info-list"> 
         <li><strong> Fecha: </strong>{{ turno.fecha }}</li> 

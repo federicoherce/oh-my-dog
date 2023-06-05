@@ -29,11 +29,8 @@ def registro(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             usuario = form.save()
-            email = form.cleaned_data['email']
             password = form.cleaned_data['password1']
-            msj = 'Gracias por registrarse en Oh My Dog, su contraseña es: ' + password
-            send_mail('Registro Oh My Dog', msj, 'ohmydogg.vet@gmail.com', [email])
-            return redirect('agregar_perro', form.cleaned_data['dni'])
+            return redirect('agregar_perro', form.cleaned_data['dni'], password)
         else:
             return render(request, "registro.html", {"form": form, "contra": password})
     else:
@@ -129,17 +126,21 @@ def lista_de_clientes(request):
     nombre = request.GET.get('nombre')
     apellido = request.GET.get('apellido')
     dni = request.GET.get('dni')
+    filtrado_por = ""
     if nombre:
         queryset = queryset.filter(nombre__icontains=nombre) 
+        filtrado_por += "Nombre "
     if apellido:
         queryset = queryset.filter(apellido__icontains=apellido)
+        filtrado_por += "Apellido "
     if dni:
         queryset = queryset.filter(dni__icontains=dni)
-    
+        filtrado_por += "DNI "
     form = FiltrosDeListadoDeClientes()
     context = {
         'clientes' : queryset,
-        'form' : form
+        'form' : form,
+        'filtrado' : filtrado_por
     }
     return render(request, "listado_de_clientes.html", context)
 
@@ -193,9 +194,6 @@ def modificar_datos_cliente(request, dni_url):
             todosLosDnis = CustomUser.objects.exclude(dni=cliente.dni).values_list('dni', flat=True)
             if nuevoDni in todosLosDnis:
                 messages.error(request, "El dni ya se encuentra registrado")
-                return render(request, "modificar_datos.html", {"form": form, "cliente": cliente})
-            if nuevoTelefono in todosLosTfnos:
-                messages.error(request, "El telefono ya se encuentra registrado")
                 return render(request, "modificar_datos.html", {"form": form, "cliente": cliente})
             cliente.nombre = nuevoNombre
             cliente.apellido = nuevoApellido

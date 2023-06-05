@@ -48,6 +48,7 @@ def solicitar_turno(request):
 def turnos_cliente(request):
     cliente_actual = request.user.id
     turnos = Turno.objects.filter(cliente=cliente_actual).order_by('fecha')
+    filtrado = ""
     if request.GET.get('fecha'):
         filtrado = request.GET['fecha']
         if filtrado == 'pasado':
@@ -55,7 +56,8 @@ def turnos_cliente(request):
         elif filtrado == 'futuro':
             turnos = turnos.filter(fecha__gte=date.today())
     return render(request, "turnos_cliente.html", {
-        'turnos': turnos
+        'turnos': turnos,
+        'filtrado': filtrado
     })
 
 @login_required(login_url='login')
@@ -66,12 +68,13 @@ def turnos_veterinario(request):
         filtrado = request.GET['estado']
         if filtrado != "":
             turnos = turnos.filter(estado=filtrado)
-        return render(request, 'turnos_veterinario.html', {"turnos": turnos})
+        return render(request, 'turnos_veterinario.html', {"turnos": turnos, "filtrado": filtrado})
     fecha_actual = timezone.now().date()
     turnos = Turno.objects.filter(fecha__gte=fecha_actual).order_by('fecha')
     turnos_pasados = Turno.objects.filter(fecha__lt=fecha_actual).order_by('fecha')
     turnos = list(turnos) + list(turnos_pasados)
-    return render(request, 'turnos_veterinario.html', {"turnos": turnos})
+    filtrado = ""
+    return render(request, 'turnos_veterinario.html', {"turnos": turnos, "filtrado": filtrado})
 
 
 # Me falta implementar los decoradores para que solo el veterinario pueda acceder (ya es re tarde y tengo nono)

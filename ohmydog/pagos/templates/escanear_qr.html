@@ -19,10 +19,10 @@
         <img src="{% static 'img/qr_cripto2.png' %}" alt="QR para pagar" width="300px" style="display: block; margin-left: auto; margin-right: auto;">
         <br>
         <form method="post" style="text-align:center"action="{% url 'pagos:escanear_qr' monto %}">
-        {% csrf_token %}
-        <button type="submit" name="opcion" class="btn btn-primary"  value="pagado">Pagado</button>
-        <button type="submit" name="opcion" class="btn btn-primary"  value="volver">Volver</button>
-    </form>
+            {% csrf_token %}
+            <button type="submit" name="opcion" class="btn btn-primary"  value="pagado">Pagado</button>
+            <button type="submit" name="opcion" class="btn btn-primary"  value="volver">Volver</button>
+        </form>
 </body>
 </html>
 

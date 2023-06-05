@@ -34,13 +34,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
             'unique': 'Ya existe un usuario con este email'})
     nombre = models.CharField(max_length=30,validators=[SOLO_CARACTERES])
     apellido = models.CharField(max_length=30, validators=[SOLO_CARACTERES])
-    dni = models.CharField(max_length=8, unique=True, validators=[
-            RegexValidator(r'^[0-9]+$', 'El DNI solo debe contener números.')], error_messages= {
+    dni = models.CharField(max_length=15, unique=True, error_messages= {
             'unique': 'Ya existe un usuario con este DNI'})
-    telefono = models.CharField(max_length=15, unique=True, validators=[
-            RegexValidator(r'^[0-9]+$', 'El teléfono solo debe contener números.')], error_messages={
-            'unique': 'Ya existe un usuario con este telefono'})
+    telefono = models.CharField(max_length=15,validators = [
+    RegexValidator(r'^[0-9+-]+$', 'El teléfono solo puede contener números y los caracteres "+" y "-".')])
     activo = models.BooleanField(default=False)
+    usuario_nuevo = models.BooleanField(default=True)
+    
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     objects = CustomUserManager()
@@ -58,5 +58,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def get_activo(self):
         return self.activo
     
+    def get_usuario_nuevo(self):
+        return self.usuario_nuevo
 
         

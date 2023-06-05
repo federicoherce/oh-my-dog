@@ -40,12 +40,10 @@ class CambiarEmailForm(forms.Form):
 class modificarDatosCliente(forms.Form):
     nombre = forms.CharField(max_length=30, required=True, validators=[SOLO_CARACTERES])
     apellido = forms.CharField(max_length=30, required=True, validators=[SOLO_CARACTERES])
-    dni = forms.CharField(max_length=8, required=True, validators=[
-            RegexValidator(r'^[0-9]+$', 'El DNI solo debe contener números.')], error_messages= {
+    dni = forms.CharField(max_length=15, required=True, error_messages= {
             'unique': 'Ya existe un usuario con este DNI'})
-    telefono = forms.CharField(max_length=15, required=True, validators=[
-            RegexValidator(r'^[0-9]+$', 'El teléfono solo debe contener números.')], error_messages={
-            'unique': 'Ya existe un usuario con este telefono'})
+    telefono = forms.CharField(max_length=15, required=True, validators = [
+    RegexValidator(r'^[0-9+-]+$', 'El teléfono solo puede contener números y los caracteres "+" y "-".')])
     
 # forms.Form => Se usa cuando se quiere crear un formulario independiente, desde cero. Hay que definir manualmente 
 # los campos y las validaciones para el formulario.

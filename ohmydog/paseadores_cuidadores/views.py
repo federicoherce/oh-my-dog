@@ -12,7 +12,7 @@ def agregar_paseador_cuidador(request):
         form = CrearPaseadorCuidador(request.POST)
         if form.is_valid():
             PaseadorCuidador.objects.create(nomyap=request.POST['nomyap'], 
-                                 dni=request.POST['dni'],
+                                 email=request.POST['email'],
                                  textolibre=request.POST['textolibre'],
                                  tipo=request.POST['tipo'])
             return redirect('listar_paseadores_cuidadores')
@@ -31,32 +31,34 @@ def listar_paseadores_cuidadores(request):
         filtrado = request.GET['tipo']
         if filtrado != "":
             paseadores_cuidadores = PaseadorCuidador.objects.filter(tipo=filtrado)
-
+    else:
+        filtrado = ""
     if request.method == "POST":
-        pc_a_borrar = PaseadorCuidador.objects.get(dni=request.POST['paseador_cuidador.dni'])
+        pc_a_borrar = PaseadorCuidador.objects.get(email=request.POST['paseador_cuidador.email'])
         pc_a_borrar.delete()
         redirect("listar_paseadores_cuidadores")
 
     return render(request, "listar_paseadores_cuidadores.html", {
-        'paseadores_cuidadores': paseadores_cuidadores
+        'paseadores_cuidadores': paseadores_cuidadores,
+        'filtrado': filtrado
     })
 
 @user_passes_test(lambda u: u.is_superuser) 
-def modificar_paseador_cuidador(request, dni):
-    paseador_cuidador = PaseadorCuidador.objects.get(dni = dni)
+def modificar_paseador_cuidador(request, email):
+    paseador_cuidador = PaseadorCuidador.objects.get(email = email)
     if request.method == "POST":
         form = modificarPaseadorCuidador(request.POST)
         if form.is_valid():
             nuevoNomyap = request.POST.get('nomyap')
-            nuevoDni = request.POST.get('dni')
+            nuevoEmail = request.POST.get('email')
             nuevoTextoLibre = request.POST.get('textolibre')
             nuevoTipo = request.POST.get('tipo')
-            todosLosDnis = PaseadorCuidador.objects.exclude(dni=paseador_cuidador.dni).values_list('dni', flat=True)
-            if nuevoDni in todosLosDnis:
-                messages.error(request, "El dni ya se encuentra registrado")
+            todosLosEmails = PaseadorCuidador.objects.exclude(email=paseador_cuidador.email).values_list('email', flat=True)
+            if nuevoEmail in todosLosEmails:
+                messages.error(request, "El email ya se encuentra registrado")
                 return render(request, "modificar_datos.html", {"form": form, "paseador_cuidador": paseador_cuidador})
             paseador_cuidador.nomyap = nuevoNomyap
-            paseador_cuidador.dni = nuevoDni
+            paseador_cuidador.email = nuevoEmail
             paseador_cuidador.textolibre = nuevoTextoLibre
             paseador_cuidador.tipo = nuevoTipo
             paseador_cuidador.save()
