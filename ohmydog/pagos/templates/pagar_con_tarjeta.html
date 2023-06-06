@@ -32,9 +32,16 @@
         <div style= "width: 75%; margin: auto;"> 
             {{form|crispy}}
         <input type="submit"  class="btn btn-primary" value="Pagar">
+        <input type="submit" onclick="goBack()" class="btn btn-primary" value="Volver">
         </div>
     </form>
     
+    <script>
+      function goBack() {
+        window.location.href = "{% url 'pagos:pagar_turno' %}";
+      }
+    </script>
+
 </body>
 </html>
 

@@ -19,8 +19,16 @@
         <div style= "width: 75%; margin: auto;"> 
             {{form|crispy}}
         <input type="submit"  class="btn btn-primary" value="Publicar Perro">
+        <input type="submit" onclick="goBack()" class="btn btn-primary" value="Volver">
         </div>
     </form>
+
+    <script>
+        function goBack() {
+          window.location.href = "{% url 'perros_en_adopcion' %}";
+        }
+    </script>
+
 </body>
 </html>
 

@@ -42,7 +42,14 @@
             {{ form.motivo }}
         </div>
         <button type="submit" class="btn btn-primary">Solicitar turno</button>
+        <input type="submit" onclick="goBack()" class="btn btn-primary" value="Volver">
     </form>
+
+    <script>
+        function goBack() {
+          window.location.href = "{% url 'turnos_cliente' %}";
+        }
+      </script>
     
 </body>
 </html>

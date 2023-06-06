@@ -154,6 +154,8 @@ def ver_turno_cliente(request, turno_id):
             print('rechazo')
             msj_feedback = "Modificación de turno rechazada. Deberá solicitar un nuevo turno."
             turno.estado = "rechazado"
+        else:
+            msj_feedback = "No se realizaron cambios en el estado del turno"
         turno.save()
         messages.success(request, msj_feedback)
         return redirect('turnos_cliente')
