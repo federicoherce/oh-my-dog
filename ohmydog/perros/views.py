@@ -22,6 +22,7 @@ def agregar_perro(request, dni, password):
                                  raza=request.POST['raza'],
                                  color=request.POST['color'],
                                  fecha_de_nacimiento=request.POST['fecha_de_nacimiento'],
+                                 sexo=request.POST['sexo'],
                                  dueño=usuario)
             LibretaSanitaria.objects.create(perro=un_perro)
             if usuario.get_usuario_nuevo():

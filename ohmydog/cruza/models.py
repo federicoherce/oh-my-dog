@@ -1,10 +1,8 @@
 from django.db import models
-from django.core.exceptions import ValidationError
-from django.utils import timezone
 from autenticacion.models import CustomUser
 
 # Create your models here.
-class Perro(models.Model):
+class PerroCruza(models.Model):
     RAZAS_PERRO = [
         ('labrador', 'Labrador'),
         ('bulldog', 'Bulldog'),
@@ -36,11 +34,7 @@ class Perro(models.Model):
 
     def __str__(self):
         return self.nombre
-    
-class LibretaSanitaria(models.Model):
-    perro = models.ForeignKey(Perro, on_delete=models.CASCADE, null=True)
+    fecha_de_celo = models.DateField()
 
-class Vacuna(models.Model):
-    tipo = models.CharField(max_length=50)
-    fecha = models.DateField(default=timezone.now)
-    libreta_sanitaria = models.ForeignKey(LibretaSanitaria, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.nombre
