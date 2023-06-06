@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'paseadores_cuidadores',
     'turnos',
     'adopcion',
-    'pagos'
+    'pagos',
+    'cruza',
+    'donaciones'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

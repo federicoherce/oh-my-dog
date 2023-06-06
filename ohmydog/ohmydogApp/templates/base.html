@@ -54,10 +54,12 @@
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'perros_en_adopcion' %}">Adopcion</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'listar_paseadores_cuidadores' %}">Paseadores y cuidadores</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'ver_perros_cruza' %}">Cruce de perros</a></li>
                     {% if not user.is_superuser and user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
                     {% endif %}
                     {% if user.is_superuser %}
+                        <li class="nav-item"><a class="nav-link" href="#">Donaciones</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'listado_de_clientes'%}">Clientes</a></li>
                     {% endif %}
                 </ul>

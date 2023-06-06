@@ -29,7 +29,9 @@ urlpatterns = [
     path('paseadores_cuidadores/', include('paseadores_cuidadores.urls')),
     path('adopcion/', include('adopcion.urls')),
     path('turnos/', include('turnos.urls')),
-    path('pagos/', include('pagos.urls'))
+    path('pagos/', include('pagos.urls')),
+    path('cruza/', include('cruza.urls')),
+    path('donaciones/', include('donaciones.urls'))
 ]
 
 
