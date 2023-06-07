@@ -17,7 +17,7 @@
 
     <div class="top-bar">
         <div class="logo-container">
-            <img class="logo" src="{% static 'img/logo.png' %}" alt="logo" href="{% url 'home' %}">
+            <a href="{% url 'home' %}"><img class="logo" src="{% static 'img/logo.png' %}" alt="logo"></a>
         </div>
         <div class="button-container">
             {% if user.is_authenticated %}
@@ -35,8 +35,6 @@
             {% endif %}
         </div>
     </div>
-    
-
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-celeste">
         <div class="container">
@@ -83,7 +81,7 @@
           </p>
           <p class="m-0 mbt1">&copy; Oh My Dog 2023</p>
         </div>
-      </footer>
+    </footer>
     
 </body>
 

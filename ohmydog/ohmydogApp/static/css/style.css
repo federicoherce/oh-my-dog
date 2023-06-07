@@ -315,6 +315,7 @@
   .navbar-nav .nav-link.active {
     color: var(--bs-navbar-active-color);
   }
+
   .navbar-nav .dropdown-menu {
     position: static;
   }
@@ -421,21 +422,9 @@
     --bs-bg-opacity: 1;
     background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
   }
+
   .bg-celeste {
     background-color: #00AEEF;
-    /*
-    * #ABCDEF
-    * #00AEEF
-    * #4FC3F7
-    * #0097A7
-    * #82B1FF
-    * #03A9F4
-    * #8FB6BF
-    * #709AA0
-    * #5C7E85
-    * #496E75
-    * #35565C
-    */
   }
 
   @media (min-width: 992px) {
@@ -524,5 +513,5 @@
     padding: 10px;
     border: 2px solid black;
     background-color: #fab168;
-     }
+  }
 

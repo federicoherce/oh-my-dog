@@ -4,45 +4,46 @@
 
 {% block content %}
 
-<html>
+<!DOCTYPE html>
+    <html lang="en">
     <head>
-        <style>
-         li, form {
-        display: inline;
-        margin-right: 20px;
-        }
-        hr {
-            border: none;
-            height: 3px;
-            background-color: black;
-            margin: 20px 0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-
-        th, td {
-            padding: 5px;
-            text-align: left;
-            border-bottom: 1px solid black;
-            font-size: 18px;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-        </style>
-    </head>
-    <body>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home</title>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
         {% for msg in messages %}
         <script>
             swal('{{msg}}');
         </script>
         {% endfor %}
+        <style>
+            hr {
+                border: none;
+                height: 3px;
+                background-color: black;
+                margin: 20px 0;
+            }
+    
+            table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+            }
+    
+            th, td {
+                padding: 5px;
+                text-align: left;
+                border-bottom: 1px solid black;
+                font-size: 18px;
+            }
+    
+            tr:last-child td {
+                border-bottom: none;
+            }
+        </style>
+    </head>
+    <body>
         {% if user.is_superuser %} 
             <p class="titulos-format">Turnos del día:</p>
             {% if turnos %}
@@ -58,14 +59,14 @@
                     {% for turno in turnos %}
                         {% if turno.cliente_asistio is None %}
                             <tr>
-                                <td>{{ turno.cliente.nombre}} {{ turno.cliente.apellido}}</td>
-                                <td>{{ turno.hora}} </td>
-                                <td>{{ turno.motivo}}</td>
+                                <td>{{ turno.cliente.nombre }} {{ turno.cliente.apellido }}</td>
+                                <td>{{ turno.hora }} </td>
+                                <td>{{ turno.motivo }}</td>
                                 <td> <form method="post" action="{% url 'confirmar_asistencia' turno.id 'true' %}"> {% csrf_token %}
-                                <input type="submit" class="btn btn-primary" value="Asistió">
+                                    <input type="submit" class="btn btn-primary" value="Asistió">
                                 </form></td>
                                 <td> <form method="post" action="{% url 'confirmar_asistencia' turno.id 'false' %}"> {% csrf_token %}
-                                <input type="submit" class="btn btn-primary" value="No asistió">
+                                    <input type="submit" class="btn btn-primary" value="No asistió">
                                 </form></td>
                             </tr>
                             <br>
@@ -84,16 +85,16 @@
                     // Elimina el elemento <table> de su padre (por ejemplo, un div)
                     tabla.parentNode.removeChild(tabla);
                     }
-                 </script>
-                 <img src= "{% static 'img/perrotriste.png' %}" width="200px" style="display: block; margin-left: auto; margin-right: auto;">
+                </script>
+                <img src= "{% static 'img/perrotriste.png' %}" width="200px" style="display: block; margin-left: auto; margin-right: auto;">
                 <p style="font-family:'Times New Roman', Times, serif;
                 font-size: 25px; text-align:center"> <b>No hay turnos para hoy</b></p>   
                 <br> 
             {% endif %}
             {% if pendientes %}
-                  <br>
-                  <p style="font-family:'Times New Roman', Times, serif;
-                   font-size: 25px; text-align:center"> <b>Hay turnos pendientes</b> </p>    
+                <br>
+                <p style="font-family:'Times New Roman', Times, serif;
+                font-size: 25px; text-align:center"> <b>Hay turnos pendientes</b> </p>    
             {% endif %}          
         {% else %}
             <h1 class="titulos-format">Bienvenido a nuestra veterinaria</h1>
