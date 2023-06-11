@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
+</head>
+<body> 
+    <p class="titulos-format"> Enviar solicitud </p>
+    {% if perros %}
+      <div style="text-align:center">
+        <b> Seleccione su perro, que se cruzara con {{nombre}} </b>
+        <br>
+        <form method="POST" action="{% url 'enviar_solicitud_cruce' nombre autor sexo %}" >
+            {% csrf_token %}
+            <select name="perro" style= "width: 25%; margin: auto;">
+              {% for perro in perros %}
+                <option value="{{ perro.id }}">{{ perro.nombre }}</option>
+              {% endfor %}
+            </select>
+            <br>
+            <br>
+            <input type="submit"  class="btn btn-primary" value="Enviar">
+        </form>
+      </div>
+    {% else %} 
+      <p style="text-align:center"><b>No tienes perros disponibles para publicar</b></p>
+    {% endif %}
+    <input style="position:absolute; top:200px" type="submit" onclick="goBack()" class="btn btn-primary" value="Volver">
+    <script>
+      function goBack() {
+        window.location.href = "{% url 'ver_perros_cruza' %}";
+      }
+    </script>
+</body>
+</html>
+
+
+{% endblock %}
