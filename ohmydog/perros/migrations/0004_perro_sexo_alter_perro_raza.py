@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='perro',
             name='sexo',
-            field=models.CharField(choices=[('macho', 'Macho'), ('hembra', 'Hembra')], default=None, max_length=10),
+            field=models.CharField(choices=[('macho', 'Macho'), ('hembra', 'Hembra')], default="", max_length=10),
             preserve_default=False,
         ),
         migrations.AlterField(
