@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>QR para pagar</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body> 
+    <p class="titulos-format"> QR PARA PAGAR</p>
+   <b> <p style="text-align:center">El monto del pago es: ${{ monto }}</p></b>
+        <img src="{% static 'img/qr_cripto2.png' %}" alt="QR para pagar" width="300px" style="display: block; margin-left: auto; margin-right: auto;">
+        <br>
+        <form method="post" style="text-align:center"action="{% url 'pagos:escanear_qr' monto %}">
+            {% csrf_token %}
+            <button type="submit" name="opcion" class="btn btn-primary"  value="pagado">Pagado</button>
+            <button type="submit" name="opcion" class="btn btn-primary"  value="volver">Volver</button>
+        </form>
+</body>
+</html>
+
+
+{% endblock %}

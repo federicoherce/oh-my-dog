@@ -12,6 +12,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de perros para cruza</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
     <style>
         table {
             width: 100%;
@@ -67,25 +73,39 @@
         <div class="adoption-banner">
             ¡Nuestra veterinaria también ofrece un servicio de adopción!
         </div>
-        <br>
-        <input type="" class="btn btn-primary" value="Agregar perro al listado.">
+        {% if not user.is_superuser %}
+            <form method="get" action="{% url 'publicar_perro_cruza' %}" style="text-align: center;">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary" value="Publicar Perro">
+            </form>
+        {% endif %}
     </div>
     <br>
     {% if perros_cruza %}
         <ol>
             <table>
                 <tr>
-                    <th>Nombre</th>
                     <th>Raza</th>
+                    <th>Fecha de nacimiento</th>
                     <th>Fecha de celo</th>
                     <th> </th>
                 </tr>
                 {% for perro in perros_cruza %}
                     <tr>
-                        <td>{{ perro.nombre }}</td>
-                        <td>{{ perro.raza }}</td>
+                        <td>{{ perro.perro.raza }}</td>
+                        <td>{{ perro.perro.fecha_de_nacimiento }}</td>
                         <td>{{ perro.fecha_de_celo }}</td>
-                        <td><a href="#" style="color: black;">Ver perro</a></td>
+                        <td><form method="get" action="" style="display: inline-block;">
+                            {% csrf_token %}
+                        <input type="submit" class="btn btn-primary" value="Ver perro">
+                        </form> 
+                        {% if not user.is_superuser and user.id != perro.dueño_id %}
+                        <form method="get" action="{% url 'enviar_solicitud_cruce' perro.perro.nombre perro.dueño_id perro.perro.sexo %}" style="display: inline-block;">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-primary" value="Enviar solicitud">
+                        </form> 
+                        {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </table>

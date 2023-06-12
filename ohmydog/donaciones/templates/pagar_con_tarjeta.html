@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Pagar con Tarjeta</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#id_fecha_vencimiento').on('input', function() {
+          var val = $(this).val();
+          if (val.length === 2 && val.indexOf('/') === -1) {
+            $(this).val(val + '/');
+          }
+        });
+      });
+    </script>
+</head>
+<body> 
+    <p class="titulos-format"> Pagar con Tarjeta </p>
+    <b> <p style="text-align:center">El monto del pago es: ${{ monto }}</p></b>
+    <br>
+    <form action="{% url 'pagos:pagar_con_tarjeta' monto %}" class="formularios" method="POST"> {% csrf_token %}
+        <div style= "width: 75%; margin: auto;"> 
+            {{form|crispy}}
+        <input type="submit"  class="btn btn-primary" value="Pagar">
+        <input type="submit" onclick="goBack()" class="btn btn-primary" value="Volver">
+        </div>
+    </form>
+    
+    <script>
+      function goBack() {
+        window.location.href = "{% url 'pagos:pagar_turno' %}";
+      }
+    </script>
+
+</body>
+</html>
+
+
+{% endblock %}
