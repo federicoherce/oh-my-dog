@@ -8,6 +8,7 @@ class Donacion(models.Model):
 
 
 class Campaña(models.Model):
-    nombre = models.CharField(max_length=30)
-    monto_objetivo = models.DecimalField(max_digits=2)
-    descripcion = CharField = models.CharField(max_length=200)
+    nombre = models.CharField(max_length=30, unique=True, error_messages={
+            'unique': 'Ya existe un usuario con este email'})
+    monto_objetivo = models.DecimalField(decimal_places=2, max_digits=12)
+    descripcion = models.CharField(max_length=200)

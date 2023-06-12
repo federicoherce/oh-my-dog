@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Agregar Campaña</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
+    <style>
+        hr {
+            border: none;
+            height: 3px;
+            background-color: black;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="titulos-format">Agregar Campaña</h1> 
+    <br>
+
+    <form action="" method="POST" class="formularios"> {% csrf_token %}
+        <div style= "width: 75%; margin: auto;"> 
+            {{form|crispy}}
+        <input type="submit"   class="btn btn-primary" value="Enviar">
+        <!--<input type="submit" onclick="goBack()" class="btn btn-primary" value="Volver">-->
+        </div>
+    </form>
+
+    <!--<script>
+        function goBack() {
+          window.location.href = "{% url 'listar_paseadores_cuidadores' %}";
+        }
+    </script>-->
+    <br>
+    <br>
+    
+    <br>
+</body> 
+</html>
+
+
+{% endblock %}
