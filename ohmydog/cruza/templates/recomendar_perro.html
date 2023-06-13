@@ -5,46 +5,99 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Recomendar perro</title>
-            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
-            {% for msg in messages %}
-            <script>
-                swal('{{msg}}');
-            </script>
-            {% endfor %}
-        </head>
-        <body>
-            <p class="titulos-format"> Recomendación </p>
-            {% if perros %}
-                <div style="text-align: center;">
-                    <b>Seleccione su perro.</b>
-                    <br>
-                    <form method="post" action="{% url 'recomendar_perro' %}" class="formularios"> {% csrf_token %}
-                        <select name="perro" style="width: 25%; margin: auto;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendar perro</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
+    <style>
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        *, ::after, ::before {
+            box-sizing: border-box;
+        }
+        div {
+            display: block;
+        }
+        label {
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        label {
+            cursor: default;
+        }
+        .asteriskField {
+            display: none;
+        }
+        .form-control {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        select {
+            word-wrap: normal;
+        }
+        select {
+            text-transform: none;
+        }
+        select {
+            margin: 0;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+        }
+    </style>
+</head>
+<body>
+    <p class="titulos-format"> Recomendación </p>
+    {% if perros %}
+        <form method="post" action="{% url 'recomendar_perro' %}" class="formularios"> {% csrf_token %}
+            <div id="div_id_selector" class="form-group" style="width: 75%; margin: auto;">
+                <label for="id_selector" class="requiredField">
+                    Seleccione su perro
+                    <span class="asteriskField">*</span>
+                </label>
+                    <div>
+                        <select name="perro" class="select form-control" id="id_selector">
                             {% for perro in perros %}
+                                
                                 <option value="{{ perro.perro.id }}">
                                     {{ perro.perro.nombre }}
                                 </option>
                             {% endfor %}
                         </select>
-                        <br>
-                        <br>
-                        <input type="submit"  class="btn btn-primary" value="Recomendar">
-                    </form>
-                </div>
-            {% else %}
-                <p style="text-align:center"><b>No tienes perros disponibles para publicar</b></p>
-                <form method="get" action="{% url 'publicar_perro_cruza' %}" style="text-align: center;">
-                    {% csrf_token %}
-                    <input type="submit" class="btn btn-primary" value="Publicar Perro">
-                </form>
-            {% endif %}
-        </body>
-    </html>
+                    </div>
+                    <br>
+                    <input type="submit"  class="btn btn-primary" value="Recomendar">
+                    <button class="btn btn-primary"><a href="{% url 'ver_perros_cruza' %}" style="color:#fff">Volver</a></button>
+            </div>
+        </form>
+    {% else %}
+        <p style="text-align:center"><b>No tienes perros disponibles para publicar</b></p>
+        <form method="get" action="{% url 'publicar_perro_cruza' %}" style="text-align: center;">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="Publicar Perro">
+        </form>
+    {% endif %}
+</body>
+</html>
 {% endblock %}

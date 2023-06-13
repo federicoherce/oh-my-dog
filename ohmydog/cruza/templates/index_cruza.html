@@ -73,14 +73,17 @@
         <div class="adoption-banner">
             ¡Nuestra veterinaria también ofrece un servicio de adopción!
         </div>
+        <br>
         {% if not user.is_superuser %}
-            <form method="get" action="{% url 'publicar_perro_cruza' %}" style="text-align: center;">
-                {% csrf_token %}
-                <input type="submit" class="btn btn-primary" value="Publicar Perro">
-            </form>
-            <form method="get" action="{% url 'recomendar_perro' %}" style="text-align: center;"> {% csrf_token %}
-                <input type="submit" class="btn btn-primary" value="Recomendar perro">
-            </form>
+            <div>
+                <form method="get" action="{% url 'publicar_perro_cruza' %}">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary" value="Publicar Perro">
+                </form>
+                <form method="get" action="{% url 'recomendar_perro' %}"> {% csrf_token %}
+                    <input type="submit" class="btn btn-primary" value="Recomendar perro">
+                </form>
+            </div>
         {% endif %}
     </div>
     <br>
