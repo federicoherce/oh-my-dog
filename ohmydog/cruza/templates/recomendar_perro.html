@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Recomendar perro</title>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+            {% for msg in messages %}
+            <script>
+                swal('{{msg}}');
+            </script>
+            {% endfor %}
+        </head>
+        <body>
+            <p class="titulos-format"> Recomendación </p>
+            {% if perros %}
+                <div style="text-align: center;">
+                    <b>Seleccione su perro.</b>
+                    <br>
+                    <form method="post" action="{% url 'recomendar_perro' %}" class="formularios"> {% csrf_token %}
+                        <select name="perro" style="width: 25%; margin: auto;">
+                            {% for perro in perros %}
+                                <option value="{{ perro.perro.id }}">
+                                    {{ perro.perro.nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <br>
+                        <input type="submit"  class="btn btn-primary" value="Recomendar">
+                    </form>
+                </div>
+            {% else %}
+                <p style="text-align:center"><b>No tienes perros disponibles para publicar</b></p>
+                <form method="get" action="{% url 'publicar_perro_cruza' %}" style="text-align: center;">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary" value="Publicar Perro">
+                </form>
+            {% endif %}
+        </body>
+    </html>
+{% endblock %}
