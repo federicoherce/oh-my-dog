@@ -21,6 +21,7 @@ from ohmydogApp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
+    path('contacto/', views.ver_redes_sociales, name='ver_redes_sociales'),
     path('confimar_asistencia/<int:turno_id>/<str:asistio>',
     views.confirmar_asistencia, name= "confirmar_asistencia"),
     path('actualizar_libreta/<int:turno_id>', views.actualizar_libreta, name="actualizar_libreta"),
@@ -32,6 +33,7 @@ urlpatterns = [
     path('pagos/', include('pagos.urls')),
     path('cruza/', include('cruza.urls')),
     path('donaciones/', include('donaciones.urls'))
+    
 ]
 
 

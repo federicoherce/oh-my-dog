@@ -76,3 +76,5 @@ def generarTurno(turno):
         nuevoTurno.save()
     
 
+def ver_redes_sociales(request):
+    return None
