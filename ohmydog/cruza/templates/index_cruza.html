@@ -71,7 +71,7 @@
     <div class="container-principal">
         <h1 class="titulos-format">Perros para cruza</h1>
         <div class="adoption-banner">
-            ¡Nuestra veterinaria también ofrece un servicio de adopción!
+            <a href="{% url 'perros_en_adopcion' %}" style="color:rgb(194, 198, 203)">¡Nuestra veterinaria también ofrece un servicio de adopción!</a>
         </div>
         <br>
         {% if not user.is_superuser %}
