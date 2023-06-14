@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from turnos.models import Turno
 from perros.models import Perro, Vacuna, LibretaSanitaria
+from donaciones.models import Campaña
 from .forms import tipoVacuna
 from autenticacion.models import CustomUser
 from datetime import date, timedelta
@@ -11,6 +12,9 @@ def home(request):
     turnosPendientes = Turno.objects.filter(estado="pendiente")
     return render(request, "home.html", 
     {"user": request.user, "turnos": turnos, "pendientes": turnosPendientes})
+
+#campana = Campaña.objects.first()
+# "campana": campana}
 
 
 def confirmar_asistencia(request, turno_id, asistio):
@@ -29,7 +33,7 @@ def confirmar_asistencia(request, turno_id, asistio):
         elif turno.motivo == 'vacuna_antirrabica':
             return redirect('actualizar_libreta', turno_id)
         else:
-            return redirect('pagos:pagar_turno')
+            return redirect('pagos:pagar_turno', turno.cliente.dni)
     return redirect('home')
 
 
@@ -46,7 +50,7 @@ def actualizar_libreta(request, turno_id):
             vacuna.libreta_sanitaria = libreta
             vacuna.save()
             messages.success(request, 'Libreta actualizada')
-            return redirect('pagos:pagar_turno')
+            return redirect('pagos:pagar_turno', turno.cliente.dni)
     return render(request, "actualizar_libreta.html", {"form": form})
 
 def generarTurno(turno):

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Ver Campaña</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body> 
+    <p class="titulos-format"> Ver Campaña</p>
+    {% if campana %}
+            <li><strong>Campaña: </strong>{{ campana.nombre }}</li>
+            <li><strong>Monto objetivo: </strong>{{ campana.monto_objetivo }}</li>
+            <li><strong>Descripcion: </strong>{{ campana.descripcion }}</li>
+            {% if user.is_superuser %}
+                <form method="POST" action="{% url 'eliminar_campana' %}" style="display: inline;">
+                   {% csrf_token %}
+                   <input type="submit" class="btn btn-primary" value="Borrar" onclick="return confirm('¿Estás seguro de que deseas borrar esta Campaña de Donacion?')">
+                </form>
+            {% endif %}
+            {% if not user.is_superuser %}
+                <form method="POST" action="{% url 'realizar_donacion' 'Campaña' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary" value="Donar">
+                </form>
+            {% endif %}
+    {% endif %}
+</body>
+</html>
+
+
+{% endblock %}

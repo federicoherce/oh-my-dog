@@ -15,75 +15,93 @@
 
 <body style="background-color: rgba(255, 204, 153, 1);"> 
 
-    <div class="top-bar">
-        <div class="logo-container">
-            <a href="{% url 'home' %}"><img class="logo" src="{% static 'img/logo.png' %}" alt="logo"></a>
-        </div>
-        <div class="button-container">
-            {% if user.is_authenticated %}
-                <b>Hola, {{ user.nombre }}!</b>
-                {% if user.is_superuser %}
-                    <b>(admin)</b>
-                {% endif %}
-                &nbsp;&nbsp; <b><a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a> </b>
-
-            {% else %}
-               <b> <a href="{% url 'login' %}" class="login-button" style="color: black">Iniciar Sesión</a> </b>
-            {% endif %}
-            {% if user.is_superuser %}
-               <b> <a href="{% url 'registro' %}" class="register-button">Registrar usuario</a></b>
-            {% endif %}
-        </div>
+    {% if campana %}
+    <div class="banner">
+        <a href="{% url 'ver_campana' %}" style="top: 100px;">
+            <h3>Done a: {{ campana.nombre }}</h3>
+        </a>
     </div>
+    {% elif user.is_superuser %}
+    <div class="banner">
+        <a href="{% url 'agregar_campana' %}">
+            <h3>Agregar Campaña</h3>
+        </a>
+    </div>
+    {% endif %}
+    
+        <div class="top-bar">
+            <div class="logo-container">
+                <a href="{% url 'home' %}"><img class="logo" src="{% static 'img/logo.png' %}" alt="logo"></a>
+            </div>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-celeste">
-        <div class="container">
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    {% if user.is_authenticated %}
-                        {% if user.is_superuser %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'turnos_veterinario' %}">Turnos</a></li>
-                        {% else %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'turnos_cliente' %}">Turnos</a></li>
-                        {% endif %}
-                    {% endif %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'perros_en_adopcion' %}">Adopcion</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'listar_paseadores_cuidadores' %}">Paseadores y cuidadores</a></li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'ver_perros_cruza' %}">Cruce de perros</a></li>
-                    {% endif %}
-                    {% if not user.is_superuser and user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
-                    {% endif %}
+            <div class="button-container">
+                {% if user.is_authenticated %}
+                    <b>Hola, {{ user.nombre }}!</b>
                     {% if user.is_superuser %}
-                        <li class="nav-item"><a class="nav-link" href="#">Donaciones</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'listado_de_clientes'%}">Clientes</a></li>
+                        <b>(admin)</b>
                     {% endif %}
-                </ul>
+                    &nbsp;&nbsp; <b><a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a> </b>
+
+                {% else %}
+                <b> <a href="{% url 'login' %}" class="login-button" style="color: black">Iniciar Sesión</a> </b>
+                {% endif %}
+                {% if user.is_superuser %}
+                <b> <a href="{% url 'registro' %}" class="register-button">Registrar usuario</a></b>
+                {% endif %}
             </div>
         </div>
-    </nav>
 
-    
-    
-    {% block content %}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-celeste">
+            <div class="container">
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                        {% if user.is_authenticated %}
+                            {% if user.is_superuser %}
+                                <li class="nav-item"><a class="nav-link" href="{% url 'turnos_veterinario' %}">Turnos</a></li>
+                            {% else %}
+                                <li class="nav-item"><a class="nav-link" href="{% url 'turnos_cliente' %}">Turnos</a></li>
+                            {% endif %}
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'perros_en_adopcion' %}">Adopcion</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'listar_paseadores_cuidadores' %}">Paseadores y cuidadores</a></li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'ver_perros_cruza' %}">Cruce de perros</a></li>
+                        {% endif %}
+                        {% if not user.is_superuser and user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'mi_perfil' %}">Mi perfil</a></li>
+                        {% endif %}
+                        {% if user.is_superuser %}
+                            <li class="nav-item"><a class="nav-link" href="#">Donaciones</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'listado_de_clientes'%}">Clientes</a></li>
+                        {% endif %}
+                        {% if not user.is_superuser %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'realizar_donacion' 'Veterinaria' %}" style="color:antiquewhite"><b>DONAR A OHMYDOG!</b></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
-    {% endblock %}
+        
+        
+        {% block content %}
 
-    <footer class="footer text-faded text-center py-5">
-        <div class="container">
-          <p class="m-0 mbt">
-            <b> 
-              <a href="#" style="color: black" class="link">Ubicacion</a> ·
-              <a href="#" style="color: black"  class="link">Redes Sociales</a>
-            </b>
-          </p>
-          <p class="m-0 mbt1">&copy; Oh My Dog 2023</p>
-        </div>
-    </footer>
+        {% endblock %}
+
+        <footer class="footer text-faded text-center py-5">
+            <div class="container">
+            <p class="m-0 mbt">
+                <b> 
+                <a href="#" style="color: black" class="link">Ubicacion</a> ·
+                <a href="#" style="color: black"  class="link">Redes Sociales</a>
+                </b>
+            </p>
+            <p class="m-0 mbt1">&copy; Oh My Dog 2023</p>
+            </div>
+        </footer>
     
 </body>
 

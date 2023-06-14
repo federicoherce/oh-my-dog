@@ -28,19 +28,13 @@
     <p class="titulos-format"> Pagar con Tarjeta </p>
     <b> <p style="text-align:center">El monto del pago es: ${{ monto }}</p></b>
     <br>
-    <form action="{% url 'pagos:pagar_con_tarjeta' monto %}" class="formularios" method="POST"> {% csrf_token %}
+    <form action="" class="formularios" method="POST"> {% csrf_token %}
         <div style= "width: 75%; margin: auto;"> 
             {{form|crispy}}
         <input type="submit"  class="btn btn-primary" value="Pagar">
-        <input type="submit" onclick="goBack()" class="btn btn-primary" value="Volver">
+        <input type="submit" onclick="window.history.back()" class="btn btn-primary" value="Volver">
         </div>
     </form>
-    
-    <script>
-      function goBack() {
-        window.location.href = "{% url 'pagos:pagar_turno' %}";
-      }
-    </script>
 
 </body>
 </html>

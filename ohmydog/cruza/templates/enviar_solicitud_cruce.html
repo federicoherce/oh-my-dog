@@ -40,12 +40,8 @@
     {% else %} 
       <p style="text-align:center"><b>No tienes perros disponibles para publicar</b></p>
     {% endif %}
-    <input style="position:absolute; top:200px" type="submit" onclick="goBack()" class="btn btn-primary" value="Volver">
-    <script>
-      function goBack() {
-        window.location.href = "{% url 'ver_perros_cruza' %}";
-      }
-    </script>
+    <input style="position:absolute; top:200px" type="submit" onclick="window.history.back()" class="btn btn-primary" value="Volver">
+
 </body>
 </html>
 

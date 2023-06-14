@@ -5,32 +5,28 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>Realizar Donacion</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
-    {% for msg in messages %}
-    <script>
-        swal('{{msg}}');
-    </script>
-    {% endfor %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body>
-    <p class="titulos-format" > Modificar el email </p>
-    <form action="" method="POST" class="formularios"> {% csrf_token %}
+<body> 
+    <p class="titulos-format"> Realizar Donacion </p>
+    <br>
+    <form action="" class="formularios" method="POST"> {% csrf_token %}
         <div style= "width: 75%; margin: auto;"> 
             {{form|crispy}}
-        <input type="submit"  class="btn btn-primary" value="Enviar">
+        <input type="submit"  class="btn btn-primary" value="Pagar">
         <input type="submit" onclick="window.history.back()" class="btn btn-primary" value="Volver">
         </div>
     </form>
 
 </body>
 </html>
+
 
 {% endblock %}

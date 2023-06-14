@@ -29,7 +29,7 @@
     <h1 class="titulos-format">Pagar Turno</h1> 
     <br>
 
-    <form method="post"  style="text-align: center;" action="{% url 'pagos:pagar_turno' %}">
+    <form method="post"  style="text-align: center;" action="">
         {% csrf_token %}
         <b> <label for="monto">Monto:</label> </b>
         <input type="number" name="monto" id="monto" required>

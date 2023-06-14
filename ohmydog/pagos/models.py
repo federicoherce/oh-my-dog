@@ -23,5 +23,5 @@ def validate_fecha_vencimiento(value):
 
 # Create your models here.
 class Pago(models.Model):    
-    monto = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(1, 'El monto a pagar debe ser mayor o igual a 1')])
+    monto = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0, 'El monto a pagar debe ser mayor o igual a 0')])
 

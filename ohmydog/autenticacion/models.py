@@ -40,7 +40,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     RegexValidator(r'^[0-9+-]+$', 'El teléfono solo puede contener números y los caracteres "+" y "-".')])
     activo = models.BooleanField(default=False)
     usuario_nuevo = models.BooleanField(default=True)
-    
+    monto_a_favor = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     objects = CustomUserManager()
