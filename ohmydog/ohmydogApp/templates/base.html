@@ -10,7 +10,25 @@
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
    crossorigin="anonymous">
-   
+   <link rel="stylesheet" href="{% static 'fonts/fontawesome-free-6.4.0-web/css/all.min.css' %}">
+   <style>
+        .social-icons {
+            margin-bottom: 20px;
+        }
+
+        .social-icon {
+            display: inline-block;
+            margin-right: 15px;
+            font-size: 28px;
+            color: black;
+        }
+
+        @media (max-width: 768px) {
+            .social-icon {
+                font-size: 24px;
+            }
+        }
+   </style>
 </head>
 
 <body style="background-color: rgba(255, 204, 153, 1);"> 
@@ -89,19 +107,25 @@
         
         {% block content %}
 
-        {% endblock %}
-
-        <footer class="footer text-faded text-center py-5">
-            <div class="container">
-            <p class="m-0 mbt">
-                <b> 
-                <a href="#" style="color: black" class="link">Ubicacion</a> ·
-                <a href="#" style="color: black"  class="link">Redes Sociales</a>
+    <footer class="footer text-faded text-center py-5">
+        <div class="container">
+          <div class="social-icons">
+                <b>
+                    <a href="#" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="mailto:ohmydogg.vet@gmail.com" class="social-icon"><i class="fas fa-envelope"></i></a>
                 </b>
-            </p>
-            <p class="m-0 mbt1">&copy; Oh My Dog 2023</p>
-            </div>
-        </footer>
+          </div>  
+          <p class="m-0 mbt">
+            <b> 
+              <a href="#" style="color: black" class="link">Ubicacion</a> ·
+              <a href="#" style="color: black"  class="link">Contacto</a>
+            </b>
+          </p>
+          <p class="m-0 mbt1">&copy; Oh My Dog 2023</p>
+        </div>
+    </footer>
     
 </body>
 

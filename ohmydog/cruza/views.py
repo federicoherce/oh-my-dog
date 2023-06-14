@@ -5,6 +5,7 @@ from perros.models import Perro
 from django.contrib import messages
 from .forms import PublicarPerroCruzaForm
 from django.core.mail import send_mail
+from datetime import datetime, timedelta
 
 # Create your views here.
 def ver_perros_cruza(request):
@@ -57,3 +58,30 @@ def enviar_solicitud_cruce(request, perro, autor, sexo):
         "nombre": perro, 
         "autor": autor,
         "sexo": sexo})
+
+def recomendar_perro(request):
+    if request.method == "POST":
+        perro_selected = PerroCruza.objects.get(perro=request.POST.get('perro'))
+        perro_recommended = get_recomendacion(perro_selected)
+        print(perro_recommended)
+        if perro_recommended == None:
+            messages.error(request, "Lo sentimos, no encontramos una buena recomendación para que cruces a tu perro en este momento.")
+        #else:
+            #redirigir al "perfil" del perro que se recomienda, que sería la HU 'Ver Perro'
+    perros_cliente = PerroCruza.objects.filter(dueño=request.user)
+    return render(request, "recomendar_perro.html", {
+        "perros": perros_cliente
+    })
+
+def get_recomendacion(perro_selected):
+    fecha_inicio = perro_selected.fecha_de_celo - timedelta(days=5)
+    fecha_fin = perro_selected.fecha_de_celo + timedelta(days=5)
+
+    perros_compatibles = PerroCruza.objects.filter(
+        perro__raza=perro_selected.perro.raza,
+        perro__sexo="hembra" if perro_selected.perro.sexo == "macho" else "macho",
+        fecha_de_celo__range=[fecha_inicio, fecha_fin]
+    )
+
+    return perros_compatibles.first()
+

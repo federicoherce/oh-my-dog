@@ -8,3 +8,5 @@ class PerroCruza(models.Model):
     perro = models.ForeignKey(Perro, on_delete=models.CASCADE)
     fecha_de_celo = models.DateField()
 
+    def __str__(this):
+        return this.perro.__str__()

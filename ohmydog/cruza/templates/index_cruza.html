@@ -71,13 +71,19 @@
     <div class="container-principal">
         <h1 class="titulos-format">Perros para cruza</h1>
         <div class="adoption-banner">
-            ¡Nuestra veterinaria también ofrece un servicio de adopción!
+            <a href="{% url 'perros_en_adopcion' %}" style="color:rgb(194, 198, 203)">¡Nuestra veterinaria también ofrece un servicio de adopción!</a>
         </div>
+        <br>
         {% if not user.is_superuser %}
-            <form method="get" action="{% url 'publicar_perro_cruza' %}" style="text-align: center;">
-                {% csrf_token %}
-                <input type="submit" class="btn btn-primary" value="Publicar Perro">
-            </form>
+            <div>
+                <form method="get" action="{% url 'publicar_perro_cruza' %}">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary" value="Publicar Perro">
+                </form>
+                <form method="get" action="{% url 'recomendar_perro' %}"> {% csrf_token %}
+                    <input type="submit" class="btn btn-primary" value="Recomendar perro">
+                </form>
+            </div>
         {% endif %}
     </div>
     <br>
@@ -85,25 +91,30 @@
         <ol>
             <table>
                 <tr>
+                    <th>Nombre</th>
                     <th>Raza</th>
-                    <th>Fecha de nacimiento</th>
                     <th>Fecha de celo</th>
+                    <th>Sexo</th>
+                    <th> </th>
                     <th> </th>
                 </tr>
                 {% for perro in perros_cruza %}
                     <tr>
+                        <td>{{ perro.perro.nombre }}</td>
                         <td>{{ perro.perro.raza }}</td>
-                        <td>{{ perro.perro.fecha_de_nacimiento }}</td>
                         <td>{{ perro.fecha_de_celo }}</td>
-                        <td><form method="get" action="" style="display: inline-block;">
-                            {% csrf_token %}
-                        <input type="submit" class="btn btn-primary" value="Ver perro">
-                        </form> 
+                        <td>{{ perro.perro.sexo }}</td>
+                        <td>
+                            <form method="get" action="" style="display: inline-block;"> {% csrf_token %}
+                                <input type="submit" class="btn btn-primary" value="Ver perro">
+                            </form>
+                        </td>
                         {% if not user.is_superuser and user.id != perro.dueño_id %}
-                        <form method="get" action="{% url 'enviar_solicitud_cruce' perro.perro.nombre perro.dueño_id perro.perro.sexo %}" style="display: inline-block;">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-primary" value="Enviar solicitud">
-                        </form> 
+                            <td>
+                                <form method="get" action="{% url 'enviar_solicitud_cruce' perro.perro.nombre perro.dueño_id perro.perro.sexo %}" style="display: inline-block;"> {% csrf_token %}
+                                    <input type="submit" class="btn btn-primary" value="Enviar solicitud">
+                                </form>
+                            </td> 
                         {% endif %}
                         </td>
                     </tr>
