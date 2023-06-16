@@ -1,0 +1,26 @@
+{
+    "redes_sociales": [
+        {
+            "nombre": "Facebook",
+            "enlace": "https://www.facebook.com/"
+        },
+        {
+            "nombre": "Twitter",
+            "enlace": "https://www.twitter.com/"
+        },
+        {
+            "nombre": "Instagram",
+            "enlace": "https://www.instagram.com/"
+        }
+    ],
+    "formas_contacto": [
+        {
+            "tipo": "Correo electronico",
+            "dato": "ohmydogg.vet@outlook.com"
+        },
+        {
+            "tipo": "Telefono",
+            "dato": "22222222"
+        }
+    ]
+}
