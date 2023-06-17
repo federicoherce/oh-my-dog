@@ -34,8 +34,6 @@ def eliminar_campana(request):
 
     if request.method == 'POST':
         campana.delete()
-        donaciones_campaña = Donacion.objects.filter(tipo='Campaña')
-        donaciones_campaña.delete()
     
     return redirect('home')
 
@@ -49,7 +47,11 @@ def realizar_donacion(request, tipo):
         if form.is_valid():
             return redirect('pagos:pagar_donacion', monto=monto, nombre=nombre, tipo=tipo)
     else:
-        form = CrearDonacion()
+        if request.user.is_authenticated:
+            nombre_usuario = request.user.nombre
+        else:
+            nombre_usuario = ''
+        form = CrearDonacion(initial={'nombre': nombre_usuario})
     return render(request, 'realizar_donacion.html', {
         'form': form
     })
