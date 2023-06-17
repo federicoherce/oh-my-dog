@@ -3,7 +3,7 @@ import decimal
 from .forms import CrearPago, TarjetaForm
 from .models import Pago
 from autenticacion.models import CustomUser
-from donaciones.models import Donacion
+from donaciones.models import Donacion, Campaña
 from turnos.models import Turno
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -43,7 +43,7 @@ def pagar_con_tarjeta(request, monto, dni):
 
     return render(request, 'pagar_con_tarjeta.html', context)
 
-def pagar_donacion(request, monto, tipo, nombre):
+def pagar_donacion(request, monto, tipo, nombre, campana):
     if request.method == 'POST':
         form = TarjetaForm(request.POST)
         if form.is_valid():
@@ -56,7 +56,11 @@ def pagar_donacion(request, monto, tipo, nombre):
                 user = request.user
                 user.monto_a_favor = user.monto_a_favor + decimal.Decimal(monto) * decimal.Decimal(0.20)
                 user.save()
-            Donacion.objects.create(monto=monto, nombre=nombre, tipo=tipo)
+            if (tipo == "Campaña"): 
+                cmp = Campaña.objects.get(id=campana)
+                Donacion.objects.create(monto=monto, nombre=nombre, tipo=tipo, campana=cmp)
+            else:
+                Donacion.objects.create(monto=monto, nombre=nombre, tipo=tipo)
             messages.success(request, 'Donacion exitosa!')
             return redirect('home')
         else:

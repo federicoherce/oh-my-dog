@@ -26,6 +26,7 @@
     <ul class="info-list">
         {% if donaciones %} 
             {% for donacion in donaciones %} 
+                <li><strong>Campaña: </strong>{{donacion.campana.nombre}}</li>
                 <li><strong>Monto donado: </strong>{{donacion.monto}}</li>
                 {% if donacion.nombre != 'Zz' %}
                     <li><strong>Realizado por: </strong>{{ donacion.nombre }}</li>

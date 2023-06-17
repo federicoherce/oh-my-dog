@@ -39,18 +39,26 @@
             <div class="logo-container">
                 <a href="{% url 'home' %}"><img class="logo" src="{% static 'img/logo.png' %}" alt="logo"></a>
             </div>
-            {% if campana %}
-                <div class="banner">
-                    <a href="{% url 'ver_campana' %}" style="top: 100px;">
-                        <h3>Done a: {{ campana.nombre }}</h3>
-                    </a>
-                </div>
-            {% elif user.is_superuser %}
+            {% if campana is None and user.is_superuser %}
                 <div class="banner">
                     <a href="{% url 'agregar_campana' %}">
                         <h3>Agregar Campaña</h3>
                     </a>
                 </div>
+            {% elif campana is not None %} 
+                {% if not campana.finalizada %}
+                <div class="banner">
+                    <a href="{% url 'ver_campana' %}" style="top: 100px;">
+                        <h3>Done a: {{ campana.nombre }}</h3>
+                    </a>
+                </div>
+                {% elif user.is_superuser %}
+                <div class="banner">
+                    <a href="{% url 'agregar_campana' %}">
+                        <h3>Agregar Campaña</h3>
+                    </a>
+                </div>
+                {% endif %} 
             {% endif %}
             <div class="button-container">
                 {% if user.is_authenticated %}

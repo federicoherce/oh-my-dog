@@ -1,9 +1,14 @@
+from django.core.exceptions import ObjectDoesNotExist
 from donaciones import models
 import json
 
+
 def objeto_context(request):
-    campana = models.Campaña.objects.first()
-    return {'campana': campana}
+    try:
+        ultima_campana = models.Campaña.objects.latest('id')
+    except ObjectDoesNotExist:
+        ultima_campana = None
+    return {'campana': ultima_campana}
 
 def redes(request):
     with open("ohmydogApp/redes.json") as redes:

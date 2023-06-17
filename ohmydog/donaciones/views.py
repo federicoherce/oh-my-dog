@@ -24,20 +24,17 @@ def agregar_campana(request):
 
 
 def ver_campana(request):
-    campana = Campaña.objects.first()
+    campana = Campaña.objects.latest('id')
 
     return render(request, 'ver_campana.html', 
             {'campana': campana}
         )
 
 def eliminar_campana(request):
-    campana = Campaña.objects.first()
-
+    ultima_campana = Campaña.objects.latest('id')
     if request.method == 'POST':
-        campana.delete()
-        donaciones_campaña = Donacion.objects.filter(tipo='Campaña')
-        donaciones_campaña.delete()
-    
+        ultima_campana.finalizada = True
+        ultima_campana.save()
     return redirect('home')
 
 def realizar_donacion(request, tipo):
@@ -47,8 +44,12 @@ def realizar_donacion(request, tipo):
         if nombre == '':
             nombre = 'Zz'
         form = CrearDonacion(request.POST)
-        if form.is_valid():
-            return redirect('pagos:pagar_donacion', monto=monto, nombre=nombre, tipo=tipo)
+        if form.is_valid(): 
+            if (tipo == 'Campaña'):
+                campana = Campaña.objects.latest('id')
+                return redirect ('pagos:pagar_donacion', monto=monto, nombre=nombre, tipo=tipo, campana=campana.id)
+            else:
+                return redirect('pagos:pagar_donacion', monto=monto, nombre=nombre, tipo=tipo, campana=1)
     else:
         form = CrearDonacion()
     return render(request, 'realizar_donacion.html', {
@@ -60,10 +61,13 @@ def ver_donaciones(request):
 
 def donaciones_veterinaria(request):
     donaciones_vet = Donacion.objects.filter(tipo='Veterinaria')
-    total_monto = Donacion.objects.aggregate(total=Sum('monto'))['total']
+    total_monto = Donacion.objects.filter(tipo='Veterinaria').aggregate(total=Sum('monto'))['total']
     return render(request, 'donaciones_veterinaria.html', {
                 "donaciones": donaciones_vet,
                 "total_monto": total_monto})
     
 def donaciones_campana(request):
-    return render(request, 'donaciones_campana.html')
+    donaciones_campana = Donacion.objects.filter(tipo='Campaña')
+    return render(request, 'donaciones_campana.html', {
+        "donaciones": donaciones_campana
+    })

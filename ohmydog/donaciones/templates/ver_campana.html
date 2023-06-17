@@ -27,7 +27,7 @@
                 </form>
             {% endif %}
             {% if not user.is_superuser %}
-                <form method="POST" action="{% url 'realizar_donacion' 'Campaña' %}" style="display: inline;">
+                <form method="GET" action="{% url 'realizar_donacion' 'Campaña' %}" style="display: inline;">
                     {% csrf_token %}
                     <input type="submit" class="btn btn-primary" value="Donar">
                 </form>

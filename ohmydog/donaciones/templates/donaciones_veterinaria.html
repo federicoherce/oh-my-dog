@@ -28,6 +28,7 @@
         {% if donaciones %} 
             {% for donacion in donaciones %} 
                 <li><strong>Monto donado: </strong>{{donacion.monto}}</li>
+                <li><strong>Monto donado: </strong>{{donacion.monto}}</li>
                 {% if donacion.nombre != 'Zz' %}
                     <li><strong>Realizado por: </strong>{{ donacion.nombre }}</li>
                 {% else %} 
