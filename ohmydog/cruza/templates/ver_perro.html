@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perro para cruce</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
+</head>
+<body>
+    <h1 class="titulos-format">{{perro.perro.nombre}}</h1>
+    <br>
+    <ul class="info-list">
+        <li><strong>Nombre: </strong>{{ perro.perro.nombre }}</li>
+        <li><strong>Raza: </strong>{{ perro.perro.raza }}</li>
+        <li><strong>Fecha de nacimiento: </strong>{{ perro.perro.fecha_de_nacimiento }}</li>
+        <li><strong>Fecha de celo: </strong>{{ perro.fecha_de_celo }}</li>
+        <li><strong>Sexo: </strong>{{ perro.perro.sexo }}</li>
+        <li><strong>Color: </strong>{{ perro.perro.color }}</li>
+    </ul>
+    <br>
+    {% if not user.is_superuser and user.id != perro.dueño_id %}
+        {% if not recomendado %}
+        <form method="get" action="{% url 'enviar_solicitud_cruce' perro.perro.nombre perro.dueño_id perro.perro.sexo %}" style="display: inline-block;"> {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="Enviar solicitud">
+        </form>
+        {% else %}
+            <form method="get" action="{% url 'enviar_solicitud_recomendada' perro.perro_id perro.dueño_id  %}" style="display: inline-block;"> {% csrf_token %}
+                <input type="submit" class="btn btn-primary" value="Enviar solicitud">
+            </form> 
+        {% endif %}
+    {% endif %}
+</body>
+</html>
+
+{% endblock %}
