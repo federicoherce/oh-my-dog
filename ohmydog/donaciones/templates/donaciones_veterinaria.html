@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        hr {
+            border: none;
+            height: 3px;
+            background-color: black;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body> 
+    <p class="titulos-format">Donaciones a la veterinaria</p>
+    <p style="text-align:center"> <b> Monto total recibido: ${{total_monto}}</b></p>
+    <br>
+    <ul class="info-list">
+        {% if donaciones %} 
+            {% for donacion in donaciones %} 
+                <li><strong>Monto donado: </strong>{{donacion.monto}}</li>
+                {% if donacion.nombre != 'Zz' %}
+                    <li><strong>Realizado por: </strong>{{ donacion.nombre }}</li>
+                {% else %} 
+                    <li><strong>Realizado por: </strong>Donacion anonima</li>  
+                {% endif %}
+                <hr>
+            {% endfor %} 
+    </ul>
+        {% else %}
+            <b><p style="text-align: center;">Aún no se han realizado donaciones a la veterinaria</p></b>
+        {% endif %}
+</body>
+</html>
+
+
+{% endblock %}

@@ -59,15 +59,29 @@ def enviar_solicitud_cruce(request, perro, autor, sexo):
         "autor": autor,
         "sexo": sexo})
 
+def enviar_solicitud_recomendada(request, perro, autor):
+    perro_cliente = Perro.objects.get(id=perro)
+    publicado_por = CustomUser.objects.get(id=autor)
+    interesado = request.user.email
+    asunto_interesado = "Solicitud enviada"
+    msj_interesado = "Su solicitud de cruce fue enviada con exito, espere a que el dueño se ponga en contacto con usted"
+    send_mail(asunto_interesado, msj_interesado, 'ohmydogg.vet@gmail.com', [interesado])
+    asunto_autor = "Han solicitado un cruce con tu perro/a"
+    msj_autor = interesado + " ha solicitado realizar una cruza con " + perro_cliente.nombre + ". Comuníquese con el para concretar el cruce"
+    send_mail(asunto_autor, msj_autor, "ohmydogg.vet@gmail.com", [publicado_por.email])
+    messages.success(request, 'Su solicitud fue enviada con exito')
+    return redirect('ver_perros_cruza')
+
+
 def recomendar_perro(request):
     if request.method == "POST":
         perro_selected = PerroCruza.objects.get(perro=request.POST.get('perro'))
         perro_recommended = get_recomendacion(perro_selected)
-        print(perro_recommended)
         if perro_recommended == None:
             messages.error(request, "Lo sentimos, no encontramos una buena recomendación para que cruces a tu perro en este momento.")
-        #else:
-            #redirigir al "perfil" del perro que se recomienda, que sería la HU 'Ver Perro'
+        else:
+            messages.success(request, "Hemos encontrado una recomendacion adecuada para tu perro")
+            return redirect('ver_perro', perro_recommended.id, perro_selected.id)
     perros_cliente = PerroCruza.objects.filter(dueño=request.user)
     return render(request, "recomendar_perro.html", {
         "perros": perros_cliente
@@ -84,4 +98,11 @@ def get_recomendacion(perro_selected):
     )
 
     return perros_compatibles.first()
+
+def ver_perro(request, perro, perro_cliente):
+    recomendado = False
+    if perro_cliente != "-1":
+        recomendado = True
+    perro_cruza = PerroCruza.objects.get(id=perro)
+    return render(request, "ver_perro.html", {"perro": perro_cruza, "recomendado": recomendado})
 

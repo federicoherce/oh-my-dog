@@ -2,16 +2,19 @@ from django.shortcuts import render, HttpResponse, redirect
 from turnos.models import Turno
 from perros.models import Perro, Vacuna, LibretaSanitaria
 from donaciones.models import Campaña
-from .forms import tipoVacuna
+from .forms import tipoVacuna, EditarTelefonoContacto, EditarMailContacto
 from autenticacion.models import CustomUser
 from datetime import date, timedelta
 from django.contrib import messages
+import json
 
 def home(request):
     turnos = Turno.objects.filter(fecha=date.today(), estado__in=["aceptado"], cliente_asistio=None)
     turnosPendientes = Turno.objects.filter(estado="pendiente")
-    return render(request, "home.html", 
-    {"user": request.user, "turnos": turnos, "pendientes": turnosPendientes})
+    return render(request, "home.html", {
+        "user": request.user,
+        "turnos": turnos,
+        "pendientes": turnosPendientes})
 
 #campana = Campaña.objects.first()
 # "campana": campana}
@@ -82,3 +85,50 @@ def generarTurno(turno):
 
 def ver_redes_sociales(request):
     return None
+
+def ver_contactos(request):
+    return render(request, "ver_contactos.html")
+
+def editar_mail(request):
+    with open("ohmydog/ohmydogApp/redes.json") as redes:
+        datos_redes = json.load(redes)
+    mail = datos_redes['formas_contacto'][0]['dato']
+
+    if request.method == "POST":
+        form = EditarMailContacto(request.POST, mail)
+
+        if form.is_valid():
+            nuevo_mail = request.POST.get('mail')
+            with open("ohmydog/ohmydogApp/redes.json", 'r+') as redes:
+                datos_redes = json.load(redes)
+                formas_contacto = datos_redes['formas_contacto']
+                formas_contacto[0]['dato'] = nuevo_mail
+                redes.seek(0)
+                json.dump(datos_redes, redes, indent=4)
+                redes.truncate()
+            return redirect('contactos')
+    
+    form = EditarMailContacto(mail=mail)
+    return render(request, 'editar_mail.html', {'form': form})
+    
+def editar_telefono(request):
+    with open("ohmydog/ohmydogApp/redes.json") as redes:
+        datos_redes = json.load(redes)
+    telefono = datos_redes['formas_contacto'][1]['dato']
+
+    if request.method == "POST":
+        form = EditarTelefonoContacto(request.POST, telefono)
+
+        if form.is_valid():
+            nuevo_mail = request.POST.get('telefono')
+            with open("ohmydog/ohmydogApp/redes.json", 'r+') as redes:
+                datos_redes = json.load(redes)
+                formas_contacto = datos_redes['formas_contacto']
+                formas_contacto[1]['dato'] = nuevo_mail
+                redes.seek(0)
+                json.dump(datos_redes, redes, indent=4)
+                redes.truncate()
+            return redirect('contactos')
+    
+    form = EditarTelefonoContacto(telefono=telefono)
+    return render(request, 'editar_mail.html', {'form': form})

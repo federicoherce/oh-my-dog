@@ -76,12 +76,12 @@
         <br>
         {% if not user.is_superuser %}
             <div>
-                <form method="get" action="{% url 'publicar_perro_cruza' %}">
+                <form method="get" action="{% url 'publicar_perro_cruza' %}" style="display: inline;">
                     {% csrf_token %}
                     <input type="submit" class="btn btn-primary" value="Publicar Perro">
                 </form>
-                <form method="get" action="{% url 'recomendar_perro' %}"> {% csrf_token %}
-                    <input type="submit" class="btn btn-primary" value="Recomendar perro">
+                <form method="get" action="{% url 'recomendar_perro' %}" style="display: inline;"> {% csrf_token %}
+                    <input type="submit" class="btn btn-primary" value="Recomendación">
                 </form>
             </div>
         {% endif %}
@@ -100,22 +100,19 @@
                 </tr>
                 {% for perro in perros_cruza %}
                     <tr>
-                        <td>{{ perro.perro.nombre }}</td>
+                        {% if user.id == perro.dueño_id %}
+                            <td>{{ perro.perro.nombre }} <b>*</b></td>
+                        {% else %} 
+                            <td> {{perro.perro.nombre}}</td>
+                        {% endif %}
                         <td>{{ perro.perro.raza }}</td>
                         <td>{{ perro.fecha_de_celo }}</td>
                         <td>{{ perro.perro.sexo }}</td>
                         <td>
-                            <form method="get" action="" style="display: inline-block;"> {% csrf_token %}
+                            <form method="get" action="{% url 'ver_perro' perro.id '-1' %}" style="display: inline-block;"> {% csrf_token %}
                                 <input type="submit" class="btn btn-primary" value="Ver perro">
                             </form>
                         </td>
-                        {% if not user.is_superuser and user.id != perro.dueño_id %}
-                            <td>
-                                <form method="get" action="{% url 'enviar_solicitud_cruce' perro.perro.nombre perro.dueño_id perro.perro.sexo %}" style="display: inline-block;"> {% csrf_token %}
-                                    <input type="submit" class="btn btn-primary" value="Enviar solicitud">
-                                </form>
-                            </td> 
-                        {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

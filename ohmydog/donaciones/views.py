@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Campaña, Donacion
 from .forms import CrearCampaña, CrearDonacion
+from django.db.models import Sum
 
 # Create your views here.
 def agregar_campana(request):
@@ -55,3 +56,16 @@ def realizar_donacion(request, tipo):
     return render(request, 'realizar_donacion.html', {
         'form': form
     })
+    
+def ver_donaciones(request):
+    return render(request, "ver_donaciones.html")
+
+def donaciones_veterinaria(request):
+    donaciones_vet = Donacion.objects.filter(tipo='Veterinaria')
+    total_monto = Donacion.objects.aggregate(total=Sum('monto'))['total']
+    return render(request, 'donaciones_veterinaria.html', {
+                "donaciones": donaciones_vet,
+                "total_monto": total_monto})
+    
+def donaciones_campana(request):
+    return render(request, 'donaciones_campana.html')

@@ -76,11 +76,6 @@ class ModificarDatosPerro(forms.Form):
     nombre = forms.CharField(label="Nombre", max_length=50)
     raza = forms.ChoiceField(label="Raza", choices=RAZAS_PERRO)
     color = forms.CharField(label="Color", max_length=50)
-    #fecha_de_nacimiento = forms.DateField(
-    #    label="Fecha de nacimiento",
-    #    widget=forms.widgets.DateInput(attrs={'type': 'date', 'max': str(date.today())}),
-    #    input_formats=['%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y']
-    #)
     fecha_de_nacimiento = forms.CharField(
         label= "Fecha de nacimiento",
         widget=forms.TextInput(attrs={'type': 'date', 'max': str(date.today())})

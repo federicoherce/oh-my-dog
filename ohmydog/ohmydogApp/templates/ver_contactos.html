@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contactos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        .contact-edit-btn {
+            display: inline-flex;
+            align-items: center;
+        }
+
+       .contact-edit-btn span {
+            margin-right: 10px;
+        }
+
+        .contact-edit-btn .btn-edit {
+            margin-left: 10px;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card" style="background-color: rgba(255, 204, 153, 1);;">
+        <div class="card-body">
+            <h5 class="card-title">Contactos</h5>
+            <ul class="list-unstyled">
+                <li>
+                    <i class="fas fa-envelope"></i>
+                    <span><strong>Correo electrónico:</strong></span>
+                    <span>{{ mail }}</span>
+                    {% if user.is_superuser %}
+                        <form method="get" action="{% url 'contacto_editar_mail' %}" style="text-align: center;" class="contact-edit-btn">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-primary btn-edit" value="Editar">
+                        </form>
+                    {% endif %}
+                </li>
+                <li>
+                    <i class="fas fa-phone"></i>
+                    <span><strong>Teléfono:</strong></span>
+                    <span>{{ telefono }}</span>
+                    {% if user.is_superuser %}    
+                        <form method="get" action="{% url 'contacto_editar_telefono' %}" style="text-align: center;" class="contact-edit-btn">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-primary btn-edit" value="Editar">
+                        </form>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -14,24 +14,26 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 </head>
 <body> 
-    <p class="titulos-format"> Ver Campaña</p>
+    <p class="titulos-format">Campaña Actual</p>
     {% if campana %}
+        <ul class="info-list">
             <li><strong>Campaña: </strong>{{ campana.nombre }}</li>
             <li><strong>Monto objetivo: </strong>{{ campana.monto_objetivo }}</li>
             <li><strong>Descripcion: </strong>{{ campana.descripcion }}</li>
             {% if user.is_superuser %}
-                <form method="POST" action="{% url 'eliminar_campana' %}" style="display: inline;">
+                <form method="POST" action="{% url 'eliminar_campana' %}" >
                    {% csrf_token %}
                    <input type="submit" class="btn btn-primary" value="Borrar" onclick="return confirm('¿Estás seguro de que deseas borrar esta Campaña de Donacion?')">
                 </form>
             {% endif %}
             {% if not user.is_superuser %}
-                <form method="POST" action="{% url 'realizar_donacion' 'Campaña' %}" style="display: inline;">
+                <form method="POST" action="{% url 'realizar_donacion' {{ campana.nombre }} %}" style="display: inline;">
                     {% csrf_token %}
                     <input type="submit" class="btn btn-primary" value="Donar">
                 </form>
             {% endif %}
     {% endif %}
+        </ul>
 </body>
 </html>
 

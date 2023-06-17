@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body> 
+    <p class="titulos-format">Donaciones</p>
+    <img src= "{% static 'img/donacion.png' %}" width="100px" style="display: block; margin-left: auto; margin-right: auto;" >
+       <br>
+       <p style="text-align: center;"> <b><a href="{% url 'donaciones_veterinaria' %}" style="color:#ff5100"> Donaciones a la veterinaria</a> </p> </b>
+       <p style="text-align: center;"><b><a href="{% url 'donaciones_campana' %}" style="color:#ff5100">Donaciones a campañas</a> </p> </b>
+</body>
+</html>
+
+
+{% endblock %}
