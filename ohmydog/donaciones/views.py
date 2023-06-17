@@ -38,6 +38,11 @@ def eliminar_campana(request):
     return redirect('home')
 
 def realizar_donacion(request, tipo):
+    if request.user.is_authenticated:
+            nombre_usuario = request.user.nombre
+    else:
+        nombre_usuario = ''
+    form = CrearDonacion(initial={'nombre': nombre_usuario})
     if request.method == "POST":
         monto = request.POST.get('monto')
         nombre = request.POST.get('nombre')
