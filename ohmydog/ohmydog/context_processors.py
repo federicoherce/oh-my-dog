@@ -11,7 +11,7 @@ def objeto_context(request):
     return {'campana': ultima_campana}
 
 def redes(request):
-    with open("ohmydogApp/redes.json") as redes:
+    with open("ohmydog/ohmydogApp/redes.json") as redes:
         datos_redes = json.load(redes)
     redes_sociales = datos_redes['redes_sociales']
     formas_contacto = datos_redes['formas_contacto']

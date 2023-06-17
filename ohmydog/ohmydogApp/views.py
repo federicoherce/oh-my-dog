@@ -1,8 +1,9 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.http import HttpResponseNotFound
 from turnos.models import Turno
 from perros.models import Perro, Vacuna, LibretaSanitaria
 from donaciones.models import Campaña
-from .forms import tipoVacuna, EditarTelefonoContacto, EditarMailContacto
+from .forms import tipoVacuna, EditarTelefonoContacto, EditarMailContacto, EditarRedSocial
 from autenticacion.models import CustomUser
 from datetime import date, timedelta
 from django.contrib import messages
@@ -81,10 +82,6 @@ def generarTurno(turno):
         )
         nuevoTurno.cliente_asistio = None
         nuevoTurno.save()
-    
-
-def ver_redes_sociales(request):
-    return None
 
 def ver_contactos(request):
     return render(request, "ver_contactos.html")
@@ -132,3 +129,33 @@ def editar_telefono(request):
     
     form = EditarTelefonoContacto(telefono=telefono)
     return render(request, 'editar_mail.html', {'form': form})
+
+def editar_red_social(request, nombre_red_social):
+    with open("ohmydog/ohmydogApp/redes.json") as redes:
+        datos_redes = json.load(redes)
+    redes_sociales = datos_redes['redes_sociales']
+    #red_seleccionada = redes_sociales[nombre_red_social]
+
+    red_seleccionada = None
+    for red_social in redes_sociales:
+        if red_social['nombre'] == nombre_red_social:
+            red_seleccionada = red_social
+            break
+
+    if red_seleccionada == None:
+        return HttpResponseNotFound('Red social no encontrada')
+
+    if request.method == "POST":
+        form = EditarRedSocial(request.POST)
+
+        if form.is_valid():
+            nueva_url = form.cleaned_data['enlace']
+            red_seleccionada['enlace'] = nueva_url
+
+            with open("ohmydog/ohmydogApp/redes.json", "w") as redes:
+                json.dump(datos_redes, redes, indent=4)
+
+            return redirect('contactos')
+    
+    form = EditarRedSocial(initial={'enlace': red_seleccionada['enlace']})
+    return render(request, 'editar_red_social.html', {'form': form})

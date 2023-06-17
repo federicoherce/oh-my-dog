@@ -15,9 +15,12 @@ class EditarTelefonoContacto(forms.Form):
         self.fields['telefono'].initial = telefono_initial
 
 class EditarMailContacto(forms.Form):
-    mail = forms.CharField(label="Correo Electrónico", max_length=100)
+    mail = forms.EmailField(label="Correo Electrónico", max_length=100)
 
     def __init__(self, *args, **kwargs):
         mail_initial = kwargs.pop('mail', '')
         super(EditarMailContacto, self).__init__(*args, **kwargs)
         self.fields['mail'].initial = mail_initial
+
+class EditarRedSocial(forms.Form):
+    enlace = forms.URLField(label='Enlace', max_length=200, widget=forms.URLInput(attrs={'class': 'form-control'}))

@@ -55,6 +55,40 @@
                         </form>
                     {% endif %}
                 </li>
+                
+                <li>
+                    <i class="fab fa-facebook-f"></i>
+                    <span><strong>Facebook:</strong></span>
+                    <span><a href="{{ facebook }}" target="_blank">{{ facebook }}</a></span>
+                    {% if user.is_superuser %}
+                        <form method="get" action="{% url 'contacto_editar_red_social' 'Facebook'%}" style="text-align: center;" class="contact-edit-btn">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-primary btn-edit" value="Editar">
+                        </form>
+                    {% endif %}
+                </li>
+                <li>
+                    <i class="fab fa-twitter"></i>
+                    <span><strong>Twitter:</strong></span>
+                    <span><a href="{{ twitter }}" target="_blank">{{ twitter }}</a></span>
+                    {% if user.is_superuser %}
+                        <form method="get" action="{% url 'contacto_editar_red_social' 'Twitter' %}" style="text-align: center;" class="contact-edit-btn">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-primary btn-edit" value="Editar">
+                        </form>
+                    {% endif %}
+                </li>
+                <li>
+                    <i class="fab fa-instagram"></i>
+                    <span><strong>Instagram:</strong></span>
+                    <span><a href="{{ instagram }}" target="_blank">{{ instagram }}</a></span>
+                    {% if user.is_superuser %}
+                        <form method="get" action="{% url 'contacto_editar_red_social' 'Instagram' %}" style="text-align: center;" class="contact-edit-btn">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-primary btn-edit" value="Editar">
+                        </form>
+                    {% endif %}
+                </li>
             </ul>
         </div>
     </div>
