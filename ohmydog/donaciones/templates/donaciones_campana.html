@@ -22,7 +22,25 @@
 </head>
 <body> 
     <p class="titulos-format">Donaciones a campañas</p>
-    <br>
+    <form method="GET" action="{% url 'donaciones_campana' %}" style="text-align:center; margin-right:50px;">
+        <select name="campana">
+          <option value="">Campaña actual</option>
+          {% for campaña in campanas %}
+            {% if not forloop.last %}
+              <option value="{{ campaña.id }}">{{ campaña.nombre }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+        <input type="submit"  class="btn btn-primary" value="Filtrar">
+    </form>
+    {% if filtrado %}      
+        <b><p style="text-align: center; margin-right:50px; ">Viendo: {{ filtrado}}</p></b>
+        <form style="position:absolute; left:775px; top:234px" class="formularios" method="GET" action="{% url 'donaciones_campana' %}">
+            <input type="submit"  class="btn btn-primary" value="Deshacer">
+        </form>
+    {% else %} 
+        <b><p style="text-align: center; margin-right:50px; ">Viendo: Campaña actual</p></b>
+    {% endif %}
     <ul class="info-list">
         {% if donaciones %} 
             {% for donacion in donaciones %} 
@@ -37,7 +55,7 @@
             {% endfor %} 
     </ul>
         {% else %}
-            <b><p style="text-align: center;">Aún no se han realizado donaciones a campañas</p></b>
+            <b><p style="text-align: center;">No se han realizado donaciones a la campaña</p></b>
         {% endif %}
 </body>
 </html>

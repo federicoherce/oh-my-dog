@@ -12,6 +12,7 @@ def objeto_context(request):
 
 def redes(request):
     with open("ohmydog/ohmydogApp/redes.json") as redes:
+    #with open("ohmydogApp/redes.json") as redes:
         datos_redes = json.load(redes)
     redes_sociales = datos_redes['redes_sociales']
     formas_contacto = datos_redes['formas_contacto']

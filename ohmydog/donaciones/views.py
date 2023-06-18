@@ -39,7 +39,7 @@ def eliminar_campana(request):
 
 def realizar_donacion(request, tipo):
     if request.user.is_authenticated:
-            nombre_usuario = request.user.nombre
+        nombre_usuario = request.user.nombre
     else:
         nombre_usuario = ''
     form = CrearDonacion(initial={'nombre': nombre_usuario})
@@ -72,7 +72,18 @@ def donaciones_veterinaria(request):
                 "total_monto": total_monto})
     
 def donaciones_campana(request):
-    donaciones_campana = Donacion.objects.filter(tipo='Campaña')
+    campanas_historicas = Campaña.objects.all()
+    campana_id = request.GET.get('campana')
+    filtrado = ""
+    if campana_id:
+        donaciones_filtradas = Donacion.objects.filter(campana_id=campana_id)
+        filtrado = Campaña.objects.get(id=campana_id)
+        filtrado = filtrado.nombre
+    else:
+        ultima_campana = Campaña.objects.latest('id')
+        donaciones_filtradas = Donacion.objects.filter(campana=ultima_campana)
     return render(request, 'donaciones_campana.html', {
-        "donaciones": donaciones_campana
+        "donaciones": donaciones_filtradas,
+        "campanas": campanas_historicas,
+        "filtrado": filtrado
     })
