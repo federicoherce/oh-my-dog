@@ -32,33 +32,33 @@
 </head>
 
 <body style="background-color: rgba(255, 204, 153, 1);">
+
     
-    
-        <div class="top-bar">
-            <div style="    display: flex;">
+     <div class="top-bar">
+            <div style="margin-right: auto; padding: 10px;">
                 <a href="{% url 'home' %}"><img style="width: 100px;
                     height: auto;" src="{% static 'img/logo.png' %}" alt="logo"></a>
             </div>
     
             {% if campana is None and user.is_superuser %}
-                <div>
+                <div style="align-self: center;">
                     <a href="{% url 'agregar_campana' %}">
-                        <h3>Agregar Campaña</h3>
+                        <h3 style="color: aliceblue;">Agregar Campaña</h3>
                     </a>
                 </div>
             {% elif campana is not None %} 
                 {% if not campana.finalizada %}
-                <div>
-                    <a href="{% url 'ver_campana' %}">
-                        <h3>Donele a: {{ campana.nombre }}</h3>
-                    </a>
-                </div>
+                    <div>
+                        <a href="{% url 'ver_campana' %}">
+                            <h3 style="color: aliceblue;">Donele a: {{ campana.nombre }}</h3>
+                        </a>
+                    </div>
                 {% elif user.is_superuser %}
-                <div>
-                    <a href="{% url 'agregar_campana' %}">
-                        <h3>Agregar Campaña</h3>
-                    </a>
-                </div>
+                    <div>
+                        <a href="{% url 'agregar_campana' %}">
+                            <h3 style="color: aliceblue;">Agregar Campaña</h3>
+                        </a>
+                    </div>
                 {% endif %} 
             {% endif %}
     
@@ -78,6 +78,8 @@
                 {% endif %}
             </div>
         </div>
+
+    
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-celeste">
             <div class="container">

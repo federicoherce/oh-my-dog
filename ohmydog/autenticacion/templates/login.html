@@ -20,7 +20,7 @@
     {% endfor %}
 </head>
 <body>
-    <p class="titulos-format"> Iniciar sesión</p>
+    <h1 class="titulos-format"> Iniciar sesión</h1>
     <form action="" method="POST" class="formularios"> {% csrf_token %}
         <div style= "width: 75%; margin: auto;"> 
             {{form|crispy}}
