@@ -6,14 +6,17 @@ from django.contrib import messages
 from .forms import PublicarPerroCruzaForm
 from django.core.mail import send_mail
 from datetime import datetime, timedelta
+from django.contrib.auth.decorators import login_required, user_passes_test
+from ohmydog.decorators import veterinario_restringido
 
-# Create your views here.
+
 def ver_perros_cruza(request):
     perros_cruza = PerroCruza.objects.all()
     return render(request, 'index_cruza.html', 
             {'perros_cruza': perros_cruza}
         )
-    
+
+@veterinario_restringido
 def publicar_perro(request):
     if request.method == "POST":
         form = PublicarPerroCruzaForm(request.POST, request.user)
@@ -32,7 +35,8 @@ def publicar_perro(request):
         perros = Perro.objects.filter(dueño=request.user).exclude(id__in=PerroCruza.objects.values('perro_id'))
         form = PublicarPerroCruzaForm()
         return render(request, 'publicar_perro_cruza.html', {"perros": perros, "form": form})
-    
+
+@veterinario_restringido
 def enviar_solicitud_cruce(request, perro, autor, sexo):
     if request.method == "POST":
         perro_id = request.POST.get('perro')
@@ -59,6 +63,7 @@ def enviar_solicitud_cruce(request, perro, autor, sexo):
         "autor": autor,
         "sexo": sexo})
 
+@veterinario_restringido
 def enviar_solicitud_recomendada(request, perro, autor):
     perro_cliente = Perro.objects.get(id=perro)
     publicado_por = CustomUser.objects.get(id=autor)
@@ -72,7 +77,7 @@ def enviar_solicitud_recomendada(request, perro, autor):
     messages.success(request, 'Su solicitud fue enviada con exito')
     return redirect('ver_perros_cruza')
 
-
+@veterinario_restringido
 def recomendar_perro(request):
     if request.method == "POST":
         perro_selected = PerroCruza.objects.get(perro=request.POST.get('perro'))
