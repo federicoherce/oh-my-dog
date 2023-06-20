@@ -18,6 +18,20 @@
         swal('{{msg}}');
     </script>
     {% endfor %}
+    <style> 
+        select {
+            word-wrap: normal;
+        }
+        select {
+            text-transform: none;
+        }
+        select {
+            margin: 0;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+        }
+    </style>
 </head>
 <body> 
     <h1 class="titulos-format"> Enviar solicitud </h1>
@@ -27,20 +41,21 @@
         <br>
         <form method="POST" action="{% url 'enviar_solicitud_cruce' nombre autor sexo %}" >
             {% csrf_token %}
-            <select name="perro" style= "width: 25%; margin: auto;">
+            <select name="perro" class="select form-control" style= "width: 25%; margin: auto;">
               {% for perro in perros %}
-                <option value="{{ perro.id }}">{{ perro.nombre }}</option>
+                <option value="{{ perro.id }}">{{ perro.perro.nombre }}</option>
               {% endfor %}
             </select>
             <br>
-            <br>
-            <input type="submit"  class="btn btn-primary" value="Enviar">
-        </form>
+            <div style="position:absolute; left:515px;"> 
+              <input style="display: inline;" type="submit" onclick="window.history.back()" class="btn btn-primary" value="Volver">
+              <input type="submit" style="display: inline;"  class="btn btn-primary" value="Enviar">
+            </div>
+            </form>
       </div>
     {% else %} 
       <p style="text-align:center"><b>No tienes perros disponibles para publicar</b></p>
     {% endif %}
-    <input style="position:absolute; top:200px" type="submit" onclick="window.history.back()" class="btn btn-primary" value="Volver">
 
 </body>
 </html>
