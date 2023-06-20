@@ -43,7 +43,7 @@
             padding: 10px; /* Ajusta el padding según tus preferencias */
          }
          .adoption-banner {
-            background-color: #de8832;
+            background-color: #ffffff;
             padding: 10px;
             text-align: center;
             font-size: 20px;
@@ -71,7 +71,7 @@
     <div class="container-principal">
         <h1 class="titulos-format">Perros para cruza</h1>
         <div class="adoption-banner">
-            <a href="{% url 'perros_en_adopcion' %}" style="color:rgb(194, 198, 203)">¡Nuestra veterinaria también ofrece un servicio de adopción!</a>
+            <a href="{% url 'perros_en_adopcion' %}" style="color:#00AEEF">¡Nuestra veterinaria también ofrece un servicio de adopción!</a>
         </div>
         <br>
         {% if not user.is_superuser %}

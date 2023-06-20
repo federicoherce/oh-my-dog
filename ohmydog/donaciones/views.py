@@ -53,7 +53,7 @@ def realizar_donacion(request, tipo):
             if (tipo == 'Campaña'):
                 campana = Campaña.objects.latest('id')
                 return redirect ('pagos:pagar_donacion', monto=monto, nombre=nombre, tipo=tipo, campana=campana.id)
-            else:
+            elif (tipo == 'Veterinaria'):
                 return redirect('pagos:pagar_donacion', monto=monto, nombre=nombre, tipo=tipo, campana=1)
     else:
         form = CrearDonacion(initial={'nombre': nombre_usuario})
