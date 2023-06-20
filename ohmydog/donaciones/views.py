@@ -42,13 +42,13 @@ def realizar_donacion(request, tipo):
         nombre_usuario = request.user.nombre
     else:
         nombre_usuario = ''
-    form = CrearDonacion(initial={'nombre': nombre_usuario})
+    #form = CrearDonacion(request.POST, initial={'nombre': nombre_usuario})
     if request.method == "POST":
         monto = request.POST.get('monto')
         nombre = request.POST.get('nombre')
         if nombre == '':
             nombre = 'Zz'
-        form = CrearDonacion(request.POST)
+        form = CrearDonacion(request.POST, initial={'nombre': nombre_usuario})
         if form.is_valid(): 
             if (tipo == 'Campaña'):
                 campana = Campaña.objects.latest('id')
@@ -56,7 +56,7 @@ def realizar_donacion(request, tipo):
             else:
                 return redirect('pagos:pagar_donacion', monto=monto, nombre=nombre, tipo=tipo, campana=1)
     else:
-        form = CrearDonacion()
+        form = CrearDonacion(initial={'nombre': nombre_usuario})
     return render(request, 'realizar_donacion.html', {
         'form': form
     })

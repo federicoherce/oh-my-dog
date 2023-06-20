@@ -31,35 +31,42 @@
    </style>
 </head>
 
-<body style="background-color: rgba(255, 204, 153, 1);"> 
-
+<body style="background-color: rgba(255, 204, 153, 1);">
     
     
-        <div class="top-bar">
-            <div class="logo-container">
-                <a href="{% url 'home' %}"><img class="logo" src="{% static 'img/logo.png' %}" alt="logo"></a>
+        <div class="top-bar d-flex justify-content-between align-items-center">
+            <div style="    display: flex;">
+                <a href="{% url 'home' %}"><img style="width: 100px;
+                    height: auto;" src="{% static 'img/logo.png' %}" alt="logo"></a>
             </div>
+            <div style="
+            padding: 10px;
+            display: inline-block;
+            align-items: center;">
+    
             {% if campana is None and user.is_superuser %}
-                <div class="banner">
+                <div class="banner ml-auto">
                     <a href="{% url 'agregar_campana' %}">
                         <h3>Agregar Campaña</h3>
                     </a>
                 </div>
             {% elif campana is not None %} 
                 {% if not campana.finalizada %}
-                <div class="banner">
+                <div class="banner ml-auto">
                     <a href="{% url 'ver_campana' %}" style="top: 100px;">
-                        <h3>Done a: {{ campana.nombre }}</h3>
+                        <h3>Donele a: {{ campana.nombre }}</h3>
                     </a>
                 </div>
                 {% elif user.is_superuser %}
-                <div class="banner">
+                <div class="banner ml-auto">
                     <a href="{% url 'agregar_campana' %}">
                         <h3>Agregar Campaña</h3>
                     </a>
                 </div>
                 {% endif %} 
             {% endif %}
+    
+        </div>
             <div class="button-container">
                 {% if user.is_authenticated %}
                     <b>Hola, {{ user.nombre }}!</b>

@@ -482,11 +482,11 @@
 }
 
   .logo-container {
-      flex: 1;
+    display: flex;
   }
 
   .logo {
-      width: 100px;
+      width: auto;
       height: auto;
   }
 
@@ -516,15 +516,14 @@
   }
 
   .banner {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
     background-color: #f0f0f0;
+    left: 50%;
     padding: 10px;
-    z-index: 9999;
-    display: inline-block;
     margin-top: 1%;
+    max-width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .banner a {
