@@ -56,9 +56,9 @@ def enviar_solicitud_cruce(request, perro, autor, sexo):
             return redirect('ver_perros_cruza')
         else:
             messages.error(request, "Los perros tienen el mismo sexo, selecciona otro de tus perros.")
-    perrosCliente = Perro.objects.filter(dueño=request.user)
+    perros_cliente = PerroCruza.objects.filter(dueño=request.user)
     return render(request, "enviar_solicitud_cruce.html",{
-        "perros": perrosCliente,
+        "perros": perros_cliente,
         "nombre": perro, 
         "autor": autor,
         "sexo": sexo})
@@ -109,5 +109,9 @@ def ver_perro(request, perro, perro_cliente):
     if perro_cliente != "-1":
         recomendado = True
     perro_cruza = PerroCruza.objects.get(id=perro)
-    return render(request, "ver_perro.html", {"perro": perro_cruza, "recomendado": recomendado})
+    perros_cliente = PerroCruza.objects.filter(dueño=request.user)
+    return render(request, "ver_perro.html", 
+                  {"perro": perro_cruza, 
+                   "recomendado": recomendado,
+                   "perros_cliente": perros_cliente})
 

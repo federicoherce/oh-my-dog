@@ -32,9 +32,11 @@
     <br>
     {% if not user.is_superuser and user.id != perro.dueño_id %}
         {% if not recomendado %}
-        <form method="get" action="{% url 'enviar_solicitud_cruce' perro.perro.nombre perro.dueño_id perro.perro.sexo %}" style="display: inline-block;"> {% csrf_token %}
-            <input type="submit" class="btn btn-primary" value="Enviar solicitud">
-        </form>
+            {% if perros_cliente %}
+                <form method="get" action="{% url 'enviar_solicitud_cruce' perro.perro.nombre perro.dueño_id perro.perro.sexo %}" style="display: inline-block;"> {% csrf_token %}
+                    <input type="submit" class="btn btn-primary" value="Enviar solicitud">
+                </form>
+            {% endif %}
         {% else %}
             <form method="get" action="{% url 'enviar_solicitud_recomendada' perro.perro_id perro.dueño_id  %}" style="display: inline-block;"> {% csrf_token %}
                 <input type="submit" class="btn btn-primary" value="Enviar solicitud">
