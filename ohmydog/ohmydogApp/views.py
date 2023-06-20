@@ -88,7 +88,7 @@ def ver_contactos(request):
 
 def editar_mail(request):
     #with open("ohmydog/ohmydogApp/redes.json") as redes:
-    with open("ohmydogApp/redes.json") as redes:
+    with open("ohmydogApp/redes.json", "r") as redes:
         datos_redes = json.load(redes)
     mail = datos_redes['formas_contacto'][0]['dato']
 
@@ -98,13 +98,9 @@ def editar_mail(request):
         if form.is_valid():
             nuevo_mail = request.POST.get('mail')
             #with open("ohmydog/ohmydogApp/redes.json") as redes:
-            with open("ohmydogApp/redes.json") as redes:
-                datos_redes = json.load(redes)
-                formas_contacto = datos_redes['formas_contacto']
-                formas_contacto[0]['dato'] = nuevo_mail
-                redes.seek(0)
+            with open("ohmydogApp/redes.json", "w") as redes:
+                datos_redes['formas_contacto'][0]['dato'] = nuevo_mail
                 json.dump(datos_redes, redes, indent=4)
-                redes.truncate()
             return redirect('contactos')
     
     form = EditarMailContacto(mail=mail)
@@ -112,7 +108,7 @@ def editar_mail(request):
     
 def editar_telefono(request):
     #with open("ohmydog/ohmydogApp/redes.json") as redes:
-    with open("ohmydogApp/redes.json") as redes:
+    with open("ohmydogApp/redes.json", "r") as redes:
         datos_redes = json.load(redes)
     telefono = datos_redes['formas_contacto'][1]['dato']
 
@@ -120,15 +116,11 @@ def editar_telefono(request):
         form = EditarTelefonoContacto(request.POST, telefono)
 
         if form.is_valid():
-            nuevo_mail = request.POST.get('telefono')
+            nuevo_telefono = request.POST.get('telefono')
             #with open("ohmydog/ohmydogApp/redes.json") as redes:
-            with open("ohmydogApp/redes.json") as redes:
-                datos_redes = json.load(redes)
-                formas_contacto = datos_redes['formas_contacto']
-                formas_contacto[1]['dato'] = nuevo_mail
-                redes.seek(0)
+            with open("ohmydogApp/redes.json", "w") as redes:
+                datos_redes['formas_contacto'][1]['dato'] = nuevo_telefono
                 json.dump(datos_redes, redes, indent=4)
-                redes.truncate()
             return redirect('contactos')
     
     form = EditarTelefonoContacto(telefono=telefono)
@@ -136,7 +128,7 @@ def editar_telefono(request):
 
 def editar_red_social(request, nombre_red_social):
     #with open("ohmydog/ohmydogApp/redes.json") as redes:
-    with open("ohmydogApp/redes.json") as redes:
+    with open("ohmydogApp/redes.json", "r") as redes:
         datos_redes = json.load(redes)
     redes_sociales = datos_redes['redes_sociales']
     #red_seleccionada = redes_sociales[nombre_red_social]
@@ -158,7 +150,7 @@ def editar_red_social(request, nombre_red_social):
             red_seleccionada['enlace'] = nueva_url
 
             #with open("ohmydog/ohmydogApp/redes.json") as redes:
-            with open("ohmydogApp/redes.json") as redes:
+            with open("ohmydogApp/redes.json", "w") as redes:
                 json.dump(datos_redes, redes, indent=4)
 
             return redirect('contactos')

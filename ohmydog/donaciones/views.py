@@ -6,8 +6,10 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Campaña, Donacion
 from .forms import CrearCampaña, CrearDonacion
 from django.db.models import Sum
+from ohmydog.decorators import veterinario_required
 
 # Create your views here.
+@veterinario_required
 def agregar_campana(request):
     if request.method == "POST":
         form = CrearCampaña(request.POST)
@@ -22,7 +24,6 @@ def agregar_campana(request):
         'form': form
     })
 
-
 def ver_campana(request):
     campana = Campaña.objects.latest('id')
 
@@ -30,6 +31,7 @@ def ver_campana(request):
             {'campana': campana}
         )
 
+@veterinario_required
 def eliminar_campana(request):
     ultima_campana = Campaña.objects.latest('id')
     if request.method == 'POST':

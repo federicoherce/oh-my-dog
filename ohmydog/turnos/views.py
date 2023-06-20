@@ -12,6 +12,7 @@ from django.core.mail import send_mail
 from datetime import date
 from django.utils import timezone
 from django.utils.decorators import method_decorator
+from ohmydog.decorators import veterinario_required
 
 
 
@@ -77,13 +78,13 @@ def turnos_veterinario(request):
     return render(request, 'turnos_veterinario.html', {"turnos": turnos, "filtrado": filtrado})
 
 
-# Me falta implementar los decoradores para que solo el veterinario pueda acceder (ya es re tarde y tengo nono)
+@method_decorator(veterinario_required, name='dispatch')
 class VerTurnoVeterinario(View):
     template = "ver_turno.html"
 
-    @method_decorator(user_passes_test(lambda u: u.is_superuser))
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    #@method_decorator(user_passes_test(lambda u: u.is_superuser))
+    #def dispatch(self, request, *args, **kwargs):
+    #    return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, turno_id):
         turno = Turno.objects.get(id=turno_id)
