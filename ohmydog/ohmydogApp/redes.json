@@ -2,25 +2,25 @@
     "redes_sociales": [
         {
             "nombre": "Facebook",
-            "enlace": "https://www.facebook.com/"
+            "enlace": "https://www.facebook.com/ohMyDog"
         },
         {
             "nombre": "Twitter",
-            "enlace": "https://www.twitter.com/"
+            "enlace": "https://www.twitter.com/ohMyDog"
         },
         {
             "nombre": "Instagram",
-            "enlace": "https://www.instagram.com/"
+            "enlace": "https://www.instagram.com/oh.my.dog"
         }
     ],
     "formas_contacto": [
         {
             "tipo": "Correo electronico",
-            "dato": "ohmydogg.vet@outlook.com"
+            "dato": "ohmydogg.vet@gmail.com"
         },
         {
             "tipo": "Telefono",
-            "dato": "22222222"
+            "dato": "111111"
         }
     ]
 }
