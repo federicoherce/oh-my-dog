@@ -105,6 +105,9 @@ def pagar_turno(request, dni):
 
 def escanear_qr(request, monto, dni):
     if monto == '0':
+        user = CustomUser.objects.get(dni=dni)
+        user.monto_a_favor = 0
+        user.save()
         messages.success(request, 'Su monto a favor por las donaciones realizadas cubre el total del turno!')
         return redirect('home')
     if request.method == 'POST':

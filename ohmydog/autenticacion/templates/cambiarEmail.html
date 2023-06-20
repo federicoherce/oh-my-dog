@@ -21,7 +21,7 @@
     {% endfor %}
 </head>
 <body>
-    <p class="titulos-format" > Modificar el email </p>
+    <h1 class="titulos-format" > Modificar el email </h1>
     <form action="" method="POST" class="formularios"> {% csrf_token %}
         <div style= "width: 75%; margin: auto;"> 
             {{form|crispy}}

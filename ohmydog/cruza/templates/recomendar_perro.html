@@ -68,7 +68,7 @@
     </style>
 </head>
 <body>
-    <p class="titulos-format"> Recomendación </p>
+    <h1 class="titulos-format"> Recomendación </h1>
     {% if perros %}
         <form method="post" action="{% url 'recomendar_perro' %}" class="formularios"> {% csrf_token %}
             <div id="div_id_selector" class="form-group" style="width: 75%; margin: auto;">

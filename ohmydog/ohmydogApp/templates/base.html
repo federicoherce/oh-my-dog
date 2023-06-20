@@ -28,53 +28,69 @@
                 font-size: 24px;
             }
         }
+        .campañaa {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
    </style>
 </head>
 
 <body style="background-color: rgba(255, 204, 153, 1);">
-    
+    <div class="button-container" style="position:absolute;right:35px">
+        {% if user.is_authenticated %}
+            <b>Hola, {{ user.nombre }}!</b>
+            {% if user.is_superuser %}
+                <b> (admin)</b>
+            {% endif %}
+            &nbsp;&nbsp; <b><a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a> </b>
+
+        {% else %}
+        <b> <a href="{% url 'login' %}" class="login-button" style="color: black">Iniciar Sesión</a> </b>
+        {% endif %}
+        {% if user.is_superuser %}
+        <b> <a href="{% url 'registro' %}" class="register-button">Registrar usuario</a></b>
+        {% endif %}
+    </div>
         
-        <div class="top-bar">
-            <div style="display: flex;">
+    
+        <div class="top-bar" style="margin-right:95px;">
+            <div style="    display: flex;">
                 <a href="{% url 'home' %}"><img style="width: 100px;
                     height: auto;" src="{% static 'img/logo.png' %}" alt="logo"></a>
             </div>
-    
-            <div class="campaign-banner-container">
+            <div style="background-color: #de8832;
+            padding: 10px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0 auto;
+            max-width: 800px;"> 
                 {% if campana is None and user.is_superuser %}
-                    <a href="{% url 'agregar_campana' %}">
-                        <h3>Agregar Campaña</h3>
-                    </a>
-                {% elif campana is not None %} 
-                    {% if not campana.finalizada %}
-                        <a href="{% url 'ver_campana' %}">
-                                <h3>Donele a: {{ campana.nombre }}</h3>
-                        </a>
-                    {% elif user.is_superuser %}
+                    <div>
                         <a href="{% url 'agregar_campana' %}">
                             <h3>Agregar Campaña</h3>
                         </a>
+                    </div>
+                {% elif campana is not None %} 
+                    {% if not campana.finalizada %}
+                    <div style=>
+                        <a href="{% url 'ver_campana' %}">
+                            <h3>Donele a: {{ campana.nombre }}</h3>
+                        </a>
+                    </div>
+                    {% elif user.is_superuser %}
+                    <div>
+                        <a href="{% url 'agregar_campana' %}">
+                            <h3>Agregar Campaña</h3>
+                        </a>
+                    </div>
                     {% endif %} 
                 {% endif %}
             </div>
 
-            <div class="button-container">
-                {% if user.is_authenticated %}
-                    <b>Hola, {{ user.nombre }}!</b>
-                    {% if user.is_superuser %}
-                        <b> (admin)</b>
-                    {% endif %}
-                    &nbsp;&nbsp; <b><a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a> </b>
-
-                {% else %}
-                <b> <a href="{% url 'login' %}" class="login-button" style="color: black">Iniciar Sesión</a> </b>
-                {% endif %}
-                {% if user.is_superuser %}
-                <b> <a href="{% url 'registro' %}" class="register-button">Registrar usuario</a></b>
-                {% endif %}
-            </div>
         </div>
-
+    
         <nav class="navbar navbar-expand-lg navbar-dark bg-celeste">
             <div class="container">
                 
