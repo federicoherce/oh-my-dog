@@ -82,8 +82,7 @@ def donaciones_campana(request):
         filtrado = Campaña.objects.get(id=campana_id)
         filtrado = filtrado.nombre
     else:
-        ultima_campana = Campaña.objects.latest('id')
-        donaciones_filtradas = Donacion.objects.filter(campana=ultima_campana)
+        donaciones_filtradas = Donacion.objects.filter(tipo='Campaña')
     return render(request, 'donaciones_campana.html', {
         "donaciones": donaciones_filtradas,
         "campanas": campanas_historicas,
