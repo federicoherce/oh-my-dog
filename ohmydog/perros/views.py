@@ -33,6 +33,11 @@ def agregar_perro(request, dni, password):
             return redirect("perros_cliente", usuario.dni)
     else:
         form = CrearPerro()
+        if usuario.get_usuario_nuevo():
+            usuario_nuevo = True
+        else:
+            usuario_nuevo = False
     return render(request, 'agregar_perro.html', {
-        'form': form
+        'form': form,
+        'nuevo': usuario_nuevo
     })
