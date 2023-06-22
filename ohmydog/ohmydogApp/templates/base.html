@@ -61,7 +61,6 @@
             </div>
             <div style="background-color: #ffffff;
             color: #00AEEF;
-            padding: 10px;
             text-align: center;
             font-size: 20px;
             font-weight: bold;
@@ -70,20 +69,20 @@
                 {% if campana is None and user.is_superuser %}
                     <div>
                         <a href="{% url 'agregar_campana' %}">
-                            <h3>Agregar Campaña</h3>
+                            <h3> Agregar Campaña </h3>
                         </a>
                     </div>
                 {% elif campana is not None %} 
                     {% if not campana.finalizada %}
                     <div>
                         <a href="{% url 'ver_campana' %}">
-                            <h3 style="color: #00AEEF;">Donele a: {{ campana.nombre }}</h3>
+                            <h3 style="color: #00AEEF; padding: 10px;"> Donele a: {{ campana.nombre }} </h3>
                         </a>
                     </div>
                     {% elif user.is_superuser %}
                     <div>
                         <a href="{% url 'agregar_campana' %}">
-                            <h3>Agregar Campaña</h3>
+                            <h3> Agregar Campaña </h3>
                         </a>
                     </div>
                     {% endif %} 
