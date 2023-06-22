@@ -2,7 +2,7 @@
     "redes_sociales": [
         {
             "nombre": "Facebook",
-            "enlace": "https://www.facebook.com/ohMyDog"
+            "enlace": "https://www.facebook.com/ohmydog"
         },
         {
             "nombre": "Twitter",
@@ -20,7 +20,7 @@
         },
         {
             "tipo": "Telefono",
-            "dato": "111111"
+            "dato": "12345678"
         }
     ]
 }
