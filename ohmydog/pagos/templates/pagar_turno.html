@@ -27,8 +27,9 @@
 </head>
 <body>
     <h1 class="titulos-format">Pagar Turno</h1> 
-    <br>
-
+    {% if monto != 0 %} 
+       <p style="text-align:center"> <b> Monto a favor por donaciones: {{monto}} </b></p>
+    {% endif %}
     <form method="post"  style="text-align: center;" action="">
         {% csrf_token %}
         <b> <label for="monto">Monto:</label> </b>

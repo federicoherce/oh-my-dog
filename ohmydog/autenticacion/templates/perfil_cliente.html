@@ -37,6 +37,7 @@
         <li><strong>Email: </strong>{{ cliente.email }}</li>
         <li><strong>DNI: </strong>{{ cliente.dni }}</li>
         <li><strong>Número de teléfono: </strong>{{ cliente.telefono }}</li>
+        <li><strong>Monto a favor por donaciones:</strong> {{ cliente.monto_a_favor }}</li>
         <div class="contenedor-botones"> 
             <form method="get" action="{% url 'modificar_datos' cliente.dni %}">
                 {% csrf_token %}

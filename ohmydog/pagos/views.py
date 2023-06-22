@@ -13,6 +13,9 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 def pagar_con_tarjeta(request, monto, dni):
     if monto == '0':
         messages.success(request, 'Su monto a favor por las donaciones realizadas cubre el total del turno!')
+        user = CustomUser.objects.get(dni=dni)
+        user.monto_a_favor = 0
+        user.save()
         return redirect('home')
     if request.method == 'POST':
         form = TarjetaForm(request.POST)
@@ -80,11 +83,10 @@ def pagar_donacion(request, monto, tipo, nombre, campana):
 
 @user_passes_test(lambda u: u.is_superuser) 
 def pagar_turno(request, dni):
-
+    user = CustomUser.objects.get(dni=dni)
     if request.method == 'POST':
         form = CrearPago(request.POST)
         if form.is_valid():
-            user = CustomUser.objects.get(dni=dni)
             Pago.objects.create(monto=request.POST['monto'])
             if decimal.Decimal(request.POST.get('monto')) - user.monto_a_favor > 0:
                 monto = decimal.Decimal(request.POST.get('monto')) - user.monto_a_favor
@@ -101,7 +103,8 @@ def pagar_turno(request, dni):
                     messages.error(request, error)
     else:
         form = CrearPago()
-    return render(request, 'pagar_turno.html')
+        monto = user.monto_a_favor
+    return render(request, 'pagar_turno.html', {"monto": monto})
 
 def escanear_qr(request, monto, dni):
     if monto == '0':
