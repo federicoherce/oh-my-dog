@@ -37,7 +37,7 @@ def publicar_perro(request):
         return render(request, 'publicar_perro_cruza.html', {"perros": perros, "form": form})
 
 @veterinario_restringido
-def enviar_solicitud_cruce(request, perro, autor, sexo):
+def enviar_solicitud_cruce(request, perro, autor, sexo, id):
     if request.method == "POST":
         perro_id = request.POST.get('perro')
         perro_select = Perro.objects.get(id=perro_id)
@@ -61,7 +61,8 @@ def enviar_solicitud_cruce(request, perro, autor, sexo):
         "perros": perros_cliente,
         "nombre": perro, 
         "autor": autor,
-        "sexo": sexo})
+        "sexo": sexo,
+        "perro_id": id})
 
 @veterinario_restringido
 def enviar_solicitud_recomendada(request, perro, autor):

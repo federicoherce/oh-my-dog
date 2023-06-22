@@ -39,7 +39,7 @@
       <div style="text-align:center">
         <b> Seleccione su perro, que se cruzara con {{nombre}} </b>
         <br>
-        <form method="post" action="{% url 'enviar_solicitud_cruce' nombre autor sexo %}" >
+        <form method="post" action="{% url 'enviar_solicitud_cruce' nombre autor sexo perro_id %}" >
             {% csrf_token %}
             <select name="perro" class="select form-control" style= "width: 25%; margin: auto;">
               {% for perro in perros %}
@@ -51,8 +51,11 @@
               <input type="submit" style="display: inline;"  class="btn btn-primary" value="Enviar">
             </div>
           </form>
-          <input style="display: inline;" type="submit" onclick="window.history.back()" class="btn btn-primary" value="Volver">
+          <div style="margin-top: 10px; text-align: center">
+            <button class="btn btn-primary"><a href="{% url 'ver_perro' perro_id '-1' %}" style="color: #fff; display: inline-block;">Volver</a></button>
+        </div>
       </div>
+      
     {% else %} 
       <p style="text-align:center"><b>No tienes perros disponibles para publicar</b></p>
     {% endif %}

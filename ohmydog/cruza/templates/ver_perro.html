@@ -30,10 +30,11 @@
         <li><strong>Color: </strong>{{ perro.perro.color }}</li>
     </ul>
     <br>
+    <button class="btn btn-primary"><a href="{% url 'ver_perros_cruza' %}" style="color: #fff; display: inline-block;">Volver</a></button>
     {% if not user.is_superuser and user.id != perro.dueño_id %}
         {% if not recomendado %}
             {% if perros_cliente %}
-                <form method="get" action="{% url 'enviar_solicitud_cruce' perro.perro.nombre perro.dueño_id perro.perro.sexo %}" style="display: inline-block;"> {% csrf_token %}
+                <form method="get" action="{% url 'enviar_solicitud_cruce' perro.perro.nombre perro.dueño_id perro.perro.sexo perro.id %}" style="display: inline-block;"> {% csrf_token %}
                     <input type="submit" class="btn btn-primary" value="Enviar solicitud">
                 </form>
             {% endif %}
