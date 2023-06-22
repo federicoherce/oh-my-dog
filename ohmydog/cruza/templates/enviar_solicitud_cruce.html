@@ -39,11 +39,11 @@
       <div style="text-align:center">
         <b> Seleccione su perro, que se cruzara con {{nombre}} </b>
         <br>
-        <form method="POST" action="{% url 'enviar_solicitud_cruce' nombre autor sexo %}" >
+        <form method="post" action="{% url 'enviar_solicitud_cruce' nombre autor sexo %}" >
             {% csrf_token %}
             <select name="perro" class="select form-control" style= "width: 25%; margin: auto;">
               {% for perro in perros %}
-                <option value="{{ perro.id }}">{{ perro.perro.nombre }}</option>
+                <option value="{{ perro.perro.id }}">{{ perro.perro.nombre }}</option>
               {% endfor %}
             </select>
             <br>
