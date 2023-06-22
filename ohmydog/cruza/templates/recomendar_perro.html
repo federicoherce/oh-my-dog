@@ -70,27 +70,31 @@
 <body>
     <h1 class="titulos-format"> Recomendación </h1>
     {% if perros %}
-        <form method="post" action="{% url 'recomendar_perro' %}" class="formularios"> {% csrf_token %}
-            <div id="div_id_selector" class="form-group" style="width: 75%; margin: auto;">
-                <label for="id_selector" class="requiredField">
-                    Seleccione su perro
-                    <span class="asteriskField">*</span>
-                </label>
-                    <div>
-                        <select name="perro" class="select form-control" id="id_selector">
-                            {% for perro in perros %}
-                                
-                                <option value="{{ perro.perro.id }}">
-                                    {{ perro.perro.nombre }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <br>
-                    <button class="btn btn-primary"><a href="{% url 'ver_perros_cruza' %}" style="color:#fff">Volver</a></button>
-                    <input type="submit"  class="btn btn-primary" value="Recomendar">
+        <div>
+            <form method="post" action="{% url 'recomendar_perro' %}" class="formularios"> {% csrf_token %}
+                <div id="div_id_selector" class="form-group" style="width: 75%; margin: auto;">
+                    <label for="id_selector" class="requiredField">
+                        Seleccione su perro
+                        <span class="asteriskField">*</span>
+                    </label>
+                        <div>
+                            <select name="perro" class="select form-control" id="id_selector">
+                                {% for perro in perros %}
+                                    
+                                    <option value="{{ perro.perro.id }}">
+                                        {{ perro.perro.nombre }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <br>
+                        <input type="submit" style="margin-left: auto; margin-right: auto; display: block;" class="btn btn-primary" value="Recomendar">
+                </div>
+            </form>
+            <div style="margin-top: 10px; text-align: center">
+                <button class="btn btn-primary"><a href="{% url 'ver_perros_cruza' %}" style="color: #fff; display: inline-block;">Volver</a></button>
             </div>
-        </form>
+        </div>
     {% else %}
         <p style="text-align:center"><b>No tienes perros disponibles para publicar</b></p>
         <form method="get" action="{% url 'publicar_perro_cruza' %}" style="text-align: center;">

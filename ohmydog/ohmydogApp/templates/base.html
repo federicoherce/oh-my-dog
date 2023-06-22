@@ -43,7 +43,7 @@
             {% if user.is_superuser %}
                 <b> (admin)</b>
             {% endif %}
-            &nbsp;&nbsp; <b><a href="{% url 'cerrar_sesion' %}" style="color: black;">Cerrar sesión</a> </b>
+            &nbsp;&nbsp; <b><a href="{% url 'cerrar_sesion' %}" style="color: black; margin-right: 5px;">Cerrar sesión</a> </b>
 
         {% else %}
         <b> <a href="{% url 'login' %}" class="login-button" style="color: black">Iniciar Sesión</a> </b>
