@@ -1,7 +1,7 @@
 from typing import Any, Dict, Mapping, Optional, Type, Union
 from django.db.models.query import QuerySet
 from django.forms.utils import ErrorList
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views.generic import View
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib import messages
@@ -12,7 +12,12 @@ from django.views.generic import ListView, DetailView
 from .models import CustomUser
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.mail import send_mail
-
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter, A4
+from io import BytesIO
+from django.utils import timezone
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
 
 # Create your views here.
 
@@ -229,4 +234,125 @@ def modificar_datos_perro(request, dni, perro_id):
         "perro": perro
     })
 
+def generar_pdf_perro(request, perro_id):
+    perro = Perro.objects.get(id=perro_id)
+    libreta_sanitaria = LibretaSanitaria.objects.get(perro=perro)
+    vacunas = Vacuna.objects.filter(libreta_sanitaria=libreta_sanitaria)
 
+    buffer = BytesIO()
+    pdf = canvas.Canvas(buffer, pagesize=A4)
+
+    generar_titulo(pdf)
+    generar_logo(pdf)
+    generar_datos_perro(pdf, perro)
+    if vacunas:
+        generar_tabla_vacunas(pdf, vacunas)
+
+    else:
+        generar_subtitulo_sin_vacunas(pdf)
+    generar_fecha_generacion(pdf)
+
+    pdf.showPage()
+    pdf.save()
+
+    name_file = f"libreta_sanitaria_{perro.nombre}.pdf"
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename={name_file}'
+
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+
+    return response
+
+def generar_titulo(pdf):
+    titulo_x = A4[0] / 2
+    titulo_y = A4[1] - 50
+
+    pdf.setFont("Times-Bold", 16)
+    pdf.drawCentredString(titulo_x, titulo_y, "Libreta Sanitaria.")
+    pdf.setLineWidth(1)
+    pdf.line(titulo_x - 70, titulo_y - 10, titulo_x + 70, titulo_y - 10)
+
+def generar_logo(pdf):
+    logo_width = 100
+    logo_height = 100
+    logo_x = 15
+    logo_y = A4[1] - logo_height - 10
+
+    pdf.drawImage("ohmydogApp/static/img/logo.png", logo_x, logo_y, width=logo_width, height=logo_height, mask="auto")
+
+def generar_datos_perro(pdf, perro):
+    pdf.setFont("Times-Roman", 12)
+
+    datos_perro_x = 150
+    datos_perro_y = A4[1] - 100
+
+    datos_perro = [
+        f"• Nombre: {perro.nombre}",
+        f"• Raza: {perro.raza}",
+        f"• Color: {perro.color}",
+        f"• Sexo: {perro.sexo}",
+        f"• Fecha de nacimiento: {perro.fecha_de_nacimiento}"
+    ]
+
+    for i, dato in enumerate(datos_perro):
+        pdf.drawString(datos_perro_x, datos_perro_y - (i * 20), dato)
+
+def generar_tabla_vacunas(pdf, vacunas):
+    data = [["Vacuna", "Fecha de aplicación"]]
+    for vacuna in vacunas:
+        data.append([vacuna.tipo, vacuna.fecha.strftime("%d/%m/%Y")])
+
+    # Calcular el ancho de cada columna de la tabla
+    column_width = A4[0] - 2 * 150
+
+    # Calcular la altura máxima disponible para la tabla
+    tabla_max_height = A4[1] - 100 - (5 * 20) - 240
+
+    # Crear la tabla
+    table = Table(data, repeatRows=1)
+
+    # Ajustar el estilo de la tabla
+    table_style = TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.gray),
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+        ("FONTSIZE", (0, 0), (-1, 0), 12),
+        ("BOTTOMPADDING", (0, 0), (-1, 0), 12),
+        ("BACKGROUND", (0, 1), (-1, -1), colors.lightgrey),
+        ("COLWIDTHS", (0, 0), (-1, -1), [column_width] * len(data[0])),
+        ("TEXTCOLOR", (0, 0), (-1, -1), colors.black),
+        ("LINEABOVE", (0, 0), (-1, -1), 1, colors.black),
+        ("LINEBELOW", (0, 0), (-1, -1), 1, colors.black),
+        ("LINEBEFORE", (0, 0), (-1, -1), 1, colors.black),
+        ("LINEAFTER", (0, 0), (-1, -1), 1, colors.black),
+        ("BOX", (0, 0), (-1, -1), 1, colors.black),
+    ])
+
+    # Configurar el estilo para que la tabla se extienda hacia abajo
+    if len(table._argW) >= column_width:
+        table_style.add("SPAN", (0, 0), (-1, 0))
+        table_style.add("VALIGN", (0, 0), (-1, 0), "MIDDLE")
+
+    table.setStyle(table_style)
+
+    # Dibujar la tabla en el PDF
+    table.wrapOn(pdf, 150, A4[1] - 210 - (len(data) * 20))
+    table.drawOn(pdf, 150, A4[1] - 210 - (len(data) * 20))
+
+def generar_subtitulo_sin_vacunas(pdf):
+    pdf.setFont("Times-Bold", 14)
+    pdf.drawString(230, A4[1] - 250, "No posee vacunas.")
+    pdf.line(220, A4[1] - 260, 350, A4[1] - 260)
+
+def generar_fecha_generacion(pdf):
+    fecha_generacion = timezone.now().strftime("%d/%m/%Y %H:%M:%S")
+    fecha_generacion_x = A4[0] - 150
+    fecha_generacion_y = 40
+
+    pdf.setFont("Times-Roman", 12)
+    pdf.setFillColor(colors.gray)
+
+    pdf.drawString(fecha_generacion_x, fecha_generacion_y, f"{fecha_generacion}")
