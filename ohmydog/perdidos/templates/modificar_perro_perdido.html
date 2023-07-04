@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
+</head>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      let nombre = document.getElementById("id_nombre");
+      nombre.value = "{{perro.nombre}}";
+      let raza = document.getElementById("id_raza");
+      raza.value = "{{perro.raza}}";
+      let color = document.getElementById("id_color");
+      color.value = "{{perro.color}}";
+      let tamaño = document.getElementById("id_tamaño");
+      tamaño.value = "{{perro.tamaño}}";
+      let sexo = document.getElementById("id_sexo");
+      sexo.value = "{{perro.sexo}}";
+      let origen = document.getElementById("id_origen");
+      origen.value = "{{perro.origen}}";
+      let observacion = document.getElementById("id_observacion");
+      observacion.value = "{{perro.observacion}}";
+      let estado = document.getElementById("id_estado");
+      estado.value = "{{perro.estado}}";
+    });
+  </script>
+<body>
+    <br>
+    <h1 class="titulos-format">
+        Modificar información 
+    </h1>
+    <br>
+    <form action="" method="POST" class="formularios"> {% csrf_token %}
+        <div style= "width: 75%; margin: auto;"> 
+            {{form|crispy}}
+        <input type="submit"  class="btn btn-primary" value="Modificar">
+        <input type="submit" onclick="window.history.back()" class="btn btn-primary" value="Volver">
+        </div>
+    </form>
+
+</body>
+</html>
+
+{% endblock %}

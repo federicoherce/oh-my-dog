@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     'adopcion',
     'pagos',
     'cruza',
-    'donaciones'
+    'donaciones',
+    'estadisticas',
+    'perdidos'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -136,3 +138,6 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'ohmydogg.vet@gmail.com'
 EMAIL_HOST_PASSWORD = 'nxofcsbahykonvya'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include 
 from ohmydogApp import views
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +33,8 @@ urlpatterns = [
     path('pagos/', include('pagos.urls')),
     path('cruza/', include('cruza.urls')),
     path('donaciones/', include('donaciones.urls')),
+    path('estadisticas/', include('estadisticas.urls')),
+    path('perdidos/', include('perdidos.urls')),
     path('contactos/', views.ver_contactos, name="contactos"),
     path('contactos/editar/telefono', views.editar_telefono, name="contacto_editar_telefono"),
     path('contactos/editar/mail', views.editar_mail, name="contacto_editar_mail"),
@@ -40,3 +43,4 @@ urlpatterns = [
 
 
 
+urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body> 
+    <h1 class="titulos-format"> Publicar perro perdido </h1>
+    <form enctype="multipart/form-data" action="{% url 'publicar_perro_perdido' %}" class="formularios" method="POST"> {% csrf_token %}
+        <div style= "width: 75%; margin: auto;"> 
+            {{form|crispy}}
+        <input type="submit" name="publicar"  class="btn btn-primary" value="Publicar Perro">
+        <input type="submit" onclick="window.history.back()" class="btn btn-primary" value="Volver">
+    </form>
+
+</body>
+</html>
+
+
+{% endblock %}
