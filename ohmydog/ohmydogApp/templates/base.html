@@ -106,6 +106,7 @@
                             {% endif %}
                         {% endif %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'perros_en_adopcion' %}">Adopcion</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'ver_perros_perdidos' %}">Perdidos</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'listar_paseadores_cuidadores' %}">Paseadores y cuidadores</a></li>
                         {% if user.is_authenticated %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'ver_perros_cruza' %}">Cruce de perros</a></li>
@@ -115,6 +116,7 @@
                         {% endif %}
                         {% if user.is_superuser %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'ver_donaciones' %}">Donaciones</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'ver_estadisticas' %}">Estadisticas</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'listado_de_clientes'%}">Clientes</a></li>
                         {% endif %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'realizar_donacion' 'Veterinaria' %}" style="color:antiquewhite"><b>DONAR A OHMYDOG!</b></a></li>

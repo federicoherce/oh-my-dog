@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perros Perdidos</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    <style>
+        hr {
+            border: none;
+            height: 3px;
+            background-color: black;
+            margin: 20px 0;
+        }
+        .perro-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .perro-info {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .perro-imagen {
+            flex: 0 0 350px; /* Tamaño fijo de la imagen */
+            margin-right: 400px; /* Ajusta el margen derecho según sea necesario */
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            border: 1px solid black; /* Agrega un borde negro alrededor de la imagen */
+        }
+
+    </style>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
+</head>
+<body>
+    <h1 class="titulos-format">Perros perdidos</h1>
+    {% if user.is_authenticated and not user.is_superuser %}
+        <form class='agregar' method="get" action="{% url 'publicar_perro_perdido' %}" style="text-align: center;">
+            {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Publicar perro perdido">
+        </form>
+    {% endif %}
+    <form style="text-align: center;" action="{% url 'ver_perros_perdidos' %}" method="get">
+        <input type="radio" name="estado" value="Perdi a mi perro"> Perros perdidos
+        <input type="radio" name="estado" value="Busco a su dueño"> Se busca a su dueño
+        <button class="btn btn-primary" type="submit">Filtrar</button>
+        {% if filtrado %} 
+            <b> <p style="text-align: center;">Estas filtrando por: {{filtrado}}</p></b>
+            <input type="submit"  class="btn btn-primary" href="{% url 'ver_perros_perdidos' %}" value="Deshacer">
+        {% endif %}
+    <hr>
+    <br>
+    <br>
+    </form>
+    {% if perros %}
+        <ul class="info-list"> 
+            {% for perro in perros %}
+            <div class="perro-container">
+                <div class="perro-info">
+                    <ul>
+                        <li><strong>Nombre: </strong>{{ perro.nombre }}</li>
+                        <li><strong>Raza: </strong>{{ perro.raza }}</li>
+                        <li><strong>Color: </strong>{{ perro.color }}</li>
+                        <li><strong>Tamaño: </strong>{{ perro.tamaño }}</li>
+                        <li><strong>Sexo: </strong>{{ perro.sexo }}</li>
+                        <li><strong>Origen: </strong>{{ perro.origen }}</li>
+                        <li><strong>Observacion: </strong>{{ perro.observacion }}</li>
+                        <li><strong>Estado: </strong>{{ perro.estado }}</li>
+                        <li><strong>Telefono: </strong>{{ perro.telefono }}</li>
+                        {% if perro.telefono == request.user.telefono %} 
+                            <form method="get" action="{% url 'ver_perros_perdidos' %}"  style="display: inline;">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-primary" value="Encontrado">
+                            </form>
+                            <form method="get" action="{% url 'modificar_perro_perdido' perro.id %}"  style="display: inline;">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-primary" value="Modificar Datos">
+                            </form>
+                            <form method="get" action="{% url 'modificar_imagen' perro.id %}"  style="display: inline; ">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-primary" value="Modificar Imagen">
+                            </form>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="perro-imagen">
+                    <img src="{{ perro.imagen.url }}" width="350px">
+                </div>
+            </div>
+            <hr>
+            <br>
+        {% endfor %}
+    {% else %} 
+        <b> <p style="text-align: center;">No hay perros publicados por el momento</p></b>
+    {% endif %}
+        </ul>
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        .image-container {
+            text-align: center;
+            margin: 20px;
+        }
+        .image-container img {
+            max-width: 600px;
+        }
+        .image-container h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body> 
+    <h1 class="titulos-format">Estadisticas</h1>
+    <br>
+    <div class="container">
+        <div class="image-container">
+            <h4>Razas</h4>
+            <img src="{% static 'img/razas.png' %}" alt="Gráfico de razas">
+        </div>
+        <div class="image-container">
+            <h4>Turnos</h4>
+            <img src="{% static 'img/turnos.png' %}" alt="Gráfico de turnos">
+        </div>
+    </div>
+</body>
+</html>
+
+
+{% endblock %}
