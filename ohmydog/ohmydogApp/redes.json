@@ -2,11 +2,11 @@
     "redes_sociales": [
         {
             "nombre": "Facebook",
-            "enlace": "https://www.facebook.com/ohmydog"
+            "enlace": "https://www.facebook.com/"
         },
         {
             "nombre": "Twitter",
-            "enlace": "https://www.twitter.com/ohMyDog"
+            "enlace": "https://www.twitter.com/"
         },
         {
             "nombre": "Instagram",

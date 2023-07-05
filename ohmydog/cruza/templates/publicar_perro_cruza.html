@@ -31,10 +31,7 @@
                 <option value="{{ perro.id }}">{{ perro.nombre }}</option>
               {% endfor %}
             </select>
-            <br>
-            <br>
             <div style= "width: 25%; margin: auto;"> 
-              {{form|crispy}}
               <input type="submit"  class="btn btn-primary" value="Enviar">
             </div>
           </form>
@@ -42,6 +39,7 @@
     {% else %} 
       <p style="text-align:center"><b>No tienes perros disponibles para publicar</b></p>
     {% endif %}
+  
 </body>
 </html>
 

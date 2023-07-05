@@ -46,7 +46,7 @@ def pagar_con_tarjeta(request, monto, dni):
 
     return render(request, 'pagar_con_tarjeta.html', context)
 
-def pagar_donacion(request, monto, tipo, nombre, campana):
+def pagar_donacion(request, monto, tipo, nombre, campana, motivo):
     if request.method == 'POST':
         form = TarjetaForm(request.POST)
         if form.is_valid():
@@ -63,7 +63,7 @@ def pagar_donacion(request, monto, tipo, nombre, campana):
                 cmp = Campaña.objects.get(id=campana)
                 Donacion.objects.create(monto=monto, nombre=nombre, tipo=tipo, campana=cmp)
             else:
-                Donacion.objects.create(monto=monto, nombre=nombre, tipo=tipo)
+                Donacion.objects.create(monto=monto, nombre=nombre, tipo=tipo, motivo=motivo)
             messages.success(request, 'Donacion exitosa!')
             return redirect('home')
         else:

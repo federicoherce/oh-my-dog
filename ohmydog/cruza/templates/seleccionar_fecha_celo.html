@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Seleccionar Fecha Celo</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
+</head>
+<body> 
+  <h1 class="titulos-format">Agregar fecha de celo para {{ perro }}</h1>
+
+    <form class="formularios" method="POST" action="{% url 'seleccionar_fecha_celo' perro %}" style="text-align: center;">
+       {% csrf_token %}
+       <div style= "width: 75%; margin: auto;"> 
+            {{form|crispy}}
+            <input type="submit"  class="btn btn-primary" value="Publicar Perro">
+        </div>
+    </form>
+
+    <input type="submit" href="{% url 'ver_perros_cruza' %}" class="btn btn-primary" value="Volver">
+</body>
+</html>
+
+
+{% endblock %}

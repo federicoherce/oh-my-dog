@@ -10,6 +10,9 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 def agregar_paseador_cuidador(request):
     if request.method == "POST":
         form = CrearPaseadorCuidador(request.POST)
+        if (PaseadorCuidador.objects.filter(email=request.POST.get('email'), tipo=request.POST.get('tipo')).exists()):
+            messages.error(request, "El email ya se encuentra registrado para este tipo")
+            return render(request, "agregar_paseador_cuidador.html", {"form": form})
         if form.is_valid():
             PaseadorCuidador.objects.create(nomyap=request.POST['nomyap'], 
                                  email=request.POST['email'],
@@ -44,19 +47,18 @@ def listar_paseadores_cuidadores(request):
     })
 
 @user_passes_test(lambda u: u.is_superuser) 
-def modificar_paseador_cuidador(request, email):
-    paseador_cuidador = PaseadorCuidador.objects.get(email = email)
+def modificar_paseador_cuidador(request, email, tipo):
+    paseador_cuidador = PaseadorCuidador.objects.get(email = email, tipo = tipo)
     if request.method == "POST":
         form = modificarPaseadorCuidador(request.POST)
+        if (PaseadorCuidador.objects.filter(email=request.POST.get('email'), tipo=request.POST.get('tipo')).exists()):
+            messages.error(request, "El email ya se encuentra registrado para este tipo")
+            return render(request, "modificar_paseador_cuidador.html", {"form": form, "paseador_cuidador": paseador_cuidador})
         if form.is_valid():
             nuevoNomyap = request.POST.get('nomyap')
             nuevoEmail = request.POST.get('email')
             nuevoTextoLibre = request.POST.get('textolibre')
             nuevoTipo = request.POST.get('tipo')
-            todosLosEmails = PaseadorCuidador.objects.exclude(email=paseador_cuidador.email).values_list('email', flat=True)
-            if nuevoEmail in todosLosEmails:
-                messages.error(request, "El email ya se encuentra registrado")
-                return render(request, "modificar_datos.html", {"form": form, "paseador_cuidador": paseador_cuidador})
             paseador_cuidador.nomyap = nuevoNomyap
             paseador_cuidador.email = nuevoEmail
             paseador_cuidador.textolibre = nuevoTextoLibre

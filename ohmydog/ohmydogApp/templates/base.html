@@ -117,9 +117,7 @@
                             <li class="nav-item"><a class="nav-link" href="{% url 'ver_donaciones' %}">Donaciones</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'listado_de_clientes'%}">Clientes</a></li>
                         {% endif %}
-                        {% if not user.is_superuser %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'realizar_donacion' 'Veterinaria' %}" style="color:antiquewhite"><b>DONAR A OHMYDOG!</b></a></li>
-                        {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'realizar_donacion' 'Veterinaria' %}" style="color:antiquewhite"><b>DONAR A OHMYDOG!</b></a></li>
                     </ul>
                 </div>
             </div>
