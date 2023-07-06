@@ -57,10 +57,18 @@
                     title: veterinaria.nombre
                   });
 
-                  /*contentString = `
-                    <h6></h6>
-                  `*/
-                  const contentString = "<h6>"+veterinaria.nombre+"</h6>"+"<br>"+veterinaria.calle+", "+veterinaria.nro_calle+", "+veterinaria.detalle
+                  const contentString = `
+                    <h6>${veterinaria.nombre}</h6>
+                    <br>
+                    <p>${veterinaria.calle}, ${veterinaria.nro_calle}, ${veterinaria.detalle}</p>
+                    <p>
+                      <a class="editar-link" data-id="${veterinaria.id}">Editar</a> |
+                      <form method="POST" action="{% url 'borrar_ubicacion' ${veterinaria.id}%}"> {% csrf_token %}
+                        <input type="submit" value="Borrar" onclick="return confirm('¿Estás seguro de que deseas borrar esta veterinaria?')">
+                      </form>
+                    </p>
+                  `
+                  //const contentString = "<h6>"+veterinaria.nombre+"</h6>"+"<br>"+veterinaria.calle+", "+veterinaria.nro_calle+", "+veterinaria.detalle
 
                   const infoWindow = new google.maps.InfoWindow({
                     content: contentString,
@@ -70,10 +78,14 @@
                   marker.addListener("click", () => {
                   infoWindow.open(map, marker);
                   });
-                }
-                
+                }  
               }
           }
+          $(document).on("click", ".editar-link", function() {
+            const id = $(this).data("id");
+            const url = `ubicaciones/admin/editar/${id}/`;  // Reemplaza la ruta con la URL correcta de la vista de edición
+            window.location.href = url;
+          });
           
       </script>
 </head>

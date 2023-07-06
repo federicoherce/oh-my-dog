@@ -3,7 +3,7 @@ from django.http import HttpResponseNotFound, JsonResponse
 from turnos.models import Turno
 from perros.models import Perro, Vacuna, LibretaSanitaria
 from donaciones.models import Campaña
-from .forms import tipoVacuna, EditarTelefonoContacto, EditarMailContacto, EditarRedSocial, AgregarVeterinaria
+from .forms import tipoVacuna, EditarTelefonoContacto, EditarMailContacto, EditarRedSocial, AgregarVeterinaria, EditarVeterinaria
 from autenticacion.models import CustomUser
 from datetime import date, timedelta
 from django.contrib import messages
@@ -176,30 +176,9 @@ def editar_red_social(request, nombre_red_social):
     return render(request, 'editar_red_social.html', {'form': form})
 
 def ver_ubicaciones_veterinario(request):
-
-    #veterinarias_queryset = Veterinaria.objects.all()
-    #veterinarias_lista = []
-
-    #for veterinaria in veterinarias_queryset:
-    #    veterinaria_dict = {
-    #        "nombre": veterinaria.nombre,
-    #        "calle": veterinaria.calle,
-    #        "nro_calle": veterinaria.nro_calle,
-    #        "detalle": veterinaria.detalle,
-    #        "latitud": veterinaria.latitud,
-    #        "longitud": veterinaria.longitud
-    #    }
-    #    veterinarias_lista.append(veterinaria_dict)
-
-    #return render(request, 'ver_ubicaciones_veterinario.html', {'veterinarias': veterinarias_lista})
     return render(request, 'ver_ubicaciones_veterinario.html')
 
-
-def editar_ubicacion(request, id_veterinaria):
-    return None
-
 def agregar_ubicacion(request):
-
     if request.method == "POST":
         form = AgregarVeterinaria(request.POST)
 
@@ -211,20 +190,27 @@ def agregar_ubicacion(request):
             response = requests.get(url)
             data = response.json()
             
-            if data['status'] == 'OK':
-                # Obtener la latitud y longitud de la primera ubicación devuelta
-                latitud = data['results'][0]['geometry']['location']['lat']
-                longitud = data['results'][0]['geometry']['location']['lng']
+            try:
+                if data['status'] == 'OK':
+                    # Obtener la latitud y longitud de la primera ubicación devuelta
+                    latitud = data['results'][0]['geometry']['location']['lat']
+                    longitud = data['results'][0]['geometry']['location']['lng']
 
-                veterinaria = Veterinaria(
-                    calle=form.cleaned_data['calle'],
-                    nro_calle=form.cleaned_data['nro_calle'],
-                    detalle=form.cleaned_data['detalle'],
-                    longitud=longitud,
-                    latitud=latitud
-                )
-                veterinaria.save()
-                messages.success(request, "Veterinaria agregada exitosamente.")
+                    veterinaria = Veterinaria(
+                        calle=form.cleaned_data['calle'],
+                        nro_calle=form.cleaned_data['nro_calle'],
+                        detalle=form.cleaned_data['detalle'],
+                        longitud=longitud,
+                        latitud=latitud
+                    )
+                    veterinaria.save()
+                    messages.success(request, "Veterinaria agregada exitosamente.")
+                else:
+                    messages.error(request, "Hubo un error al obtener la ubicación. Intentalo nuevamente.")
+                return redirect('ver_ubicaciones_veterinario')
+            except Exception as e:
+                messages.error(request, "Ocurrió un error en la solicitud al servidor de Google Maps.")
+                print(str(e))
                 return redirect('ver_ubicaciones_veterinario')
 
     form = AgregarVeterinaria()
@@ -236,5 +222,49 @@ def get_ubicaciones(request):
 
     return JsonResponse({'veterinarias': serialized_veterinarias}, safe=False)
 
+def editar_ubicacion(request, id_veterinaria):
+    veterinaria = Veterinaria.objects.get(id=id_veterinaria)
+    if request.method == "POST":
+        form = EditarVeterinaria(request.POST, veterinaria=veterinaria)
 
-# borrar_ubicacion(request, id_veterinaria):
+        if form.is_valid():
+            direccion = f"{form.cleaned_data['calle']} {form.cleaned_data['nro_calle']}, La Plata, Provincia de Buenos Aires"
+            api_key = "AIzaSyA5fzRrz8Xx_6BMMpCr5cyGxFZ92u22lnQ"
+
+            try:
+                url = f'https://maps.googleapis.com/maps/api/geocode/json?address={direccion}&key={api_key}'
+                response = requests.get(url)
+                data = response.json()
+
+                if data['status'] == 'OK':
+                    # Obtener la latitud y longitud de la primera ubicación devuelta
+                    latitud = data['results'][0]['geometry']['location']['lat']
+                    longitud = data['results'][0]['geometry']['location']['lng']
+
+                    veterinaria.calle = form.cleaned_data['calle']
+                    veterinaria.nro_calle = form.cleaned_data['nro_calle']
+                    veterinaria.detalle = form.cleaned_data['detalle']
+                    veterinaria.longitud = longitud
+                    veterinaria.latitud = latitud
+                    veterinaria.save()
+
+                    messages.success(request, "Veterinaria editada exitosamente.")
+                else:
+                    messages.error(request, "Hubo un error al obtener la ubicación. Intentalo nuevamente.")
+                return redirect('ver_ubicaciones_veterinario')
+                
+            except Exception as e:
+                messages.error(request, "Ocurrió un error en la solicitud al servidor de Google Maps.")
+                print(str(e))
+                return redirect('ver_ubicaciones_veterinario')
+
+    form = EditarVeterinaria(veterinaria=veterinaria)
+    return render(request, 'editar_ubicacion.html', {'form': form})
+
+def borrar_ubicacion(request, id_veterinaria):
+    veterinaria = Veterinaria.objects.get(id=id_veterinaria)
+
+    if request.method == "POST":
+        veterinaria.delete()
+        
+    return redirect('ver_ubicaciones_veterinario')

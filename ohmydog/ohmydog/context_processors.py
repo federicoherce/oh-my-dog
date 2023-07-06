@@ -43,7 +43,8 @@ def veterinarias(request):
             "nro_calle": veterinaria.nro_calle,
             "detalle": veterinaria.detalle,
             "latitud": veterinaria.latitud,
-            "longitud": veterinaria.longitud
+            "longitud": veterinaria.longitud,
+            "id": veterinaria.id
         }
         veterinarias_lista.append(veterinaria_dict)
     return {'veterinarias': veterinarias_lista}
