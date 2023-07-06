@@ -198,6 +198,7 @@ def agregar_ubicacion(request):
                     longitud = data['results'][0]['geometry']['location']['lng']
 
                     veterinaria = Veterinaria(
+                        nombre=form.cleaned_data['nombre'],
                         calle=form.cleaned_data['calle'],
                         nro_calle=form.cleaned_data['nro_calle'],
                         detalle=form.cleaned_data['detalle'],
@@ -258,14 +259,13 @@ def editar_ubicacion(request, id_veterinaria):
                 messages.error(request, "Ocurrió un error en la solicitud al servidor de Google Maps.")
                 print(str(e))
                 return redirect('ver_ubicaciones_veterinario')
-
+            
+    print(veterinaria)
     form = EditarVeterinaria(veterinaria=veterinaria)
     return render(request, 'editar_ubicacion.html', {'form': form})
 
 def borrar_ubicacion(request, id_veterinaria):
     veterinaria = Veterinaria.objects.get(id=id_veterinaria)
-
-    if request.method == "POST":
-        veterinaria.delete()
+    veterinaria.delete()
         
     return redirect('ver_ubicaciones_veterinario')

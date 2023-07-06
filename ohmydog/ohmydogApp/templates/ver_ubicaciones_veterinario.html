@@ -62,10 +62,8 @@
                     <br>
                     <p>${veterinaria.calle}, ${veterinaria.nro_calle}, ${veterinaria.detalle}</p>
                     <p>
-                      <a class="editar-link" data-id="${veterinaria.id}">Editar</a> |
-                      <form method="POST" action="{% url 'borrar_ubicacion' ${veterinaria.id}%}"> {% csrf_token %}
-                        <input type="submit" value="Borrar" onclick="return confirm('¿Estás seguro de que deseas borrar esta veterinaria?')">
-                      </form>
+                      <a class="editar-link" data-id="${veterinaria.id}" style="color: gray;">Editar</a> |
+                      <a class="borrar-link" data-id="${veterinaria.id}" style="color: gray;" onclick="return confirm('¿Estás seguro de que deseas borrar esta veterinaria?')">Borrar</a>
                     </p>
                   `
                   //const contentString = "<h6>"+veterinaria.nombre+"</h6>"+"<br>"+veterinaria.calle+", "+veterinaria.nro_calle+", "+veterinaria.detalle
@@ -76,14 +74,20 @@
                   });
 
                   marker.addListener("click", () => {
-                  infoWindow.open(map, marker);
+                    infoWindow.open(map, marker);
                   });
                 }  
               }
           }
           $(document).on("click", ".editar-link", function() {
             const id = $(this).data("id");
-            const url = `ubicaciones/admin/editar/${id}/`;  // Reemplaza la ruta con la URL correcta de la vista de edición
+            const url = `admin/editar/${id}`;
+            window.location.href = url;
+          });
+
+          $(document).on("click", ".borrar-link", function() {
+            const id = $(this).data("id");
+            const url = `admin/borrar/${id}`;
             window.location.href = url;
           });
           
