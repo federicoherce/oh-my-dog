@@ -1,5 +1,6 @@
 from django import forms
 from perros.models import Vacuna
+from .models import Veterinaria
 
 class tipoVacuna(forms.ModelForm):
     class Meta:
@@ -24,3 +25,16 @@ class EditarMailContacto(forms.Form):
 
 class EditarRedSocial(forms.Form):
     enlace = forms.URLField(label='Enlace', max_length=200, widget=forms.URLInput(attrs={'class': 'form-control'}))
+
+class AgregarVeterinaria(forms.ModelForm):
+    detalle = forms.CharField(
+            required=False,
+            label='Detalle (*)',
+            widget=forms.Textarea(attrs={'placeholder': 'Piso, Departamento, etc.'})
+        )
+    nro_calle = forms.IntegerField(label='Número')
+
+    class Meta:
+        model = Veterinaria
+        exclude = ['longitud', 'latitud']
+    
