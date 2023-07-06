@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import agregar_campana, ver_campana, eliminar_campana, realizar_donacion, ver_donaciones, donaciones_veterinaria, donaciones_campana
+from .views import agregar_campana, ver_campana, eliminar_campana,ver_donaciones, donaciones_veterinaria, donaciones_campana, realizar_donacion
 
 urlpatterns = [
     path('agregar_campana', agregar_campana, name='agregar_campana'),

@@ -33,6 +33,27 @@
 <body> 
     <h1 class="titulos-format">Estadisticas</h1>
     <br>
+    <div style="text-align:center"> 
+        <form method="GET" action="{% url 'ver_estadisticas' %}">
+            <label for="mes">Mes:</label>
+            <select name="mes" id="mes" required>
+                <option value="1">Enero</option>
+                <option value="2">Febrero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+                <option value="5">Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+                <option value="9">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+            </select>
+            <button type="submit">Generar Estadísticas</button>
+        </form>
+            <img src="{% static 'img/dinamicas.png' %}" alt="Gráfico de turnos">
+    </div>
     <div class="container">
         <div class="image-container">
             <h4>Razas</h4>

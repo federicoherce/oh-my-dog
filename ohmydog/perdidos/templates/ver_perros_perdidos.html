@@ -30,13 +30,24 @@
         }
 
         .perro-imagen {
-            flex: 0 0 350px; /* Tamaño fijo de la imagen */
-            margin-right: 400px; /* Ajusta el margen derecho según sea necesario */
+            flex: 0 0 350px;
+            margin-right: 400px;
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            border: 1px solid black; /* Agrega un borde negro alrededor de la imagen */
+            border: 1px solid black;
+            position: relative; 
         }
+
+        .texto-imagen {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            text-align: center; 
+            font-size: 25px
+        }
+
 
     </style>
     {% for msg in messages %}
@@ -80,11 +91,13 @@
                         <li><strong>Observacion: </strong>{{ perro.observacion }}</li>
                         <li><strong>Estado: </strong>{{ perro.estado }}</li>
                         <li><strong>Telefono: </strong>{{ perro.telefono }}</li>
-                        {% if perro.telefono == request.user.telefono %} 
-                            <form method="get" action="{% url 'ver_perros_perdidos' %}"  style="display: inline;">
-                                {% csrf_token %}
-                                <input type="submit" class="btn btn-primary" value="Encontrado">
-                            </form>
+                        {% if perro.telefono == request.user.telefono %}
+                            {% if not perro.encontrado %} 
+                                <form method="get" action="{% url 'marcar_perro_encontrado' perro.id %}"  style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-primary" value="Encontrado">
+                                </form>
+                            {% endif %}
                             <form method="get" action="{% url 'modificar_perro_perdido' perro.id %}"  style="display: inline;">
                                 {% csrf_token %}
                                 <input type="submit" class="btn btn-primary" value="Modificar Datos">
@@ -97,6 +110,13 @@
                     </ul>
                 </div>
                 <div class="perro-imagen">
+                    {% if perro.encontrado %}
+                        {% if perro.estado == 'Perdi a mi perro' %}
+                            <strong class="texto-imagen" style="color: green;">Perro encontrado!</strong>
+                        {% else %} 
+                            <strong class="texto-imagen" style="color: green;">Dueño encontrado!</strong>   
+                        {% endif %}
+                    {% endif %}
                     <img src="{{ perro.imagen.url }}" width="350px">
                 </div>
             </div>
