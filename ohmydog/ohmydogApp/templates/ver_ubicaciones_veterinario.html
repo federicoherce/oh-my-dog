@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubicaciones</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzEfxKFQm-GzyEUMagq1ocnI7TEih4XUY"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #map {
+          max-width: 800px; /* Establece el ancho máximo del mapa según tus necesidades */
+          margin: 0 auto; /* Centra el mapa horizontalmente */
+          height: 400px; /* Ajusta la altura del mapa según tus necesidades */
+        }
+
+            /** 
+            * Optional: Makes the sample page fill the window. 
+            */
+
+            h2{
+                margin-top: 0;
+            }
+
+            .info-window-content{
+                padding: 8px;
+            }
+      </style>
+      <script>
+          /**
+           * @license
+           * Copyright 2019 Google LLC. All Rights Reserved.
+           * SPDX-License-Identifier: Apache-2.0
+           */
+          let map;
+    
+          function initMap(veterinarias) {
+              console.log(veterinarias)
+              map = new google.maps.Map(document.getElementById("map"), {
+                  center: { lat: -34.92145, lng: -57.95453 },
+                  zoom: 12,
+              });
+              
+              if (veterinarias !== undefined) {
+                for (const veterinaria of veterinarias) {
+                  
+                  const marker = new google.maps.Marker({
+                    position: { lat: parseFloat(veterinaria.latitud), lng: parseFloat(veterinaria.longitud) },
+                    map: map,
+                    title: veterinaria.nombre
+                  });
+
+                  /*contentString = `
+                    <h6></h6>
+                  `*/
+                  const contentString = "<h6>"+veterinaria.nombre+"</h6>"+"<br>"+veterinaria.calle+", "+veterinaria.nro_calle+", "+veterinaria.detalle
+
+                  const infoWindow = new google.maps.InfoWindow({
+                    content: contentString,
+                    ariaLabel: "Información",
+                  });
+
+                  marker.addListener("click", () => {
+                  infoWindow.open(map, marker);
+                  });
+                }
+                
+              }
+          }
+          
+      </script>
+</head>
+<body>
+    <div id="map" style="width: 100%; height: 400px;"></div>
+    <script>
+        window.onload = function() {
+          var veterinarias = {{ veterinarias|safe }};
+          initMap(veterinarias);
+        };
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5fzRrz8Xx_6BMMpCr5cyGxFZ92u22lnQ&callback=initMap&v=weekly" defer></script>
+</body>
+</html>
+
+{% endblock %}

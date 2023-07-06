@@ -1,5 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from donaciones import models
+from ohmydogApp.models import Veterinaria
 import json
 
 
@@ -30,3 +31,19 @@ def redes(request):
         'mail': mail,
         'telefono': telefono
     }
+
+def veterinarias(request):
+    veterinarias_queryset = Veterinaria.objects.all()
+    veterinarias_lista = []
+
+    for veterinaria in veterinarias_queryset:
+        veterinaria_dict = {
+            "nombre": veterinaria.nombre,
+            "calle": veterinaria.calle,
+            "nro_calle": veterinaria.nro_calle,
+            "detalle": veterinaria.detalle,
+            "latitud": veterinaria.latitud,
+            "longitud": veterinaria.longitud
+        }
+        veterinarias_lista.append(veterinaria_dict)
+    return {'veterinarias': veterinarias_lista}

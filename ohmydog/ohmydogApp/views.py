@@ -1,21 +1,38 @@
 from django.shortcuts import render, HttpResponse, redirect
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, JsonResponse
 from turnos.models import Turno
 from perros.models import Perro, Vacuna, LibretaSanitaria
 from donaciones.models import Campaña
-from .forms import tipoVacuna, EditarTelefonoContacto, EditarMailContacto, EditarRedSocial
+from .forms import tipoVacuna, EditarTelefonoContacto, EditarMailContacto, EditarRedSocial, AgregarVeterinaria
 from autenticacion.models import CustomUser
 from datetime import date, timedelta
 from django.contrib import messages
-import json
+from .models import Veterinaria
+import json, requests
+from django.core import serializers
 
 def home(request):
     turnos = Turno.objects.filter(fecha=date.today(), estado__in=["aceptado"], cliente_asistio=None)
     turnosPendientes = Turno.objects.filter(estado="pendiente")
+    
+    latitud = 40.7128
+    longitud = -74.0060
+    latitud_pin1 = 40.712
+    longitud_pin1 = -74.005
+    latitud_pin2 = 40.713
+    longitud_pin2 = -74.007
+    
     return render(request, "home.html", {
         "user": request.user,
         "turnos": turnos,
-        "pendientes": turnosPendientes})
+        "pendientes": turnosPendientes,
+        'latitud': latitud,
+        'longitud': longitud,
+        'latitud_pin1': latitud_pin1,
+        'longitud_pin1': longitud_pin1,
+        'latitud_pin2': latitud_pin2,
+        'longitud_pin2': longitud_pin2
+    })
 
 #campana = Campaña.objects.first()
 # "campana": campana}
@@ -157,3 +174,67 @@ def editar_red_social(request, nombre_red_social):
     
     form = EditarRedSocial(initial={'enlace': red_seleccionada['enlace']})
     return render(request, 'editar_red_social.html', {'form': form})
+
+def ver_ubicaciones_veterinario(request):
+
+    #veterinarias_queryset = Veterinaria.objects.all()
+    #veterinarias_lista = []
+
+    #for veterinaria in veterinarias_queryset:
+    #    veterinaria_dict = {
+    #        "nombre": veterinaria.nombre,
+    #        "calle": veterinaria.calle,
+    #        "nro_calle": veterinaria.nro_calle,
+    #        "detalle": veterinaria.detalle,
+    #        "latitud": veterinaria.latitud,
+    #        "longitud": veterinaria.longitud
+    #    }
+    #    veterinarias_lista.append(veterinaria_dict)
+
+    #return render(request, 'ver_ubicaciones_veterinario.html', {'veterinarias': veterinarias_lista})
+    return render(request, 'ver_ubicaciones_veterinario.html')
+
+
+def editar_ubicacion(request, id_veterinaria):
+    return None
+
+def agregar_ubicacion(request):
+
+    if request.method == "POST":
+        form = AgregarVeterinaria(request.POST)
+
+        if form.is_valid():
+            direccion = f"{form.cleaned_data['calle']} {form.cleaned_data['nro_calle']}, La Plata, Provincia de Buenos Aires"
+            api_key = "AIzaSyA5fzRrz8Xx_6BMMpCr5cyGxFZ92u22lnQ"
+
+            url = f'https://maps.googleapis.com/maps/api/geocode/json?address={direccion}&key={api_key}'
+            response = requests.get(url)
+            data = response.json()
+            
+            if data['status'] == 'OK':
+                # Obtener la latitud y longitud de la primera ubicación devuelta
+                latitud = data['results'][0]['geometry']['location']['lat']
+                longitud = data['results'][0]['geometry']['location']['lng']
+
+                veterinaria = Veterinaria(
+                    calle=form.cleaned_data['calle'],
+                    nro_calle=form.cleaned_data['nro_calle'],
+                    detalle=form.cleaned_data['detalle'],
+                    longitud=longitud,
+                    latitud=latitud
+                )
+                veterinaria.save()
+                messages.success(request, "Veterinaria agregada exitosamente.")
+                return redirect('ver_ubicaciones_veterinario')
+
+    form = AgregarVeterinaria()
+    return render(request, 'agregar_ubicacion.html', {'form': form})
+
+def get_ubicaciones(request):
+    veterinarias = Veterinaria.objects.all().values('latitud', 'longitud')
+    serialized_veterinarias = list(veterinarias)
+
+    return JsonResponse({'veterinarias': serialized_veterinarias}, safe=False)
+
+
+# borrar_ubicacion(request, id_veterinaria):

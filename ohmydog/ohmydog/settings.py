@@ -83,7 +83,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'ohmydog.context_processors.objeto_context',
-                'ohmydog.context_processors.redes'
+                'ohmydog.context_processors.redes',
+                'ohmydog.context_processors.veterinarias'
             ],
         },
     },

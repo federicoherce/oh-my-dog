@@ -38,7 +38,10 @@ urlpatterns = [
     path('contactos/', views.ver_contactos, name="contactos"),
     path('contactos/editar/telefono', views.editar_telefono, name="contacto_editar_telefono"),
     path('contactos/editar/mail', views.editar_mail, name="contacto_editar_mail"),
-    path('contactos/editar/<str:nombre_red_social>', views.editar_red_social, name="contacto_editar_red_social")
+    path('contactos/editar/<str:nombre_red_social>', views.editar_red_social, name="contacto_editar_red_social"),
+    path('ubicaciones/admin', views.ver_ubicaciones_veterinario, name="ver_ubicaciones_veterinario"),
+    path('ubicaciones/admin/agregar', views.agregar_ubicacion, name="agregar_ubicacion"),
+    path('ubicaciones/admin/get', views.get_ubicaciones, name="get_ubicaciones")
 ]
 
 
