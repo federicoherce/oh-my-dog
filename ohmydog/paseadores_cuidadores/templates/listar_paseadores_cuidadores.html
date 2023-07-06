@@ -76,7 +76,7 @@
                 <li><strong>Descripcion: </strong>{{ paseador_cuidador.textolibre }}</li>
                 <li><strong>Paseador o Cuidador: </strong>{{ paseador_cuidador.tipo }}</li>
                 {% if user.is_authenticated and user.is_superuser %}
-                    <form method="get" action="{% url 'modificar_paseador_cuidador' paseador_cuidador.email %}"  style="display: inline;">
+                    <form method="get" action="{% url 'modificar_paseador_cuidador' paseador_cuidador.email paseador_cuidador.tipo %}"  style="display: inline;">
                         {% csrf_token %}
                         <input type="submit" class="btn btn-primary" value="Modificar">
                     </form>

@@ -24,4 +24,5 @@ class Donacion(models.Model):
     fecha = models.DateField(default=timezone.now)
     tipo = models.CharField(max_length=12, choices=TIPO_CHOICES)
     campana = models.ForeignKey(Campaña, null=True, blank="", on_delete=models.CASCADE)
+    motivo = models.TextField(max_length=200, default='')
 

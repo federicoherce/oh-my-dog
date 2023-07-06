@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.http import JsonResponse
 from .models import PerroCruza
 from autenticacion.models import CustomUser
 from perros.models import Perro
@@ -20,21 +21,20 @@ def ver_perros_cruza(request):
 def publicar_perro(request):
     if request.method == "POST":
         form = PublicarPerroCruzaForm(request.POST, request.user)
-        if form.is_valid():
-            cliente = request.user  
-            perro_id = request.POST.get('perro')
-            perro = Perro.objects.get(id=perro_id)
-            fecha_de_celo = form.cleaned_data['celo']
-            perro_cruza = PerroCruza.objects.create(dueño=cliente, perro=perro, fecha_de_celo=fecha_de_celo)
-            perro_cruza.save()
-            messages.success(request, 'Perro publicado con exito')
-            return redirect('ver_perros_cruza')
-        else:
-          return render(request, 'publicar_perro_cruza.html', {"perros": perros, "form": form})  
+        cliente = request.user  
+        perro_id = request.POST.get('perro')
+        perro = Perro.objects.get(id=perro_id)
+        if perro.sexo != 'macho':
+            return redirect('seleccionar_fecha_celo', perro)
+        perro_cruza = PerroCruza.objects.create(dueño=cliente, perro=perro)
+        perro_cruza.save()
+        messages.success(request, 'Perro publicado con exito')
+        return redirect('ver_perros_cruza')
     else:
         perros = Perro.objects.filter(dueño=request.user).exclude(id__in=PerroCruza.objects.values('perro_id'))
         form = PublicarPerroCruzaForm()
         return render(request, 'publicar_perro_cruza.html', {"perros": perros, "form": form})
+
 
 @veterinario_restringido
 def enviar_solicitud_cruce(request, perro, autor, sexo, id):
@@ -64,6 +64,7 @@ def enviar_solicitud_cruce(request, perro, autor, sexo, id):
         "sexo": sexo,
         "perro_id": id})
 
+
 @veterinario_restringido
 def enviar_solicitud_recomendada(request, perro, autor):
     perro_cliente = Perro.objects.get(id=perro)
@@ -77,6 +78,7 @@ def enviar_solicitud_recomendada(request, perro, autor):
     send_mail(asunto_autor, msj_autor, "ohmydogg.vet@gmail.com", [publicado_por.email])
     messages.success(request, 'Su solicitud fue enviada con exito')
     return redirect('ver_perros_cruza')
+
 
 @veterinario_restringido
 def recomendar_perro(request):
@@ -93,17 +95,16 @@ def recomendar_perro(request):
         "perros": perros_cliente
     })
 
+
 def get_recomendacion(perro_selected):
-    fecha_inicio = perro_selected.fecha_de_celo - timedelta(days=5)
-    fecha_fin = perro_selected.fecha_de_celo + timedelta(days=5)
 
     perros_compatibles = PerroCruza.objects.filter(
         perro__raza=perro_selected.perro.raza,
         perro__sexo="hembra" if perro_selected.perro.sexo == "macho" else "macho",
-        fecha_de_celo__range=[fecha_inicio, fecha_fin]
     )
 
     return perros_compatibles.first()
+
 
 def ver_perro(request, perro, perro_cliente):
     recomendado = False
@@ -116,3 +117,18 @@ def ver_perro(request, perro, perro_cliente):
                    "recomendado": recomendado,
                    "perros_cliente": perros_cliente})
 
+
+def seleccionar_fecha_celo(request, perro):
+    if request.method == 'POST':
+        form = PublicarPerroCruzaForm(request.POST, request.user)
+        if form.is_valid():
+            fecha_celo = request.POST.get('celo')
+            cliente = request.user
+            perroAC = Perro.objects.get(nombre=perro)
+            perro_cruza = PerroCruza.objects.create(dueño=cliente, perro=perroAC, fecha_de_celo=fecha_celo)
+            perro_cruza.save()
+            messages.success(request, 'Perro publicado con exito')
+            return redirect('ver_perros_cruza')
+    else:
+        form = PublicarPerroCruzaForm()
+    return render(request, 'seleccionar_fecha_celo.html', {'form':form, 'perro':perro})
