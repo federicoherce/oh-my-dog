@@ -141,7 +141,9 @@
           </div>  
           <p class="m-0 mbt">
             <b>
-                <a href="{% url 'ver_ubicaciones_veterinario' %}" style="color: black" class="link">Ubicaciones</a> ·
+                {% if user.is_superuser %}
+                    <a href="{% url 'ver_ubicaciones_veterinario' %}" style="color: black" class="link">Ubicaciones</a> ·
+                {% endif %}
                 <a href="{% url 'contactos' %}" style="color: black"  class="link">Contacto</a>
             </b>
           </p>
