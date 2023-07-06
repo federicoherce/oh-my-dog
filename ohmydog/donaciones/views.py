@@ -4,7 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse, 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Campaña, Donacion
-from .forms import CrearCampaña, CrearDonacionCampaña, CrearDonacionVeterinaria
+from .forms import CrearCampaña, CrearDonacion
+##CrearDonacionCampaña, CrearDonacionVeterinaria
 from django.db.models import Sum
 from ohmydog.decorators import veterinario_required
 
@@ -48,24 +49,17 @@ def realizar_donacion(request, tipo):
     if request.method == "POST":
         monto = request.POST.get('monto')
         nombre = request.POST.get('nombre')
-        motivo = request.POST.get('motivo')
         if nombre == '':
             nombre = 'Zz'
-        if (tipo == 'Campaña'):
-            form = CrearDonacionCampaña(request.POST, initial={'nombre': nombre_usuario})
-        else:
-            form = CrearDonacionVeterinaria(request.POST, initial={'nombre': nombre_usuario})
+        form = CrearDonacion(request.POST, initial={'nombre': nombre_usuario})
         if form.is_valid(): 
             if (tipo == 'Campaña'):
                 campana = Campaña.objects.latest('id')
-                return redirect ('pagos:pagar_donacion', monto=monto, nombre=nombre, tipo=tipo, campana=campana.id, motivo=motivo)
+                return redirect ('pagos:pagar_donacion', monto=monto, nombre=nombre, tipo=tipo, campana=campana.id)
             elif (tipo == 'Veterinaria'):
-                return redirect('pagos:pagar_donacion', monto=monto, nombre=nombre, tipo=tipo, campana=1, motivo=motivo)
+                return redirect('pagos:pagar_donacion', monto=monto, nombre=nombre, tipo=tipo, campana=1)
     else:
-        if (tipo == 'Campaña'):
-            form = CrearDonacionCampaña(initial={'nombre': nombre_usuario})
-        else:
-            form = CrearDonacionVeterinaria(initial={'nombre': nombre_usuario})
+        form = CrearDonacion(initial={'nombre': nombre_usuario})
     return render(request, 'realizar_donacion.html', {
         'form': form
     })

@@ -6,11 +6,11 @@ from autenticacion.models import CustomUser
 
 
 def ver_perros_perdidos(request):
-    perros = Perdidos.objects.all()
+    perros = Perdidos.objects.all().order_by('encontrado')
     if request.GET.get('estado'):
         filtrado = request.GET['estado']
         if filtrado != "":
-            perros = Perdidos.objects.filter(estado=filtrado)
+            perros = Perdidos.objects.filter(estado=filtrado).order_by('encontrado')
     else:
         filtrado = ""
     return render(request, "ver_perros_perdidos.html", {
@@ -71,3 +71,10 @@ def modificar_imagen(request, id):
     else:
         form = ModificarImagen()
     return render(request, 'modificar_imagen.html', {'form': form})
+
+def marcar_perro_encontrado(request, id):
+    perro = Perdidos.objects.get(id = id)
+    perro.encontrado = True
+    perro.save()
+    messages.success(request, 'El perro se ha encontrado')
+    return redirect('ver_perros_perdidos')

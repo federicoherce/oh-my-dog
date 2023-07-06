@@ -31,5 +31,29 @@ def ver_estadisticas(request):
     plt.axis('equal')
     plt.savefig('ohmydogApp/static/img/turnos.png', transparent=True)
     plt.close()
+    estadisticas_dinamicas(request.GET.get('mes'))
     return render(request, 'estadisticas.html')
+
+
+def estadisticas_dinamicas(mes):
+    turnos = Turno.objects.filter(fecha__month=mes, fecha__year=2023)
+    razas = turnos.values_list('perro__raza', flat=True)
+    df_razas = pd.DataFrame({'raza': razas})
+    estadisticas_razas = df_razas.groupby('raza').size().reset_index(name='cantidad')
+    plt.bar(estadisticas_razas['raza'], estadisticas_razas['cantidad'])
+    plt.xlabel('Raza')
+    plt.ylabel('Cantidad de Turnos')
+    plt.title(f'Estadísticas de Turnos - {mes}/{2023}')
+    plt.xticks(rotation=45)
+        # Verifica si el DataFrame está vacío
+    if not estadisticas_razas.empty:
+        # Establece los valores del eje y como números enteros
+        plt.yticks(range(int(max(estadisticas_razas['cantidad'])) + 1))
+    else:
+        # Establece un valor predeterminado para el máximo del eje y
+        plt.yticks([0])
+    plt.tight_layout()  # Ajusta los márgenes del gráfico automáticamente
+    img_path = 'ohmydogApp/static/img/dinamicas.png' 
+    plt.savefig(img_path, transparent=True)
+    plt.close()
     
