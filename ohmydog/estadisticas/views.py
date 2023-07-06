@@ -3,6 +3,8 @@ import pandas as pd
 from perros.models import Perro
 from turnos.models import Turno
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('agg')
 
 # Create your views here.
 

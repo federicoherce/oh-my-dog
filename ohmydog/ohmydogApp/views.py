@@ -8,7 +8,8 @@ from autenticacion.models import CustomUser
 from datetime import date, timedelta
 from django.contrib import messages
 from .models import Veterinaria
-import json, requests
+import json
+import requests
 from django.core import serializers
 
 def home(request):
