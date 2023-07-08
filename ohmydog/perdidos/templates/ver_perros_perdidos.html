@@ -94,18 +94,18 @@
                         {% if perro.telefono == request.user.telefono %}
                             {% if not perro.encontrado %} 
                                 <form method="get" action="{% url 'marcar_perro_encontrado' perro.id %}"  style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="submit" class="btn btn-primary" value="Encontrado">
+                                    </form>
+                                <form method="get" action="{% url 'modificar_perro_perdido' perro.id %}"  style="display: inline;">
                                     {% csrf_token %}
-                                    <input type="submit" class="btn btn-primary" value="Encontrado">
+                                    <input type="submit" class="btn btn-primary" value="Modificar Datos">
+                                </form>
+                                <form method="get" action="{% url 'modificar_imagen' perro.id %}"  style="display: inline; ">
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-primary" value="Modificar Imagen">
                                 </form>
                             {% endif %}
-                            <form method="get" action="{% url 'modificar_perro_perdido' perro.id %}"  style="display: inline;">
-                                {% csrf_token %}
-                                <input type="submit" class="btn btn-primary" value="Modificar Datos">
-                            </form>
-                            <form method="get" action="{% url 'modificar_imagen' perro.id %}"  style="display: inline; ">
-                                {% csrf_token %}
-                                <input type="submit" class="btn btn-primary" value="Modificar Imagen">
-                            </form>
                         {% endif %}
                     </ul>
                 </div>

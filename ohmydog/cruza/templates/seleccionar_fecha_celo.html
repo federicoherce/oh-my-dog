@@ -29,8 +29,10 @@
             <input type="submit"  class="btn btn-primary" value="Publicar Perro">
         </div>
     </form>
-
-    <input type="submit" href="{% url 'ver_perros_cruza' %}" class="btn btn-primary" value="Volver">
+    <br>
+    <form method="GET" action="{% url 'ver_perros_cruza' %}"   style="text-align: center;">
+        <input type="submit"  class="btn btn-primary" value="Volver">
+    </form>
 </body>
 </html>
 

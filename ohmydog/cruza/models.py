@@ -11,3 +11,4 @@ class PerroCruza(models.Model):
 
     def __str__(this):
         return this.perro.__str__()
+    

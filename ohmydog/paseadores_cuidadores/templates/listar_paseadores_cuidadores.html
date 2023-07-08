@@ -83,6 +83,7 @@
                     <form method="POST" action="{% url 'listar_paseadores_cuidadores' %}" style="display: inline;">
                         {% csrf_token %}
                         <input type="hidden" name="paseador_cuidador.email" value="{{ paseador_cuidador.email }}">
+                        <input type="hidden" name="paseador_cuidador.tipo" value="{{ paseador_cuidador.tipo }}">
                         <input type="submit" class="btn btn-primary" value="Borrar" onclick="return confirm('¿Estás seguro de que deseas borrar este Paseador o Cuidador?')">
                     </form>
                 {% endif %}

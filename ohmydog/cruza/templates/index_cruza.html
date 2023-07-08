@@ -93,7 +93,7 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Raza</th>
-                    <th>Fecha de celo</th>
+                    <th>Fecha de Nacimiento</th>
                     <th>Sexo</th>
                     <th> </th>
                     <th> </th>
@@ -106,7 +106,7 @@
                             <td> {{perro.perro.nombre}}</td>
                         {% endif %}
                         <td>{{ perro.perro.raza }}</td>
-                        <td>{{ perro.fecha_de_celo }}</td>
+                        <td>{{ perro.perro.fecha_de_nacimiento }}</td>
                         <td>{{ perro.perro.sexo }}</td>
                         <td>
                             <form method="get" action="{% url 'ver_perro' perro.id '-1' %}" style="display: inline-block;"> {% csrf_token %}

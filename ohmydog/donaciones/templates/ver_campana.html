@@ -20,16 +20,18 @@
             <li><strong>Campaña: </strong>{{ campana.nombre }}</li>
             <li><strong>Monto objetivo: </strong>{{ campana.monto_objetivo }}</li>
             <li><strong>Descripcion: </strong>{{ campana.descripcion }}</li>
+            <form method="GET" action="{% url 'realizar_donacion' 'Campaña' %}" style="display: inline;">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary" value="Donar">
+            </form>
+            <br>
+            <br>
             {% if user.is_superuser %}
                 <form method="POST" action="{% url 'eliminar_campana' %}" >
                    {% csrf_token %}
                    <input type="submit" class="btn btn-primary" value="Borrar" onclick="return confirm('¿Estás seguro de que deseas borrar esta Campaña de Donacion?')">
                 </form>
             {% endif %}
-                <form method="GET" action="{% url 'realizar_donacion' 'Campaña' %}" style="display: inline;">
-                    {% csrf_token %}
-                    <input type="submit" class="btn btn-primary" value="Donar">
-                </form>
     {% endif %}
         </ul>
 </body>
