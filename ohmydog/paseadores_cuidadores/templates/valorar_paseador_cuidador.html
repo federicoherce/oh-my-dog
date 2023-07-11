@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% load ratings %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+    <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+    <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
+
+    <style>
+        .rating {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .rating button {
+            background: none;
+            border: none;
+            font-size: 30px;
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+            padding: 0;
+            margin: 2px;
+        }
+        
+        .rating button.selected {
+            border: 0px solid rgb(0, 0, 0);
+        }
+        
+        .rating button.selected ~ button {
+            border: none;
+        }
+        
+        .rating button.selected::before {
+            content: "\2605";
+            position: absolute;
+            color: rgb(234, 173, 32);
+            font-size: 30px;
+        }
+        
+        #puntajeTexto {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+    
+    <script>
+        let puntajeSeleccionado = null;
+        
+        function asignarPuntaje(valor) {
+            puntajeSeleccionado = valor;
+            const puntajeTexto = document.getElementById('puntajeTexto');
+            puntajeTexto.textContent = `${valor}/5`;
+            
+            // Actualizar la clase "selected" en los botones de puntaje
+            const botonesPuntaje = document.querySelectorAll('.rating button');
+            botonesPuntaje.forEach((boton, index) => {
+                if (index + 1 <= valor) {
+                    boton.classList.add('selected');
+                } else {
+                    boton.classList.remove('selected');
+                }
+            });
+        }
+        
+        function enviarValoracion() {
+            if (puntajeSeleccionado !== null) {
+                const form = document.getElementById('valoracionForm');
+                const comentario = document.getElementById('id_comentario').value;
+                
+                const puntajeInput = document.createElement('input');
+                puntajeInput.setAttribute('type', 'hidden');
+                puntajeInput.setAttribute('name', 'puntaje');
+                puntajeInput.setAttribute('value', puntajeSeleccionado);
+                
+                form.appendChild(puntajeInput);
+                
+                form.submit();
+            }
+        }
+    </script>
+    
+    <h1 class="titulos-format">Valora a {{ paseador_cuidador.nomyap }}</h1>
+    <h4 style="margin: auto; text-align: center; align-self: center;">Puntaje</h4>
+    <div class="rating" style="margin: auto; margin-top: 10px; align-items: center; margin-bottom: 10px;">
+        <button name="puntaje" class="rating" title="Give 1 star" value="1" onclick="asignarPuntaje(1)">★</button>
+        <button name="puntaje" class="rating" title="Give 2 stars" value="2" onclick="asignarPuntaje(2)">★</button>
+        <button name="puntaje" class="rating" title="Give 3 stars" value="3" onclick="asignarPuntaje(3)">★</button>
+        <button name="puntaje" class="rating" title="Give 4 stars" value="4" onclick="asignarPuntaje(4)">★</button>
+        <button name="puntaje" class="rating" title="Give 5 stars" value="5" onclick="asignarPuntaje(5)">★</button>
+    </div>
+    <div id="puntajeTexto"></div>
+    <br>
+    <form class="formularios" action="" method="POST" id="valoracionForm"> {% csrf_token %}
+        <div style="margin: auto; align-items: center;"> 
+            <h4 style="width: 75%; margin: auto; text-align: center; align-self: center; margin-bottom: 10px;">Comentario</h4>
+            <textarea style="width: 100%; margin: auto; text-align: center" id="id_comentario" name="comentario" placeholder="Escribe tu comentario (opcional)"></textarea>
+            <br>
+            <input style="margin-top: 10px; text-align: center; width: fit-content; align-self: center;" class="btn-primary" onclick="enviarValoracion()" value="Enviar">
+        </div>
+    </form>
+
+</body>
+</html>
+
+{% endblock %}

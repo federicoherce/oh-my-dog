@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'cruza',
     'donaciones',
     'estadisticas',
-    'perdidos'
+    'perdidos',
+    'star_ratings',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

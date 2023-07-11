@@ -2,6 +2,9 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from datetime import date
 from django.core.validators import RegexValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
+from autenticacion.models import CustomUser
+from star_ratings.models import *
 
 # Create your models here.
 class PaseadorCuidador(models.Model):
@@ -15,4 +18,15 @@ class PaseadorCuidador(models.Model):
     textolibre = models.TextField(max_length=200)
     tipo = models.CharField(max_length=10, choices=TIPO_CHOICES, default='Paseador')
 
+class Valoracion(models.Model):
+    cliente = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    paseador = models.ForeignKey(PaseadorCuidador, on_delete=models.CASCADE)
+    comentario = models.TextField(max_length=200, blank=True)
+    puntaje = models.IntegerField(
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(5)
+        ])
     
+
+
