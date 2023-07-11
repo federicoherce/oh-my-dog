@@ -51,6 +51,8 @@ def realizar_donacion(request, tipo):
         motivo = request.POST.get('motivo')
         if nombre == '':
             nombre = 'Zz'
+        if motivo == '':
+            motivo = 'Zz'
         if (tipo == 'Campaña'):
             form = CrearDonacionCampaña(request.POST, initial={'nombre': nombre_usuario})
         else:

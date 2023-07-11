@@ -25,7 +25,9 @@
         <li><strong>Nombre: </strong>{{ perro.perro.nombre }}</li>
         <li><strong>Raza: </strong>{{ perro.perro.raza }}</li>
         <li><strong>Fecha de nacimiento: </strong>{{ perro.perro.fecha_de_nacimiento }}</li>
-        <li><strong>Fecha de celo: </strong>{{ perro.fecha_de_celo }}</li>
+        {% if perro.perro.sexo == "hembra" %} 
+            <li><strong>Fecha de celo: </strong>{{ perro.fecha_de_celo }}</li>
+        {% endif %}
         <li><strong>Sexo: </strong>{{ perro.perro.sexo }}</li>
         <li><strong>Color: </strong>{{ perro.perro.color }}</li>
     </ul>

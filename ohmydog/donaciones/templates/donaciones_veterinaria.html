@@ -35,7 +35,11 @@
                 {% else %} 
                     <li><strong>Realizado por: </strong>Donacion anonima</li>  
                 {% endif %}
-                <li><strong>Motivo: </strong>{{ donacion.motivo }}</li>
+                {% if donacion.motivo != 'Zz' %}
+                    <li><strong>Motivo: </strong>{{ donacion.motivo }}</li>
+                {% else %} 
+                 <li><strong>Motivo: </strong> </li>    
+                 {% endif %}
                 <hr>
             {% endfor %} 
     </ul>

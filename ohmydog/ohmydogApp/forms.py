@@ -30,11 +30,28 @@ class AgregarVeterinaria(forms.ModelForm):
     detalle = forms.CharField(
             required=False,
             label='Detalle (*)',
-            widget=forms.Textarea(attrs={'placeholder': 'Piso, Departamento, etc.'})
+            widget=forms.Textarea(attrs={'placeholder': 'Piso, Departamento, Horario etc.'})
         )
     nro_calle = forms.IntegerField(label='Número')
+    calle = forms.IntegerField()
 
     class Meta:
         model = Veterinaria
         exclude = ['longitud', 'latitud']
+
+class EditarVeterinaria(forms.ModelForm):
+     detalle = forms.CharField(required=False, label='Detalle (*)')
+     nro_calle = forms.IntegerField(label='Número')
+
+     class Meta:
+         model = Veterinaria
+         exclude = ['longitud', 'latitud']
+    
+     def __init__(self, *args, **kwargs):
+         veterinaria = kwargs.pop('veterinaria')
+         super(EditarVeterinaria, self).__init__(*args, **kwargs)
+         self.fields['nombre'].initial = veterinaria.nombre
+         self.fields['calle'].initial = veterinaria.calle
+         self.fields['nro_calle'].initial = veterinaria.nro_calle
+         self.fields['detalle'].initial = veterinaria.detalle
     

@@ -324,6 +324,7 @@
     text-align: center;
     font-family: "Arial", sans-serif;
     font-size: 40px;
+    color: #000;
   }
 
   .navbar-collapse {
@@ -441,7 +442,7 @@
     text-align: center;
     font-family: "Arial", sans-serif;
     font-size: 40px;
-
+    color: #000;
 }
 
   .formularios {

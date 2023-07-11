@@ -42,7 +42,8 @@ urlpatterns = [
     path('ubicaciones/admin', views.ver_ubicaciones_veterinario, name="ver_ubicaciones_veterinario"),
     path('ubicaciones/admin/agregar', views.agregar_ubicacion, name="agregar_ubicacion"),
     path('ubicaciones/admin/get', views.get_ubicaciones, name="get_ubicaciones"),
-    path('ratings/', include('star_ratings.urls', namespace='ratings')),
+    path('ubicaciones/admin/editar/<int:id_veterinaria>', views.editar_ubicacion, name="editar_ubicacion"),
+    path('ubicaciones/admin/borrar/<int:id_veterinaria>', views.borrar_ubicacion, name="borrar_ubicacion")
 ]
 
 

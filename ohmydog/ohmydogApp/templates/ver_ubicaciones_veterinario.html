@@ -14,6 +14,11 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzEfxKFQm-GzyEUMagq1ocnI7TEih4XUY"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {% for msg in messages %}
+    <script>
+        swal('{{msg}}');
+    </script>
+    {% endfor %}
     <style>
         #map {
           max-width: 800px; /* Establece el ancho máximo del mapa según tus necesidades */
@@ -57,10 +62,16 @@
                     title: veterinaria.nombre
                   });
 
-                  /*contentString = `
-                    <h6></h6>
-                  `*/
-                  const contentString = "<h6>"+veterinaria.nombre+"</h6>"+"<br>"+veterinaria.calle+", "+veterinaria.nro_calle+", "+veterinaria.detalle
+                  const contentString = `
+                    <h6>${veterinaria.nombre}</h6>
+                    <br>
+                    <p>${veterinaria.calle}, ${veterinaria.nro_calle}, ${veterinaria.detalle}</p>
+                    <p>
+                      <a class="editar-link" data-id="${veterinaria.id}" style="color: gray;">Editar</a> |
+                      <a class="borrar-link" data-id="${veterinaria.id}" style="color: gray;" onclick="return confirm('¿Estás seguro de que deseas borrar esta veterinaria?')">Borrar</a>
+                    </p>
+                  `
+                  //const contentString = "<h6>"+veterinaria.nombre+"</h6>"+"<br>"+veterinaria.calle+", "+veterinaria.nro_calle+", "+veterinaria.detalle
 
                   const infoWindow = new google.maps.InfoWindow({
                     content: contentString,
@@ -68,16 +79,31 @@
                   });
 
                   marker.addListener("click", () => {
-                  infoWindow.open(map, marker);
+                    infoWindow.open(map, marker);
                   });
-                }
-                
+                }  
               }
           }
+          $(document).on("click", ".editar-link", function() {
+            const id = $(this).data("id");
+            const url = `admin/editar/${id}`;
+            window.location.href = url;
+          });
+
+          $(document).on("click", ".borrar-link", function() {
+            const id = $(this).data("id");
+            const url = `admin/borrar/${id}`;
+            window.location.href = url;
+          });
           
       </script>
 </head>
 <body>
+    <h2 class="titulos-format">Mapa de veterinarias.</h2>
+    <form class='agregar' method="get" action="{% url 'agregar_ubicacion' %}" style="text-align: center;"> {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Agregar veterinaria">
+    </form>
+    <br>
     <div id="map" style="width: 100%; height: 400px;"></div>
     <script>
         window.onload = function() {

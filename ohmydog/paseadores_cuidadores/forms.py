@@ -36,3 +36,9 @@ class ModificarValoracion(forms.ModelForm):
     class Meta:
         model = Valoracion
         fields = ('comentario','puntaje')
+    
+class ModificarPaseadorCuidadorSinTipo(forms.Form):
+    nomyap = forms.CharField(max_length=30, required=True, label="Nombre y apellido")
+    email = forms.EmailField(required=True, error_messages={'unique': 'Ya existe un paseador o cuidador con este email'})
+    textolibre = forms.CharField(max_length=200, required=True, label="Texto libre")
+    

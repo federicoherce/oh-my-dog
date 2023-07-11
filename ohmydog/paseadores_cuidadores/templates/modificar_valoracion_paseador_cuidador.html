@@ -25,36 +25,118 @@
     {% endfor %}
 
     <style>
-        .rating-list li {
-          float: right;
-          color: #ddd;
-          padding: 10px 5px;
+        .rating {
+            display: flex;
+            justify-content: center;
         }
-
-        .rating-list li:hover,
-        .rating-list li:hover ~ li {
-          color: orange;
+        
+        .rating button {
+            background: none;
+            border: none;
+            font-size: 30px;
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+            padding: 0;
+            margin: 2px;
         }
-
-        .rating-list {
-          display: inline-block;
-          list-style: none;
+        
+        .rating button.selected {
+            border: 0px solid rgb(0, 0, 0);
         }
-        .checked {
-            color: orange;
+        
+        .rating button.selected ~ button {
+            border: none;
+        }
+        
+        .rating button.selected::before {
+            content: "\2605";
+            position: absolute;
+            color: rgb(234, 173, 32);
+            font-size: 30px;
+        }
+        
+        #puntajeTexto {
+            text-align: center;
+            margin-top: 10px;
         }
     </style>
-</head>
-<body>
 
+<div id="valoracion" data-puntaje="{{ valoracion.puntaje|default:0 }}"></div>
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let puntajeSeleccionado = parseInt(document.getElementById('valoracion').dataset.puntaje);
 
-    <form action="" method="POST"> {% csrf_token %}
-        <div style= "width: 75%; margin: auto;"> 
-            {{form|crispy}}
-        <input type="submit" value="Enviar">
-        </div>
-    </form>
+        function asignarPuntaje(valor) {
+            puntajeSeleccionado = valor;
+            const puntajeTexto = document.getElementById('puntajeTexto');
+            puntajeTexto.textContent = `${valor}/5`;
 
+            // Actualizar la clase "selected" en los botones de puntaje
+            const botonesPuntaje = document.querySelectorAll('.rating button');
+            botonesPuntaje.forEach((boton, index) => {
+                if (index + 1 <= valor) {
+                    boton.classList.add('selected');
+                } else {
+                    boton.classList.remove('selected');
+                }
+            });
+        }
+
+        asignarPuntaje(puntajeSeleccionado);
+
+        // Delegación de eventos para los botones de puntaje
+        const contenedorPuntaje = document.querySelector('.rating');
+        contenedorPuntaje.addEventListener('click', function(event) {
+            if (event.target.matches('button')) {
+                const valor = parseInt(event.target.value);
+                asignarPuntaje(valor);
+            }
+        });
+
+        const formValoracion = document.getElementById('valoracionForm');
+        formValoracion.addEventListener('submit', function(event) {
+            event.preventDefault();
+            enviarValoracion();
+        });
+
+        function enviarValoracion() {
+            if (puntajeSeleccionado !== null) {
+                const form = document.getElementById('valoracionForm');
+                const comentario = document.getElementById('id_comentario').value;
+
+                const puntajeInput = document.createElement('input');
+                puntajeInput.setAttribute('type', 'hidden');
+                puntajeInput.setAttribute('name', 'puntaje');
+                puntajeInput.setAttribute('value', puntajeSeleccionado);
+
+                form.appendChild(puntajeInput);
+
+                form.submit();
+            }
+        }
+    });
+</script>
+    
+<h1 class="titulos-format">Modificar valoración de {{paseador_cuidador.nomyap}}</h1>
+<h4 style="margin: auto; text-align: center; align-self: center;">Puntaje</h4>
+<div class="rating" style="margin: auto; margin-top: 10px; align-items: center; margin-bottom: 10px;">
+    <button name="puntaje" class="rating" title="Give 1 star" value="1" >★</button>
+    <button name="puntaje" class="rating" title="Give 2 stars" value="2" >★</button>
+    <button name="puntaje" class="rating" title="Give 3 stars" value="3" >★</button>
+    <button name="puntaje" class="rating" title="Give 4 stars" value="4" >★</button>
+    <button name="puntaje" class="rating" title="Give 5 stars" value="5" >★</button>
+</div>
+<div id="puntajeTexto"></div>
+<br>
+<form class="formularios" action="" method="POST" id="valoracionForm"> {% csrf_token %}
+    <div style="margin: auto; align-items: center;"> 
+        <h4 style="width: 75%; margin: auto; text-align: center; align-self: center; margin-bottom: 10px;">Comentario</h4>
+        <textarea style="width: 100%; margin: auto; text-align: center" id="id_comentario" name="comentario" placeholder="Escribe tu comentario (opcional)">{{ valoracion.comentario }}</textarea>
+        <br>
+        <button style="margin-top: 10px; text-align: center; width: fit-content; align-self: center;" class="btn-primary" type="submit">Enviar</button>
+    </div>
+</form>
 </body>
 </html>
 

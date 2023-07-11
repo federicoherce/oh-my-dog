@@ -40,6 +40,48 @@
         background-color: black;
         margin: 20px 0;
     }
+
+        .rating {
+            display: flex;
+        }
+        
+        .rating button {
+            background: none;
+            border: none;
+            font-size: 30px;
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+            padding: 0;
+            margin: 2px;
+        }
+        
+        .rating button.selected {
+            border: 0px solid rgb(0, 0, 0);
+        }
+        
+        .rating button.selected ~ button {
+            border: none;
+        }
+        
+        .rating button.selected::before {
+            content: "\2605";
+            position: absolute;
+            color: rgb(234, 173, 32);
+            font-size: 30px;
+        }
+        
+        #puntajeTexto {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .star {
+    color: gold;
+}
+
+.empty-star {
+    color: #ccc;
+}
     </style>
 </head>
 <body>
@@ -71,25 +113,34 @@
     {% if paseadores_cuidadores %}
         <ul class="info-list">
             {% if user.is_authenticated %}
-                {% for paseador_cuidador, ha_realizado_valoracion in paseadores_cuidadores %}
+                {% for paseador_cuidador in paseadores_cuidadores %}
                     <li><strong>Nombre y Apellido: </strong>{{ paseador_cuidador.nomyap}}</li>
                     <li><strong>Email: </strong>{{ paseador_cuidador.email }}</li>
                     <li><strong>Descripcion: </strong>{{ paseador_cuidador.textolibre }}</li>
                     <li><strong>Paseador o Cuidador: </strong>{{ paseador_cuidador.tipo }}</li>
-                    {% if not ha_realizado_valoracion %}
+                    <div class="rating" style=" margin-top: 10px; margin-bottom: 10px;">
+                        {% if paseador_cuidador.promedio_valoraciones > 0 %}
+                            {% for i in "12345" %}
+                                <button class="{% if forloop.counter <= paseador_cuidador.promedio_valoraciones %}selected{% endif %}">&#9733;</button>
+                            {% endfor %}
+                        {% else %}
+                            <span class="no-valoraciones">(Sin valoraciones)</span>
+                        {% endif %}
+                    </div>
+                    {% if not paseador_cuidador.fue_valorado %}
                         <form method="get" action="{% url 'valorar_paseador_cuidador' paseador_cuidador.id %}"  style="display: inline;">
                             {% csrf_token %}
                             <input type="submit" class="btn btn-primary" value="Valorar">
                         </form>
                     {% else %}
-                    <form method="get" action="{% url 'modificar_valoracion_paseador_cuidador' paseador_cuidador.id %}"  style="display: inline;">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-primary" value="Modificar Valoracion">
-                    </form>
-                    <form method="get" action="{% url 'eliminar_valoracion_paseador_cuidador' paseador_cuidador.id %}"  style="display: inline;">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-primary" value="Eliminar Valoracion">
-                    </form>
+                        <form method="get" action="{% url 'modificar_valoracion_paseador_cuidador' paseador_cuidador.id %}"  style="display: inline;">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-primary" value="Modificar Valoración">
+                        </form>
+                        <form method="POST" action="{% url 'eliminar_valoracion_paseador_cuidador' paseador_cuidador.id %}"  style="display: inline;">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-primary" value="Eliminar Valoración" onclick="return confirm('¿Estás seguro de que deseas borrar esta valoración?')">
+                        </form>          
                     {% endif %}
                     <form method="get" action="{% url 'perfil_paseador_cuidador' paseador_cuidador.id %}"  style="display: inline;">
                         {% csrf_token %}
@@ -114,10 +165,31 @@
                 <li><strong>Email: </strong>{{ paseador_cuidador.email }}</li>
                 <li><strong>Descripcion: </strong>{{ paseador_cuidador.textolibre }}</li>
                 <li><strong>Paseador o Cuidador: </strong>{{ paseador_cuidador.tipo }}</li>
+                <div class="rating" style=" margin-top: 10px; margin-bottom: 10px;">
+                    {% if paseador_cuidador.promedio_valoraciones > 0 %}
+                        {% for i in "12345" %}
+                            <button class="{% if forloop.counter <= paseador_cuidador.promedio_valoraciones %}selected{% endif %}">&#9733;</button>
+                        {% endfor %}
+                    {% else %}
+                        <span class="no-valoraciones">(Sin valoraciones)</span>
+                    {% endif %}
+                </div>
                 <form method="get" action="{% url 'perfil_paseador_cuidador' paseador_cuidador.id %}"  style="display: inline;">
                     {% csrf_token %}
                     <input type="submit" class="btn btn-primary" value="Ver Perfil">
                 </form>
+                {% if user.is_authenticated and user.is_superuser %}
+                    <form method="get" action="{% url 'modificar_paseador_cuidador' paseador_cuidador.email paseador_cuidador.tipo %}"  style="display: inline;">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-primary" value="Modificar">
+                    </form>
+                    <form method="POST" action="{% url 'listar_paseadores_cuidadores' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="paseador_cuidador.email" value="{{ paseador_cuidador.email }}">
+                        <input type="hidden" name="paseador_cuidador.tipo" value="{{ paseador_cuidador.tipo }}">
+                        <input type="submit" class="btn btn-primary" value="Borrar" onclick="return confirm('¿Estás seguro de que deseas borrar este Paseador o Cuidador?')">
+                    </form>
+                {% endif %}
                 <hr>
                 {% endfor %}
             {% endif %}
