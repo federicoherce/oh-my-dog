@@ -234,6 +234,8 @@ def modificar_datos_perro(request, dni, perro_id):
         "perro": perro
     })
 
+@login_required(login_url='login')
+@user_passes_test(is_superuser, login_url='home')
 def generar_pdf_perro(request, perro_id):
     perro = Perro.objects.get(id=perro_id)
     libreta_sanitaria = LibretaSanitaria.objects.get(perro=perro)

@@ -11,6 +11,7 @@ from .models import Veterinaria
 import json
 import requests
 from django.core import serializers
+from ohmydog.decorators import veterinario_required
 
 def home(request):
     turnos = Turno.objects.filter(fecha=date.today(), estado__in=["aceptado"], cliente_asistio=None)
@@ -179,6 +180,7 @@ def editar_red_social(request, nombre_red_social):
 def ver_ubicaciones_veterinario(request):
     return render(request, 'ver_ubicaciones_veterinario.html')
 
+@veterinario_required
 def agregar_ubicacion(request):
     if request.method == "POST":
         form = AgregarVeterinaria(request.POST)
@@ -224,6 +226,7 @@ def get_ubicaciones(request):
 
     return JsonResponse({'veterinarias': serialized_veterinarias}, safe=False)
 
+@veterinario_required
 def editar_ubicacion(request, id_veterinaria):
     veterinaria = Veterinaria.objects.get(id=id_veterinaria)
     if request.method == "POST":
@@ -264,6 +267,7 @@ def editar_ubicacion(request, id_veterinaria):
     form = EditarVeterinaria(veterinaria=veterinaria)
     return render(request, 'editar_ubicacion.html', {'form': form})
 
+@veterinario_required
 def borrar_ubicacion(request, id_veterinaria):
     veterinaria = Veterinaria.objects.get(id=id_veterinaria)
     veterinaria.delete()
