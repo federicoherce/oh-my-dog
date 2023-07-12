@@ -127,20 +127,22 @@
                             <span class="no-valoraciones">(Sin valoraciones)</span>
                         {% endif %}
                     </div>
-                    {% if not paseador_cuidador.fue_valorado %}
-                        <form method="get" action="{% url 'valorar_paseador_cuidador' paseador_cuidador.id %}"  style="display: inline;">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-primary" value="Valorar">
-                        </form>
-                    {% else %}
-                        <form method="get" action="{% url 'modificar_valoracion_paseador_cuidador' paseador_cuidador.id %}"  style="display: inline;">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-primary" value="Modificar Valoración">
-                        </form>
-                        <form method="POST" action="{% url 'eliminar_valoracion_paseador_cuidador' paseador_cuidador.id %}"  style="display: inline;">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-primary" value="Eliminar Valoración" onclick="return confirm('¿Estás seguro de que deseas borrar esta valoración?')">
-                        </form>          
+                    {% if not user.is_superuser %}
+                        {% if not paseador_cuidador.fue_valorado %}
+                            <form method="get" action="{% url 'valorar_paseador_cuidador' paseador_cuidador.id %}"  style="display: inline;">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-primary" value="Valorar">
+                            </form>
+                        {% else %}
+                            <form method="get" action="{% url 'modificar_valoracion_paseador_cuidador' paseador_cuidador.id %}"  style="display: inline;">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-primary" value="Modificar Valoración">
+                            </form>
+                            <form method="POST" action="{% url 'eliminar_valoracion_paseador_cuidador' paseador_cuidador.id %}"  style="display: inline;">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-primary" value="Eliminar Valoración" onclick="return confirm('¿Estás seguro de que deseas borrar esta valoración?')">
+                            </form>          
+                        {% endif %}
                     {% endif %}
                     <form method="get" action="{% url 'perfil_paseador_cuidador' paseador_cuidador.id %}"  style="display: inline;">
                         {% csrf_token %}
