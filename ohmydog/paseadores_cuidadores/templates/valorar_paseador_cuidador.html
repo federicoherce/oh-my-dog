@@ -108,14 +108,19 @@
     </div>
     <div id="puntajeTexto"></div>
     <br>
-    <form class="formularios" action="" method="POST" id="valoracionForm"> {% csrf_token %}
-        <div style="margin: auto; align-items: center;"> 
-            <h4 style="width: 75%; margin: auto; text-align: center; align-self: center; margin-bottom: 10px;">Comentario</h4>
-            <textarea style="width: 100%; margin: auto; text-align: center" id="id_comentario" name="comentario" placeholder="Escribe tu comentario (opcional)"></textarea>
-            <br>
-            <input style="margin-top: 10px; text-align: center; width: fit-content; align-self: center;" class="btn-primary" onclick="enviarValoracion()" value="Enviar">
-        </div>
-    </form>
+    <div style="text-align:center"> 
+        <form class="formularios" action="" method="POST" id="valoracionForm"> {% csrf_token %}
+            <div style="margin: auto; align-items: center;"> 
+                <h4 style="width: 75%; margin: auto; text-align: center; align-self: center; margin-bottom: 10px;">Comentario</h4>
+                <textarea style="width: 100%; margin: auto; text-align: center" id="id_comentario" name="comentario" placeholder="Escribe tu comentario (opcional)"></textarea>
+                <br>
+                <input style="margin-top: 10px; text-align: center; width: fit-content; align-self: center;" class="btn-primary" onclick="enviarValoracion()" value="Enviar">
+            </div>
+        </form>
+        <form action="{% url 'listar_paseadores_cuidadores' %}" method="GET" style="margin-top: 10px; text-align: center;">
+            <button class='btn btn-primary' type="submit">Volver</button>
+        </form>
+    </div>
 
 </body>
 </html>

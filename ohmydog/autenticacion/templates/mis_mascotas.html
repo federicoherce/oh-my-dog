@@ -70,7 +70,10 @@
                 <li><strong>Color: </strong>{{ mascota.color }}</li>
                 <li><strong>Sexo: </strong>{{ mascota.sexo }}</li>
                 <li><strong>Fecha de Nacimiento: </strong>{{ mascota.fecha_de_nacimiento }}</li>
-                <a href="{% url 'generar_pdf_perro' mascota.id %}" style="color: black;" target="_blank"><i class="fas fa-download"></i></a>
+                <br>
+                <a href="{% url 'generar_pdf_perro' mascota.id %}" style="color: black;" target="_blank"><i class="fas fa-download"> Descargar Libreta </i></a>
+                <br>
+                <br>
                 <h4><strong>Libreta sanitaria:</strong></h4>
                 
                 <table>

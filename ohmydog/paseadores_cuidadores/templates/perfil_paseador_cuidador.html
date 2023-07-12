@@ -88,24 +88,24 @@
     </style>
 </head>
 <body>
-
-    <h1 style="margin-left: 5px;" class="titulos-format">Perfil de {{paseador_cuidador.nomyap}}</h1>    
-    <h4 style="margin-left: 5px;"><strong>Nombre y Apellido: </strong>{{ paseador_cuidador.nomyap}}</h4>
-    <h4 style="margin-left: 5px;"><strong>Email: </strong>{{ paseador_cuidador.email }}</h4>
-    <h4 style="margin-left: 5px;"><strong>Descripcion: </strong>{{ paseador_cuidador.textolibre }}</h4>
-    <h4 style="margin-left: 5px;"><strong>Paseador o Cuidador: </strong>{{ paseador_cuidador.tipo }}</h4>
-    <div class="rating">
-        <h4 style="margin-left: 5px;"><strong>Valoracion Promedio:  </strong></h4>
-        {% if paseador_cuidador.promedio_valoraciones > 0 %}
-            {% for i in "12345" %}
-                <button class="{% if forloop.counter <= paseador_cuidador.promedio_valoraciones %}selected{% endif %}">&#9733;</button>
-            {% endfor %}
-        {% else %}
-            <h4 class="no-valoraciones">(Sin valoraciones)</h4>
-        {% endif %}
-    </div>
+        <h1 style="margin-left: 5px;" class="titulos-format">Perfil de {{paseador_cuidador.nomyap}}</h1>  
+        <br>
+        <h4 style="margin-left: 5px;"><strong>Nombre y Apellido: </strong>{{ paseador_cuidador.nomyap}}</h4>
+        <h4 style="margin-left: 5px;"><strong>Email: </strong>{{ paseador_cuidador.email }}</h4>
+        <h4 style="margin-left: 5px;"><strong>Descripcion: </strong>{{ paseador_cuidador.textolibre }}</h4>
+        <h4 style="margin-left: 5px;"><strong>Paseador o Cuidador: </strong>{{ paseador_cuidador.tipo }}</h4>
+        <div class="rating">
+            <h4 style="margin-left: 5px;"><strong>Valoracion Promedio:  </strong></h4>
+            {% if paseador_cuidador.promedio_valoraciones > 0 %}
+                {% for i in "12345" %}
+                    <button class="{% if forloop.counter <= paseador_cuidador.promedio_valoraciones %}selected{% endif %}">&#9733;</button>
+                {% endfor %}
+            {% else %}
+                <h4 class="no-valoraciones">(Sin valoraciones)</h4>
+            {% endif %}
+        </div>
     <hr> 
-    <h4 style="margin-left: 5px;"><strong>Reseñas </strong></h4>
+    <h4 style="margin-left: 5px; text-align:center"><strong>Reseñas </strong></h4>
     <ul class="info-list">
     {% for valoracion in valoraciones %}
         <div class="rating">

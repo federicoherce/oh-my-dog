@@ -33,7 +33,6 @@ class AgregarVeterinaria(forms.ModelForm):
             widget=forms.Textarea(attrs={'placeholder': 'Piso, Departamento, Horario etc.'})
         )
     nro_calle = forms.IntegerField(label='Número')
-    calle = forms.IntegerField()
 
     class Meta:
         model = Veterinaria
