@@ -63,11 +63,14 @@ def listar_paseadores_cuidadores(request):
 @user_passes_test(lambda u: u.is_superuser) 
 def modificar_paseador_cuidador(request, email, tipo):
     paseador_cuidador = PaseadorCuidador.objects.get(email = email, tipo = tipo)
-    paseadores = PaseadorCuidador.objects.filter(email=email)   
+    paseadores = PaseadorCuidador.objects.filter(email=email)
     if request.method == "POST":
         form = modificarPaseadorCuidador(request.POST)
+        if paseador_cuidador.tipo != request.POST.get('tipo') and (PaseadorCuidador.objects.filter(email=request.POST.get('email'), tipo=request.POST.get('tipo')).exists()):
+            messages.error(request, "El email ya se encuentra registrado para este tipo")
+            return render(request, "modificar_paseador_cuidador.html", {"form": form, "paseador_cuidador": paseador_cuidador})
         #return render(request, "modificar_paseador_cuidador.html", {"form": form, "paseador_cuidador": paseador_cuidador})
-        if form.is_valid():                    
+        if form.is_valid():
             paseador_cuidador.nomyap = request.POST.get('nomyap')
             paseador_cuidador.email = request.POST.get('email')
             paseador_cuidador.textolibre = request.POST.get('textolibre')
@@ -76,10 +79,7 @@ def modificar_paseador_cuidador(request, email, tipo):
             messages.success(request, 'Datos modificados con exito')
             return redirect('listar_paseadores_cuidadores')
     else:
-        if paseadores.count() == 2:
-            form = ModificarPaseadorCuidadorSinTipo()
-        else:
-            form = modificarPaseadorCuidador()
+       form = modificarPaseadorCuidador()
     return render(request, "modificar_paseador_cuidador.html", {"form": form, "paseador_cuidador": paseador_cuidador})
 
 @login_required
@@ -120,6 +120,7 @@ def eliminar_valoracion_paseador_cuidador(request, pc_id):
     valoracion = Valoracion.objects.get(paseador=pc_id, cliente=request.user)
     if request.method == 'POST':
             valoracion.delete()
+    messages.success(request, 'Valoracion eliminada con exito')
     return redirect('listar_paseadores_cuidadores')
 
 

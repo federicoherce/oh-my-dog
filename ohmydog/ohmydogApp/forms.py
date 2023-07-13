@@ -27,12 +27,17 @@ class EditarRedSocial(forms.Form):
     enlace = forms.URLField(label='Enlace', max_length=200, widget=forms.URLInput(attrs={'class': 'form-control'}))
 
 class AgregarVeterinaria(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AgregarVeterinaria, self).__init__(*args, **kwargs)
+        self.fields['calle'].initial = 'Calle '
+    
     detalle = forms.CharField(
             required=False,
-            label='Detalle (*)',
+            label='Detalle (opcional)',
             widget=forms.Textarea(attrs={'placeholder': 'Piso, Departamento, Horario etc.'})
         )
-    nro_calle = forms.IntegerField(label='Número')
+    nro_calle = forms.CharField(label='Número')
+    
 
     class Meta:
         model = Veterinaria

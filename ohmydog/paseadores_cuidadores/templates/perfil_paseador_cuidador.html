@@ -98,7 +98,7 @@
             <h4 style="margin-left: 5px;"><strong>Valoracion Promedio:  </strong></h4>
             {% if paseador_cuidador.promedio_valoraciones > 0 %}
                 {% for i in "12345" %}
-                    <button class="{% if forloop.counter <= paseador_cuidador.promedio_valoraciones %}selected{% endif %}">&#9733;</button>
+                    <button style="margin-top:-10px" class="{% if forloop.counter <= paseador_cuidador.promedio_valoraciones %}selected{% endif %}">&#9733;</button>
                 {% endfor %}
             {% else %}
                 <h4 class="no-valoraciones">(Sin valoraciones)</h4>
