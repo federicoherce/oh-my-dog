@@ -20,6 +20,7 @@ def agregar_paseador_cuidador(request):
                                  email=request.POST['email'],
                                  textolibre=request.POST['textolibre'],
                                  tipo=request.POST['tipo'])
+            messages.success(request, "Paseador/Cuidador agregado con exito")
             return redirect('listar_paseadores_cuidadores')
     else:
         form = CrearPaseadorCuidador()
