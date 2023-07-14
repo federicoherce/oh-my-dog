@@ -2,13 +2,14 @@ from django.shortcuts import render, HttpResponse
 import pandas as pd
 from perros.models import Perro
 from turnos.models import Turno
+from django.contrib.auth.decorators import login_required, user_passes_test
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('agg')
 
 # Create your views here.
 
-
+@user_passes_test(lambda u: u.is_superuser, login_url='home') 
 def ver_estadisticas(request):
     perros = Perro.objects.all()
     if perros: 
@@ -36,7 +37,7 @@ def ver_estadisticas(request):
         estadisticas_dinamicas(request.GET.get('mes'))
     return render(request, 'estadisticas.html')
 
-
+ 
 def estadisticas_dinamicas(mes):
     turnos = Turno.objects.filter(fecha__month=mes, fecha__year=2023)
     razas = turnos.values_list('perro__raza', flat=True)

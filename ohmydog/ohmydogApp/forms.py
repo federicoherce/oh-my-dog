@@ -44,7 +44,7 @@ class AgregarVeterinaria(forms.ModelForm):
         exclude = ['longitud', 'latitud']
 
 class EditarVeterinaria(forms.ModelForm):
-     detalle = forms.CharField(required=False, label='Detalle (*)')
+     detalle = forms.CharField(required=False, label='Detalle (opcional)')
      nro_calle = forms.IntegerField(label='Número')
 
      class Meta:

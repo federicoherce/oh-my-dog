@@ -186,7 +186,7 @@ def agregar_ubicacion(request):
         form = AgregarVeterinaria(request.POST, initial={'calle': 'Calle '})
         if form.is_valid():
             if not (form.cleaned_data['calle'].startswith("Calle ")):
-                messages.error(request, 'La calle debe empezar con la plabra ''Calle '' antes del numero')
+                messages.error(request, 'La calle debe empezar con <Calle > antes del numero')
                 return redirect('agregar_ubicacion')
             direccion = f"{form.cleaned_data['calle']} {form.cleaned_data['nro_calle']}, La Plata, Provincia de Buenos Aires"
             api_key = "AIzaSyA5fzRrz8Xx_6BMMpCr5cyGxFZ92u22lnQ"
