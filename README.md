@@ -1,3 +1,5 @@
+Aplicación realizada con Django para la materia Ingeniería de Software 2 - Facultad de Informática - UNLP
+
 # OhMyDog
 - [1ra entrevista](https://docs.google.com/document/d/1t8dEHpB6IrLUfk0fJWl7DKSEXbZvQdBj/edit)
 - [2da entrevista](https://docs.google.com/document/d/1QuUjUIbiyM0Ka7OCuCrS2d51rMXQw7KSO2k_odjvMX8/edit)
